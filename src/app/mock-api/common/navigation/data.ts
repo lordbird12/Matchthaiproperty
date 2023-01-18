@@ -20,6 +20,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 // icon: 'heroicons_outline:clipboard-check',
                 link: '/user/list',
             },
+            {
+                id: 'user',
+                title: 'สิทธิ์การใช้งาน',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/user/list',
+            },
+            {
+                id: 'user',
+                title: 'สมาชิก',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/user/list',
+            },
 
             {
                 id: 'vendor',
@@ -55,6 +69,104 @@ export const defaultNavigation: FuseNavigationItem[] = [
         //     return AuthService._marketingRole; // must be a boolean value
         // },
         children: [
+            {
+                id: 'website.news',
+                title: 'จัดการข้อมูล website',
+                type: 'collapsable',
+                children: [
+                    {
+                        id: 'property-color-land',
+                        title: 'สีที่ดิน',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-color-land/list',
+                    },
+                    {
+                        id: 'property-type',
+                        title: 'ประเภทอสังหา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-type/list',
+                    },
+                    {
+                        id: 'property-type-detail',
+                        title: 'รายละเอียดประเภทอสังหา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-type-detail/list',
+                    },                 
+                    {
+                        id: 'property-location-nearby',
+                        title: 'สถานที่ใกล้เคียง',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-location-nearby/list',
+                    },                   
+                    {
+                        id: 'nproperty-announcer',
+                        title: 'สถานะผู้ประกาศ',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-announcer/list',
+                    },
+                    {
+                        id: 'property-owner',
+                        title: 'เจ้าของอสังหา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-owner/list',
+                    },
+                    {
+                        id: 'property-type-rent',
+                        title: 'รายละเอียดการเช่าประเภทอสังหา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-type-rent/list',
+                    },    
+                    {
+                        id: 'property-rent-time',
+                        title: 'ระยะเวลาเช่าทรัพย์',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-rent-time/list',
+                    },
+                
+                    {
+                        id: 'property-tag',
+                        title: 'แท็กอสังหา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-tag/list',
+                    },                    
+                    {
+                        id: 'property-facilities-type',
+                        title: 'ประเภทสิ่งอำนวยความสะดวก',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-facilities-type/list',
+                    },     
+                    {
+                        id: 'property-facilities',
+                        title: 'สิ่งอำนวยความสะดวก',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-facilities/list',
+                    },   
+
+                ],
+            },
+            {
+                title: 'รายการจัดการอสังหา',
+                type: 'basic',
+                link: '/asset/list',
+            },
+            {
+                title: 'จัดการความต้องการ',
+                type: 'basic',
+                link: '/inquiry/list',
+            },      
+
+            
             {
                 title: 'ภาพแบนเนอร์',
                 type: 'basic',
@@ -96,6 +208,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     },
                 ],
             },
+
         ],
     },
     {

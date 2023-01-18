@@ -155,6 +155,89 @@ export const appRoutes: Route[] = [
                 ]
             },
 
+            {
+                path: 'property-rent-time',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-rent-time/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'asset',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/asset/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'inquiry',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/inquiry/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-facilities-type',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-facilities-type/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-facilities',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-facilities/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-tag',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-tag/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-type-rent',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-type-rent/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-owner',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-owner/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-announcer',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-announcer/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-location-nearby',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-location-nearby/page.module').then(m => m.Module) },
+                ]
+            },
+
+            {
+                path: 'property-type-detail',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-type-detail/page.module').then(m => m.Module) },
+                ]
+            },
+
+            {
+                path: 'property-color-land',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-color-land/page.module').then(m => m.Module) },
+                ]
+            },
+
+            {
+                path: 'property-type',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-type/page.module').then(m => m.Module) },
+                ]
+            },
+
+
              {
                 path: 'contact',
                 canActivate: [], children: [
