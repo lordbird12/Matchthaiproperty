@@ -1040,7 +1040,7 @@ export class Service {
   }
 
   getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
-    return this._httpClient.post(environment.API_URL + 'api/course_lesson_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/payment_course', dataTablesParameters, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         return of(response.data);
       })

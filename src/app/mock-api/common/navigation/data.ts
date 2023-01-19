@@ -25,14 +25,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'สิทธิ์การใช้งาน',
                 type: 'basic',
                 // icon: 'heroicons_outline:clipboard-check',
-                link: '/user/list',
+                link: '/permission/list',
             },
             {
                 id: 'user',
                 title: 'สมาชิก',
                 type: 'basic',
                 // icon: 'heroicons_outline:clipboard-check',
-                link: '/user/list',
+                link: '/member/list',
             },
 
             {
@@ -94,14 +94,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-type-detail/list',
-                    },                 
+                    },
                     {
                         id: 'property-location-nearby',
                         title: 'สถานที่ใกล้เคียง',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-location-nearby/list',
-                    },                   
+                    },
                     {
                         id: 'nproperty-announcer',
                         title: 'สถานะผู้ประกาศ',
@@ -122,7 +122,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-type-rent/list',
-                    },    
+                    },
                     {
                         id: 'property-rent-time',
                         title: 'ระยะเวลาเช่าทรัพย์',
@@ -130,28 +130,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-rent-time/list',
                     },
-                
+
                     {
                         id: 'property-tag',
                         title: 'แท็กอสังหา',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-tag/list',
-                    },                    
+                    },
                     {
                         id: 'property-facilities-type',
                         title: 'ประเภทสิ่งอำนวยความสะดวก',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-facilities-type/list',
-                    },     
+                    },
                     {
                         id: 'property-facilities',
                         title: 'สิ่งอำนวยความสะดวก',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-facilities/list',
-                    },   
+                    },
 
                 ],
             },
@@ -164,14 +164,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'จัดการความต้องการ',
                 type: 'basic',
                 link: '/inquiry/list',
-            },      
-
-            
-            {
-                title: 'ภาพแบนเนอร์',
-                type: 'basic',
-                link: '/banner/list',
             },
+
+            {
+                title: 'ตั้งค่าแบนเนอร์และฟูตเตอร์',
+                type: 'basic',
+                link: '/config-banner/list',
+            },
+            {
+                title: 'จัดการติดต่อเว็ปไซต์',
+                type: 'basic',
+                link: '/post-contact/list',
+            },
+
+
             {
                 title: 'คำถามพบบ่อย',
                 type: 'basic',
@@ -183,7 +189,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/contact/list',
             },
             {
-                title: 'Youtube',
+                title: 'วีดีโอการใช้งาน',
                 type: 'basic',
                 link: '/video/list',
             },
@@ -205,6 +211,55 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/news/list',
+                    },
+                    {
+                        // id: 'news.list',
+                        title: 'จัดการแท็กข่าว',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/news-tag/list',
+                    },
+
+
+                ],
+            },
+            {
+                id: 'website.news',
+                title: 'โฆษณา',
+                type: 'collapsable',
+                children: [
+                    {
+                        title: 'ภาพแบนเนอร์',
+                        type: 'basic',
+                        link: '/banner/list',
+                    },
+                    {
+
+                        title: 'โปรโมชั่นโฆษณา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/banner-promotion/list',
+                    },
+                ],
+            },
+            {
+                id: 'review',
+                title: 'รีวิว',
+                type: 'collapsable',
+                children: [
+                    {
+                        id: 'app-comment',
+                        title: 'รีวิวเว็ปไซต์',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/app-comment/list',
+                    },
+                    {
+                        id: 'member-comment',
+                        title: 'รีวิวสมาชิก',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/member-comment/list',
                     },
                 ],
             },
@@ -243,13 +298,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/course/list',
                     },
-                    // {
-                    //     id: 'course.lesson',
-                    //     title: 'บทเรียน',
-                    //     type: 'basic',
-                    //     // icon: 'heroicons_outline:clipboard-check',
-                    //     link: '/course-lesson/list',
-                    // },
+                    {
+                        id: 'course.lesson',
+                        title: 'บทเรียน',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/course-lesson/list',
+                    },
                 ],
             },
 
@@ -272,10 +327,78 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/payment-member/list',
                     },
+                    {
+                        id: 'payment',
+                        title: 'คูปองส่วนลด',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/gift-voucher/list',
+                    },
+                    {
+                        id: 'gift-voucher-code',
+                        title: 'จัดการรหัสส่วนลด',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/gift-voucher-code/list',
+                    },
+
+                    {
+                        id: 'transection',
+                        title: 'รายงานการจ่ายเงิน',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/transection/list',
+                    },
                 ],
             },
         ],
     },
+
+    {
+        id: 'report',
+        title: 'รีพอร์ต',
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        children: [
+            {
+                id: 'report-title',
+                title: 'จัดการหัวข้อรายงาน',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/report-title/list',
+            },
+            {
+                id: 'asseet-report',
+                title: 'การรายงานทรัพย์',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/asset-report/list',
+            },
+            {
+                id: 'inquiry-report',
+                title: 'การรายงานความต้องการซื้อ',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/inquiry-report/list',
+            },
+            {
+                id: 'gift-voucher-code',
+                title: 'การรายงานสมาชิก และรายงานทั่วไป',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/member-report/list',
+            },
+        ],
+    },
+
+
+
+
+
+
+
+
+
     {
         id: 'account',
         title: 'บัญชีผู้ใช้',

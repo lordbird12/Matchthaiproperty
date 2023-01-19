@@ -287,6 +287,85 @@ export const appRoutes: Route[] = [
                     { path: '', loadChildren: () => import('app/modules/admin/administrator/banner/page.module').then(m => m.Module) },
                 ]
             },
+            {
+                path: 'banner-promotion',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/banner-promotion/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'gift-voucher',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/gift-voucher/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'gift-voucher-code',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/gift-voucher-code/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'news-tag',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/news-tag/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'report-title',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/report-title/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'asset-report',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/asset-report/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'inquiry-report',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/inquiry-report/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'member-report',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-report/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'app-comment',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-report/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'member-comment',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-report/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'config-banner',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/config-banner/page.module').then(m => m.Module) },
+                ]
+            },  
+            {
+                path: 'post-contact',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/post-contact/page.module').then(m => m.Module) },
+                ]
+            },  
+
+            {
+                path: 'transection',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/transection/page.module').then(m => m.Module) },
+                ]
+            },  
 
             {
                 path: 'faq',

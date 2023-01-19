@@ -1057,7 +1057,15 @@ export class Service {
   }
 
 
-
+  getPropertyTypeId(): Observable<any[]> {
+    return this._httpClient
+        .get<any[]>(environment.API_URL + '/api/get_property_type')
+        .pipe(
+            tap((meterial) => {
+                this._materials.next(meterial);
+            })
+        );
+  }
   uploadImg(img: FormData): Observable<any> {
     return this._httpClient.post(environment.API_URL + 'api/upload_images', img, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {

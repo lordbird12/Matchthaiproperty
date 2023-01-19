@@ -51,7 +51,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dtOptions: DataTables.Settings = {};
     public dataRow: any[];
     public dataGrid: any[];
-
+    formData: FormGroup
+    public TypeList: any = [];
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -112,6 +113,20 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.loadTable();
+        this.formData = this._formBuilder.group({
+            property_type_id: ['', Validators.required],
+   
+        });
+       
+        this._Service.getPropertyTypeId().subscribe((resp: any) => {
+            this.TypeList = resp.data;
+            this._changeDetectorRef.markForCheck();
+        });
+        
+
+
+
+
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -128,6 +143,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = '';
+                dataTablesParameters.property_type_id = this.formData.value.property_type_id;
+                
                 that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
@@ -152,8 +169,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             columns: [
                 { data: 'id' },
-                { data: 'property_type_id' },
-                
                 { data: 'code' },
                 { data: 'name' },
                 { data: 'status' },
@@ -207,6 +222,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    Search() {
+        this.rerender();
+      
+    }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
 
     resetForm(): void {
         this.filterForm.reset();
