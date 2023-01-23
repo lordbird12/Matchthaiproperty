@@ -9,7 +9,6 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
-    FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
@@ -20,7 +19,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {
     debounceTime,
-    lastValueFrom,
     map,
     merge,
     Observable,
@@ -35,7 +33,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-import { AssetType, BranchPagination } from '../page.types';
+import { AssetType, PositionPagination } from '../page.types';
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
@@ -48,20 +46,39 @@ import { Service } from '../page.service';
 export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-    public UserAppove: any = [];
-    itemData: any = [];
 
-    files: File[] = [];
-
-    statusData = [
-        { value: 'Yes', name: 'อนุมัติใช้งาน' },
-        { value: 'No', name: 'ไม่อนุมัติ' },
-        { value: 'Request', name: 'รออนุมัติ' },
+    statusData: any = [
+        { value: 1, name: 'เปิดใช้งาน' },
+        { value: 0, name: 'ปิดใช้งาน' },
     ];
 
-    Id: any;
-    courseType: any = [];
+    typeData: any = [
+        { value: 'banner', name: 'ทั่วไป' },
+        { value: 'advert', name: 'โฆษณา' },
+    ];
 
+    priorityData: any = [
+        { value: 1, name: '1' },
+        { value: 2, name: '2' },
+        { value: 3, name: '3' },
+        { value: 4, name: '4' },
+        { value: 5, name: '5' },
+    ];
+
+    positionData: any = [
+        { value: 'banner_main', name: 'Banner Main (Banner)' },
+        { value: 'banner_home_1', name: 'Banner Home 1 (Banner)' },
+        { value: 'banner_home_2', name: 'Banner Home 2 (Banner)' },
+        { value: 'banner_home_3', name: 'Banner Home 3 (Banner)' },
+        { value: 'search', name: 'Search (Ads)' },
+        { value: 'news', name: 'News (Ads)' },
+        { value: 'news_detail', name: 'News Detail (Ads)' },
+        { value: 'course', name: 'Course (Ads)' },
+    ];
+
+    id: string;
+    itemData: any = [];
+    files: File[] = [];
     formData: FormGroup;
     flashErrorMessage: string;
     flashMessage: 'success' | 'error' | null = null;
@@ -73,13 +90,10 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     env_path = environment.API_URL;
 
-    // me: any | null;
-    // get roleType(): string {
-    //     return 'marketing';
-    // }
+    ClassData: any;
 
     supplierId: string | null;
-    pagination: BranchPagination;
+    pagination: PositionPagination;
 
     /**
      * Constructor
@@ -95,15 +109,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            id: '',
+            name: [''],
+            detail: [''],
+            type: [''],
+            priority: [''],
+            position: [''],
+            image: '',
             status: '',
-            image: [''],
         });
     }
 
@@ -114,50 +127,21 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * On init
      */
-    async ngOnInit(): Promise<void> {
-        this.Id = this._activatedRoute.snapshot.paramMap.get('id');
-
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
-
-        this._Service.getById(this.Id).subscribe((resp: any) => {
+    ngOnInit(): void {
+        this.id = this._activatedRoute.snapshot.paramMap.get('id');
+        this._Service.getById(this.id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
-                title: this.itemData.title,
+                id: this.itemData.id,
+                name: this.itemData.name,
                 detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                type: this.itemData.type,
+                priority: this.itemData.priority,
+                position: this.itemData.position,
                 status: this.itemData.status,
+                image: '',
             });
         });
-    }
-
-    approve(): FormArray {
-        return this.formData.get('approve') as FormArray;
-    }
-
-    NewUser(): FormGroup {
-        return this._formBuilder.group({
-            user_id: '',
-            remark: '',
-        });
-    }
-
-    addUser(): void {
-        this.approve().push(this.NewUser());
-
-        // alert(1)
-    }
-
-    removeUser(i: number): void {
-        this.approve().removeAt(i);
     }
 
     discard(): void {}
@@ -183,8 +167,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         // }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'แก้ไขข้อมูล',
-            message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
+            title: 'แก้ไขรายการ',
+            message: 'คุณต้องการแก้ไขรายการใช่หรือไม่ ',
             icon: {
                 show: false,
                 name: 'heroicons_outline:exclamation',
@@ -208,16 +192,20 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
-                this._Service.update(this.formData.value,this.Id).subscribe({
+                const formData = new FormData();
+                Object.entries(this.formData.value).forEach(
+                    ([key, value]: any[]) => {
+                        formData.append(key, value);
+                    }
+                );
+                // Disable the form
+                this._Service.update(formData).subscribe({
                     next: (resp: any) => {
-                        this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('purchase-services/list')
+                            .navigateByUrl('banner/list')
                             .then(() => {});
                     },
                     error: (err: any) => {
-                        this.formData.enable();
                         this._fuseConfirmationService.open({
                             title: 'กรุณาระบุข้อมูล',
                             message: err.error.message,

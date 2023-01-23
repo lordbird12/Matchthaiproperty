@@ -51,7 +51,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dtOptions: DataTables.Settings = {};
     public dataRow: any[];
     public dataGrid: any[];
-
+    formData: FormGroup
+    public TypeList: any = [];
+    private destroy$ = new Subject<any>();
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -62,6 +64,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'create_by',
         'created_at',
         'actions',
+        'remark',
     ];
     dataSource: MatTableDataSource<DataBranch>;
 
@@ -69,7 +72,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     asset_types: AssetType[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl(null);
     selectedProduct: any | null = null;
     filterForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -112,6 +115,20 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.loadTable();
+        this.formData = this._formBuilder.group({
+            property_type_id: [null, Validators.required],
+   
+        });
+       
+        this._Service.getPropertyTypeId().subscribe((resp: any) => {
+            this.TypeList = resp.data;
+            this._changeDetectorRef.markForCheck();
+        });
+        
+
+
+
+
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -128,7 +145,10 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = '';
-                that._Service
+                dataTablesParameters.property_type_id = this.formData.value.property_type_id;
+                if(!!dataTablesParameters.property_type_id)
+                {               
+                     that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
                         this.dataRow = resp.data;
@@ -149,16 +169,28 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                         });
                         this._changeDetectorRef.markForCheck();
                     });
+                }
+                else
+                {          
+                    callback({
+                    recordsTotal: 0,
+                    recordsFiltered: 0,
+                    data: [],
+                });
+                 }
+
+
             },
             columns: [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'code' },
+                { data: 'remark' },
                 { data: 'property_type' },              
                 { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
                 { data: 'actice', orderable: false },
+  
             ]
         };
     }
@@ -204,6 +236,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    Search() {
+        this.rerender();
+      
+    }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
 
     resetForm(): void {
         this.filterForm.reset();
@@ -238,15 +279,79 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['course-lesson/edit/' + Id]);
+        this._router.navigate(['property-type-detail/edit/' + Id]);
     }
 
     viewDetail(Id: string): void {
-        this._router.navigate(['course-lesson/detail/' + Id]);
+        this._router.navigate(['property-type-detail/detail/' + Id]);
     }
 
     textStatus(status: string): string {
         return startCase(status);
+    }
+
+
+
+    Delete(id) {
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "ยืนยันลบข้อมูล",
+            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
+            "icon": {
+                "show": true,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if (result === 'confirmed') {
+                this._Service
+                    .delete(id)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((res: any) => {
+                        if (res.code == 201) {
+                            this._fuseConfirmationService.open({
+                                "title": "ลบข้อมูล",
+                                "message": "บันทึกเรียบร้อย",
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:check-circle",
+                                    "color": "success"
+                                },
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ตกลง",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก"
+                                    }
+                                },
+                                "dismissible": true
+                            }).afterClosed().subscribe((res) => {
+                                this.rerender();
+                            })
+                        }
+                    });
+
+            }
+        });
+
     }
 
     showPicture(imgObject: any): void {

@@ -33,26 +33,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-import { AssetType, BranchPagination, DataBranch } from '../page.types';
+import { AssetType, DataPosition, PositionPagination } from '../page.types';
 import { Service } from '../page.service';
-import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { DataTableDirective } from 'angular-datatables';
 import { PictureComponent } from '../picture/picture.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
+    // encapsulation: ViewEncapsulation.None,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     animations: fuseAnimations,
 })
 export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild(DataTableDirective)
-    dtElement!: DataTableDirective;
-    public dtOptions: DataTables.Settings = {};
-    public dataRow: any[];
-    public dataGrid: any[];
-
-    // dataRow: any = []
+    dtOptions: DataTables.Settings = {};
+    dataRow: any = [];
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     displayedColumns: string[] = [
@@ -61,9 +56,10 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'status',
         'create_by',
         'created_at',
+        'image',
         'actions',
     ];
-    dataSource: MatTableDataSource<DataBranch>;
+    dataSource: MatTableDataSource<DataPosition>;
 
     products$: Observable<any>;
     asset_types: AssetType[];
@@ -82,11 +78,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     supplierId: string | null;
-    pagination: BranchPagination;
-
-    totalSummary: any;
-    totalRows: any;
-    totalRowSummary: any;
+    pagination: PositionPagination;
 
     /**
      * Constructor
@@ -119,7 +111,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         const that = this;
         this.dtOptions = {
             pagingType: 'full_numbers',
-            pageLength: 100,
+            pageLength: 10,
             serverSide: true,
             processing: true,
             responsive: true,
@@ -127,7 +119,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = '';
                 that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
@@ -151,41 +142,18 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                     });
             },
             columns: [
-                { data: 'id' },
+                { data: 'no' },
                 { data: 'name' },
                 { data: 'detail' },
-                { data: 'image' },
                 { data: 'point' },
                 { data: 'expire_date' },
-                { data: 'gift_voucher_codes' },
-                { data: 'updated_at' },
-                { data: 'actice', orderable: false },
-            ]
+                { data: 'image' },
+                { data: 'status' },
+                { data: 'create_by' },
+                { data: 'created_at' },
+                { data: 'action' },
+            ],
         };
-    }
-
-    totalPriceTable() {
-        let total = 0;
-        for (let data of this.dataRow) {
-            total += Number(data.summary);
-        }
-        return total;
-    }
-
-    totalPrice() {
-        let total = 0;
-        for (let data of this.dataGrid) {
-            total += Number(data.summary);
-        }
-        return total;
-    }
-
-    totalTrans() {
-        let total = 0;
-        for (let data of this.dataGrid) {
-            total += data.today.length;
-        }
-        return total;
     }
 
     /**
@@ -238,18 +206,13 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 3000);
     }
 
-    edit(Id: string): void {
-        this._router.navigate(['course-lesson/edit/' + Id]);
-    }
-
-    viewDetail(Id: string): void {
-        this._router.navigate(['course-lesson/detail/' + Id]);
+    edit(id: string): void {
+        this._router.navigate(['banner/edit/' + id]);
     }
 
     textStatus(status: string): string {
         return startCase(status);
     }
-
     showPicture(imgObject: any): void {
         this._matDialog.open(PictureComponent, {
             autoFocus: false,
@@ -263,5 +226,68 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 // Go up twice because card routes are setup like this; "card/CARD_ID"
                 // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
             });
+    }
+
+    delete(id: any): void {
+        this.flashMessage = null;
+
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title: 'ลบรายการที่เลือก',
+            message: 'คุณต้องการลบรายการที่เลือกใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
+                },
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
+            },
+            dismissible: true,
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if (result === 'confirmed') {
+                this._Service.delete(id).subscribe({
+                    next: (resp: any) => {
+                        location.reload();
+                    },
+                    error: (err: any) => {
+                        this._fuseConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                        console.log(err.error.message);
+                    },
+                });
+            }
+        });
     }
 }

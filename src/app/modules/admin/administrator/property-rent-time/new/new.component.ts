@@ -78,15 +78,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            name: ['', Validators.required],
             status: '',
-            image: [''],
         });
     }
 
@@ -99,23 +92,16 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            name: ['', Validators.required],
             status: '',
-            image: [''],
         });
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
     }
 
     /**
@@ -133,11 +119,6 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     create(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูลใหม่',
             message: 'คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ',
@@ -168,7 +149,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('course-lesson/list')
+                            .navigateByUrl('property-rent-time/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

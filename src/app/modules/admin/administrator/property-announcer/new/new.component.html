@@ -19,7 +19,7 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <!-- <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
                                 <mat-select [formControlName]="'course_id'">
@@ -31,16 +31,16 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
-                                <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">ชื่อสถานะ</mat-label>
+                                <input matInput [formControlName]="'name'" placeholder="กรุณาระบุชื่อสถานะ">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <!-- <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียด</mat-label>
                                 <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
@@ -73,14 +73,14 @@
                                 <mat-label class="font-bold">วินาที</mat-label>
                                 <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
                             </mat-form-field>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="property-announcer/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

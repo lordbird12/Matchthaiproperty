@@ -36,6 +36,7 @@ import { sortBy, startCase } from 'lodash-es';
 import { AssetType, DataPosition, PositionPagination } from '../page.types';
 import { Service } from '../page.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { PictureComponent } from '../picture/picture.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
@@ -55,6 +56,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'status',
         'create_by',
         'created_at',
+        'image',
         'actions',
     ];
     dataSource: MatTableDataSource<DataPosition>;
@@ -145,6 +147,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'position' },
                 { data: 'type' },
                 { data: 'priority' },
+                { data: 'image' },
                 { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
@@ -209,6 +212,20 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     textStatus(status: string): string {
         return startCase(status);
+    }
+    showPicture(imgObject: any): void {
+        this._matDialog.open(PictureComponent, {
+            autoFocus: false,
+            data: {
+                imgSelected: imgObject
+            }
+        })
+            .afterClosed()
+            .subscribe(() => {
+
+                // Go up twice because card routes are setup like this; "card/CARD_ID"
+                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+            });
     }
 
     delete(id: any): void {

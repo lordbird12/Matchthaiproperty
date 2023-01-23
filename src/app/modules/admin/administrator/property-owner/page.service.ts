@@ -978,7 +978,7 @@ export class Service {
     //  if (this._authenticated) {
     //     return throwError('User is already logged in.');
     // }
-    return this._httpClient.post(environment.API_URL + 'api/course_lesson', data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/property_ownership', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -1017,19 +1017,28 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/property_ownership/' + Id)
   }
 
   //   * update branch
   update(data: any,id:any): Observable<any> {
-    return this._httpClient.put(environment.API_URL + 'api/course_lesson/'+id, data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.put(environment.API_URL + '/api/property_ownership/'+id, data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
       })
     );
   }
-
+  delete(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/property_ownership/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
 
   getTransactionPage(dataTablesParameters: any): Observable<DataTablesResponse> {
     return this._httpClient.post(environment.API_URL + 'api/bank_trans_page', dataTablesParameters, this.httpOptionsFormdata).pipe(

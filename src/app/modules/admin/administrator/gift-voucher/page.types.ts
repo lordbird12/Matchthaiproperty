@@ -1,4 +1,4 @@
-export interface BranchProduct {
+export interface PositionProduct {
     id: string;
     category?: string;
     name: string;
@@ -19,7 +19,7 @@ export interface BranchProduct {
     images: string[];
     active: boolean;
 }
-export interface BranchPagination {
+export interface PositionPagination {
     length: number;
     size: number;
     page: number;
@@ -34,43 +34,32 @@ export interface BranchPagination {
     }
 }
 
-export interface BranchCategory {
+export interface PositionCategory {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface BranchBrand {
+export interface PositionBrand {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface BranchTag {
+export interface PositionTag {
     id?: string;
     title?: string;
 }
 
-export interface BranchVendor {
+export interface PositionVendor {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface BranchData {
-    data: [{
-        id: number;
-        name: string;
-        status: number;
-        create_by: string
-        update_by: string;
-        created_at: string;
-        updated_at: string
-    }]
-}
 
-export interface BranchProduct {
+export interface PositionProduct {
     data: {
         id: number;
         attributes: {
@@ -96,7 +85,7 @@ export interface BranchProduct {
     }
 }
 
-export interface BranchProductDetail {
+export interface PositionProductDetail {
     id: string,
     attributes: {
         order_name: string;
@@ -275,7 +264,7 @@ export interface BranchProductDetail {
     }
 }
 
-export interface BranchProductDetailOSM {
+export interface PositionProductDetailOSM {
     id: string,
     attributes: {
         order_name: string;
@@ -584,7 +573,7 @@ export interface NewPermission {
     }
 }
 
-export interface NewBranch {
+export interface NewPosition {
     id: string;
     name: string;
 
@@ -719,11 +708,11 @@ export interface Division {
 }
 
 export interface PermissionTable {
-    data: BranchProduct[],
+    data: PositionProduct[],
 
 }
 
-export interface DataBranch {
+export interface DataPosition {
     data: [
         {
             id: number,
@@ -736,60 +725,4 @@ export interface DataBranch {
             No: number
         }
     ]
-}
-
-export interface DataUser {
-    data: [
-        {
-            id: number,
-            branch_id: number,
-            department_id: number,
-            position_id: number,
-            permission_id: number,
-            user_id: number,
-            first_name: string,
-            last_name: string,
-            email: string,
-            image: string,
-            image_signature: string,
-            status: string,
-            create_by: string,
-            update_by: string,
-            created_at: Date,
-            updated_at: Date,
-            No: number
-        }
-    ]
-}
-
-export interface DataBank {
-    code: number,
-    status: boolean,
-    message: string,
-    data: {
-        id:number,
-        name: string,
-        number: number,
-        description: string,
-        summary: number,
-        bank_of: string,
-        status: string,
-        create_by: string,
-        update_by: string,
-        created_at: string,
-        updated_at: string,
-        bank_approves: [
-            {
-                id: number,
-                bank_id: number,
-                user_id: number,
-                status: string,
-                remark: string,
-                create_by: string,
-                update_by: string,
-                created_at: string,
-                updated_at: string
-            },
-        ],
-    }
 }

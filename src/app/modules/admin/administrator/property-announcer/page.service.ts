@@ -978,7 +978,7 @@ export class Service {
     //  if (this._authenticated) {
     //     return throwError('User is already logged in.');
     // }
-    return this._httpClient.post(environment.API_URL + 'api/course_lesson', data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/property_announcer', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -996,13 +996,13 @@ export class Service {
   }
 
   // get Users //
-  getCourseType(): Observable<any[]> {
-    return this._httpClient.get<any[]>(environment.API_URL + 'api/get_course_type').pipe(
-      tap((meterial) => {
-        this._materials.next(meterial);
-      })
-    );
-  }
+  // getCourseType(): Observable<any[]> {
+  //   return this._httpClient.get<any[]>(environment.API_URL + '/api/property_announcer').pipe(
+  //     tap((meterial) => {
+  //       this._materials.next(meterial);
+  //     })
+  //   );
+  // }
 
   // get Branch //
   getBank(): Observable<any> {
@@ -1017,12 +1017,12 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/property_announcer/' + Id)
   }
 
   //   * update branch
   update(data: any,id:any): Observable<any> {
-    return this._httpClient.put(environment.API_URL + 'api/course_lesson/'+id, data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.put(environment.API_URL + '/api/property_announcer/'+id, data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -1030,7 +1030,16 @@ export class Service {
     );
   }
 
-
+  delete(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/property_announcer/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
   getTransactionPage(dataTablesParameters: any): Observable<DataTablesResponse> {
     return this._httpClient.post(environment.API_URL + 'api/bank_trans_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {

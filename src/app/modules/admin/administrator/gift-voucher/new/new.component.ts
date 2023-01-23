@@ -9,7 +9,6 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
-    FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
@@ -34,7 +33,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-import { AssetType, BranchPagination } from '../page.types';
+import { AssetType, PositionPagination } from '../page.types';
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
@@ -42,6 +41,7 @@ import { Service } from '../page.service';
     selector: 'new',
     templateUrl: './new.component.html',
     styleUrls: ['./new.component.scss'],
+
     animations: fuseAnimations,
 })
 export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -58,12 +58,37 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     tagsEditMode: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     env_path = environment.API_URL;
+
+    ClassData: any;
+
     supplierId: string | null;
-    pagination: BranchPagination;
-    public UserAppove: any = [];
+    pagination: PositionPagination;
+
     files: File[] = [];
 
-    courseType: any = [];
+    typeData: any = [
+        { value: 'banner', name: 'ทั่วไป' },
+        { value: 'advert', name: 'โฆษณา' },
+    ];
+
+    priorityData: any = [
+        { value: 1, name: '1' },
+        { value: 2, name: '2' },
+        { value: 3, name: '3' },
+        { value: 4, name: '4' },
+        { value: 5, name: '5' },
+    ];
+
+    positionData: any = [
+        { value: 'banner_main', name: 'Banner Main (Banner)' },
+        { value: 'banner_home_1', name: 'Banner Home 1 (Banner)' },
+        { value: 'banner_home_2', name: 'Banner Home 2 (Banner)' },
+        { value: 'banner_home_3', name: 'Banner Home 3 (Banner)' },
+        { value: 'search', name: 'Search (Ads)' },
+        { value: 'news', name: 'News (Ads)' },
+        { value: 'news_detail', name: 'News Detail (Ads)' },
+        { value: 'course', name: 'Course (Ads)' },
+    ];
     /**
      * Constructor
      */
@@ -76,19 +101,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
-    ) {
-        this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
-        });
-    }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -99,24 +112,16 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+            name: [''],
+            detail: [''],
+            type: [''],
+            priority: [''],
+            position: [''],
+            image: '',
         });
-
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
     }
+
+    discard(): void {}
 
     /**
      * After view init
@@ -139,8 +144,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         // }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'เพิ่มข้อมูลใหม่',
-            message: 'คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ',
+            title: 'สร้างรายการใหม่',
+            message: 'คุณต้องการสร้างรายการใหม่ใช่หรือไม่ ',
             icon: {
                 show: false,
                 name: 'heroicons_outline:exclamation',
@@ -164,18 +169,23 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
+                const formData = new FormData();
+                Object.entries(this.formData.value).forEach(
+                    ([key, value]: any[]) => {
+                        formData.append(key, value);
+                    }
+                );
 
-                this._Service.new(this.formData.value).subscribe({
+                this._Service.create(formData).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('course-lesson/list')
+                            .navigateByUrl('banner/list')
                             .then(() => {});
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({
                             title: 'กรุณาระบุข้อมูล',
-                            message:
-                                'ไม่สามารถบันทึกข้อมูลได้กรุณาตรวจสอบใหม่อีกครั้ง',
+                            message: err.error.message,
                             icon: {
                                 show: true,
                                 name: 'heroicons_outline:exclamation',
@@ -194,13 +204,27 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                             },
                             dismissible: true,
                         });
+                        console.log(err.error.message);
                     },
                 });
             }
         });
     }
-    showFlashMessage(arg0: string) {
-        throw new Error('Method not implemented.');
+
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
     }
 
     onSelect(event) {

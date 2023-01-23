@@ -53,6 +53,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dataGrid: any[];
     formData: FormGroup
     public TypeList: any = [];
+    private destroy$ = new Subject<any>();
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -70,7 +71,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     asset_types: AssetType[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    searchInputControl: FormControl = new FormControl();
+    searchInputControl: FormControl = new FormControl(null);
     selectedProduct: any | null = null;
     filterForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -114,7 +115,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.loadTable();
         this.formData = this._formBuilder.group({
-            property_type_id: ['', Validators.required],
+            property_type_id: [null, Validators.required],
    
         });
        
@@ -144,8 +145,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = '';
                 dataTablesParameters.property_type_id = this.formData.value.property_type_id;
-                
-                that._Service
+                if(!!dataTablesParameters.property_type_id)
+                {               
+                     that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
                         this.dataRow = resp.data;
@@ -166,6 +168,17 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                         });
                         this._changeDetectorRef.markForCheck();
                     });
+                }
+                else
+                {          
+                    callback({
+                    recordsTotal: 0,
+                    recordsFiltered: 0,
+                    data: [],
+                });
+                 }
+
+
             },
             columns: [
                 { data: 'id' },
@@ -265,15 +278,79 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['course-lesson/edit/' + Id]);
+        this._router.navigate(['property-type/edit/' + Id]);
     }
 
     viewDetail(Id: string): void {
-        this._router.navigate(['course-lesson/detail/' + Id]);
+        this._router.navigate(['property-type/detail/' + Id]);
     }
 
     textStatus(status: string): string {
         return startCase(status);
+    }
+
+
+
+    Delete(id) {
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "ยืนยันลบข้อมูล",
+            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
+            "icon": {
+                "show": true,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if (result === 'confirmed') {
+                this._Service
+                    .delete(id)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((res: any) => {
+                        if (res.code == 201) {
+                            this._fuseConfirmationService.open({
+                                "title": "ลบข้อมูล",
+                                "message": "บันทึกเรียบร้อย",
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:check-circle",
+                                    "color": "success"
+                                },
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ตกลง",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก"
+                                    }
+                                },
+                                "dismissible": true
+                            }).afterClosed().subscribe((res) => {
+                                this.rerender();
+                            })
+                        }
+                    });
+
+            }
+        });
+
     }
 
     showPicture(imgObject: any): void {
