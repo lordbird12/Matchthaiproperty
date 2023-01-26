@@ -12,10 +12,10 @@
         <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
             <!-- Add product button -->
-            <a routerLink="../../news/new" class="ml-4" mat-flat-button [color]="'primary'">
+            <!-- <a routerLink="../../news/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">เพิ่มใหม่</span>
-            </a>
+            </a> -->
 
         </div>
     </div>
@@ -42,7 +42,7 @@
                             <th style="width:15%;">ชื่อสมาชิก</th>
                             <th>อีเมล</th>
                             <th>สถานะกลุ่ม</th>                           
-                            <th>สถานะ</th>
+                     
                             <th>จัดการ</th>
                         </tr>
                     </thead>
@@ -56,30 +56,13 @@
                             <td>{{ item.member.email }}</td>
                             <td>{{ item.member.member_group.name }}</td>               
         
-                            <td>
-                                <div *ngIf="item.status === 1">
-                                    <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
-                                        <span class="leading-relaxed whitespace-nowrap">
-                                            เปิดการใช้งาน
-                                        </span>
-                                    </span>
-                                </div>
-                                <div *ngIf="item.status != 1">
-                                    <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
-                                        <span class="leading-relaxed whitespace-nowrap">
-                                            ปิดการใช้งาน
-                                        </span>
-                                    </span>
-                                </div>
-                            </td>
+
                      
                             <td>
                                 <button mat-button (click)="edit(item.id)">
-                                    <mat-icon>edit</mat-icon>
+                                    <mat-icon svgIcon="mat_outline:remove_red_eye"></mat-icon>
                                 </button>
-                                <button mat-button (click)="delete(item.id)">
-                                    <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
-                                </button>
+                   
                             </td>
                         </tr>
                     </tbody>

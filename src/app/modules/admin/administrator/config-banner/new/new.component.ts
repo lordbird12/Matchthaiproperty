@@ -78,15 +78,11 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+            banner_footer_title: '',
+            banner_footer_detail: '',
+            banner_footer_url: '',
+            banner_footer_text_button: '',
+            banner_footer_image: '',
         });
     }
 
@@ -99,23 +95,21 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+            banner_footer_title: '',
+            banner_footer_detail: '',
+            banner_footer_url: '',
+            banner_footer_text_button: '',
+            banner_footer_image: '',
         });
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
+
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
     }
 
     /**

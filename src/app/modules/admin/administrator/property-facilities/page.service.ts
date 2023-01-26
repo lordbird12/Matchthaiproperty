@@ -978,7 +978,7 @@ export class Service {
     //  if (this._authenticated) {
     //     return throwError('User is already logged in.');
     // }
-    return this._httpClient.post(environment.API_URL + 'api/course_lesson', data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/property_sub_facility', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -997,7 +997,7 @@ export class Service {
 
   // get Users //
   getCourseType(): Observable<any[]> {
-    return this._httpClient.get<any[]>(environment.API_URL + 'api/get_course_type').pipe(
+    return this._httpClient.get<any[]>(environment.API_URL + '/api/get_property_facility').pipe(
       tap((meterial) => {
         this._materials.next(meterial);
       })
@@ -1017,12 +1017,12 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/property_sub_facility/' + Id)
   }
 
   //   * update branch
   update(data: any,id:any): Observable<any> {
-    return this._httpClient.put(environment.API_URL + 'api/course_lesson/'+id, data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.put(environment.API_URL + '/api/property_sub_facility/'+id, data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -1047,6 +1047,17 @@ export class Service {
     );
   }
 
+  delete(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/property_sub_facility/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
+
   getBankAll(): Observable<any> {
     return this._httpClient.get<any>(environment.API_URL + 'api/get_bank')
   }
@@ -1057,7 +1068,15 @@ export class Service {
   }
 
 
-
+  getPropertyTypeId(): Observable<any[]> {
+    return this._httpClient
+        .get<any[]>(environment.API_URL + '/api/get_property_facility')
+        .pipe(
+            tap((meterial) => {
+                this._materials.next(meterial);
+            })
+        );
+  }
   uploadImg(img: FormData): Observable<any> {
     return this._httpClient.post(environment.API_URL + 'api/upload_images', img, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {

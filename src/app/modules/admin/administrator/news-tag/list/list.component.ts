@@ -155,9 +155,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'qty_News_tag' }, 
                 { data: 'name' },    
                 { data: 'status' },
-     
                 { data: 'created_at' },
-   
+               
             ]
         };
     }

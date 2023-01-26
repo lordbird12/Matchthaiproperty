@@ -95,15 +95,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
+            name: '',
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            updated_at: '',
+            member_fname: '',
+            member_lname: '',
+            member_member_group_name: '',
             status: '',
-            image: [''],
+         
         });
     }
 
@@ -127,13 +126,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
-                title: this.itemData.title,
+                name: this.itemData.name,
                 detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                updated_at: this.itemData.updated_at,
+                member_fname: this.itemData.member.fname,
+                member_lname: this.itemData.member.lname,
+                member_member_group_name: this.itemData.member.member_group.name,
                 status: this.itemData.status,
             });
         });

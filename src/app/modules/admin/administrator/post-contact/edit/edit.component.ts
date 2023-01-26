@@ -95,15 +95,15 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
+            id: ['', Validators.required],
+            name: ['', Validators.required],
             title: ['', Validators.required],
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            tel: '',
             status: '',
-            image: [''],
+            created_at: '',
+            updated_at: '',
+            email: '',
         });
     }
 
@@ -117,23 +117,24 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
+                id: this.itemData.id,
                 title: this.itemData.title,
                 detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                name: this.itemData.name,
+                email: this.itemData.email,
+                created_at: this.itemData.created_at,
+                updated_at: this.itemData.updated_at,
+                tel: this.itemData.tel,
                 status: this.itemData.status,
             });
         });

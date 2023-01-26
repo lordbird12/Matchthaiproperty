@@ -122,6 +122,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
+                property_type_id: this.itemData.property_type_id,
                 name: this.itemData.name,
                 remark: this.itemData.remark,
                 status: this.itemData.status,
@@ -200,7 +201,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('property-type-detail/list')
+                            .navigateByUrl('property-type-rent/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

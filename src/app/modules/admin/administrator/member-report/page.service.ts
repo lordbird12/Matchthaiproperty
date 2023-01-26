@@ -1017,7 +1017,7 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/member_report/' + Id)
   }
 
   //   * update branch

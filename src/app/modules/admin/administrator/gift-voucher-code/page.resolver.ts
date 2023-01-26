@@ -4,13 +4,15 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+
 import { Service, } from './page.service';
-import { AssetType, Chat, Division, BranchPagination, BranchProduct, BranchProductDetail, Store, StoreType } from './page.types';
+import { AssetType, Chat, DataPosition, } from './page.types';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class PageResolve implements Resolve<any>
+export class RoundResolve implements Resolve<any>
 {
   /**
    * Constructor
@@ -52,5 +54,11 @@ export class PageResolve implements Resolve<any>
         })
       );
   }
+
+  resolveGet(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DataPosition[]> {
+    console.log(1)
+    return this._Service.getList();
+  }
 }
+
 

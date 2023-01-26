@@ -142,9 +142,9 @@ export const appRoutes: Route[] = [
             },
 
             {
-                path: 'news-category',
+                path: 'news-type',
                 canActivate: [], children: [
-                    { path: '', loadChildren: () => import('app/modules/admin/administrator/news-category/page.module').then(m => m.Module) },
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/news-type/page.module').then(m => m.Module) },
                 ]
             },
 
@@ -338,13 +338,13 @@ export const appRoutes: Route[] = [
             {
                 path: 'app-comment',
                 canActivate: [], children: [
-                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-report/page.module').then(m => m.Module) },
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/app-comment/page.module').then(m => m.Module) },
                 ]
             },  
             {
                 path: 'member-comment',
                 canActivate: [], children: [
-                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-report/page.module').then(m => m.Module) },
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-comment/page.module').then(m => m.Module) },
                 ]
             },  
             {

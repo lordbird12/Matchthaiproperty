@@ -12,7 +12,7 @@
         <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
             <!-- Add product button -->
-            <a routerLink="../../banner/new" class="ml-4" mat-flat-button [color]="'primary'">
+            <a routerLink="../../gift-voucher/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">เพิ่มใหม่</span>
             </a>
@@ -31,7 +31,7 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th style="width:20%;">ชื่อ</th>
-                            <th>รหัสโค๊ด</th>                           
+                            <!-- <th style="width: 10%;">รหัสโค๊ด</th>                            -->
                             <th style="width: 30%;">รายละเอียด</th>                  
                             <th>รูปภาพ</th>
                             <th>แต้มสะสม</th>
@@ -44,7 +44,7 @@
                         <tr *ngFor="let item of dataRow; let i = index">
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
                             <td>{{ item.name }}</td>
-                            <td>{{ item.gift_voucher_codes.code}}</td>
+                            <!-- <td>{{ item.gift_voucher_codes.code}}</td> -->
                             <td>{{ item.detail }}</td>
                             <td>
                                 <button mat-button (click)="showPicture(item.image)">
@@ -53,6 +53,7 @@
                             </td>
                             <td>{{ item.point }}</td>
                             <td>{{ item.expire_date }}</td>
+                            
                             <!-- <td>
                                 <div *ngIf="item.status === 1">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
@@ -74,7 +75,7 @@
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-button (click)="delete(item.id)">
+                                <button mat-button (click)="Delete(item.id)">
                                     <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                 </button>
                             </td>

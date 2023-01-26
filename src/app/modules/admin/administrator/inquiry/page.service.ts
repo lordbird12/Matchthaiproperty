@@ -1017,7 +1017,7 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/get_inquiry_by_id/' + Id)
   }
 
   //   * update branch
@@ -1040,7 +1040,7 @@ export class Service {
   }
 
   getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
-    return this._httpClient.post(environment.API_URL + '/api/news_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/inquiry_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         return of(response.data);
       })

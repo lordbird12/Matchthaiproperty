@@ -95,15 +95,20 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
+            name:  '',
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            updated_at:  '',
+
+            inquiry_name: '',
+            inquiry_objective: '',
+            inquiry_member_fname: '',
+            inquiry_member_lfname: '',
+            inquiry_property_type_name: '',
+            inquiry_property_sub_type_name: '',
+            inquiry_property_color_land_name: '',
+            inquiry_inquiry_locations_map_address: '',
+            inquiry_inquiry_facilitys_property_sub_facility_name: '',
             status: '',
-            image: [''],
         });
     }
 
@@ -117,23 +122,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
-                title: this.itemData.title,
+                name: this.itemData.name,
                 detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                updated_at: this.itemData.updated_at,
+
+                inquiry_name: this.itemData.inquiry.name,
+                inquiry_objective: this.itemData.inquiry.objective,
+                inquiry_member_fname: this.itemData.inquiry.member.fname,
+                inquiry_member_lfname: this.itemData.inquiry.member.lfname,
+                inquiry_property_type_name: this.itemData.inquiry.property_type.name,
+                inquiry_property_sub_type_name: this.itemData.inquiry.property_sub_type.name,
+                inquiry_property_color_land_name: this.itemData.inquiry.property_color_land.name,
+
+                inquiry_inquiry_locations_map_address: this.itemData.inquiry.inquiry_locations.map_address,
+
+                // inquiry_inquiry_facilitys_property_sub_facility_name: this.itemData.inquiry.inquiry_facilitys.property_sub_facility.name,
+
+     
                 status: this.itemData.status,
             });
         });

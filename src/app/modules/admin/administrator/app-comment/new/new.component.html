@@ -21,66 +21,61 @@
                     <div class="flex flex-auto flex-wrap">
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
-                                <mat-select [formControlName]="'course_id'">
+                                <mat-label class="font-bold">เลือกชื่อผู้รีวิว</mat-label>
+                                <mat-select [formControlName]="'member_id'">
                                     <mat-option [value]="''">
-                                        <span class="text-gray-400">เลือกประเภทคอร์ส</span>
+                                        <span class="text-gray-400">เลือกชื่อผู้รีวิว</span>
                                     </mat-option>
-                                    <mat-option *ngFor="let item of courseType" [value]="item.id">
-                                        {{item.name}}
+                                    <mat-option *ngFor="let item of MemberType" [value]="item.id">
+                                        {{item.id}}{{item.fname}} {{item.lname}}
                                     </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ข้อความ</mat-label>
+                                <textarea matInput rows="4" [formControlName]="'message'" placeholder="กรุณาระบุข้อความ"></textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ประเภทข้อความ</mat-label>
+                                <mat-select [formControlName]="'type'">
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">ประเภทข้อความ</span>
+                                    </mat-option>
+                                    <mat-option value="text">ข้อความ </mat-option>
+                                    <mat-option value="image">รูปภาพ</mat-option>
+                                    <mat-option value="emoji">อีโมจิ</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
-                                <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">เลือกเรทติ้ง</mat-label>
+                                <mat-select [formControlName]="'rating'">
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">เลือกเรทติ้ง</span>
+                                    </mat-option>
+                                    <mat-option value="1">1 </mat-option>
+                                    <mat-option value="2">2</mat-option>
+                                    <mat-option value="3">3</mat-option>
+                                    <mat-option value="4">4</mat-option>
+                                    <mat-option value="5">5</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">video</mat-label>
-                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชั่วโมง</mat-label>
-                                <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">นาที</mat-label>
-                                <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">วินาที</mat-label>
-                                <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
                     </div>
                 </div>
             </div>
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="app-comment/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

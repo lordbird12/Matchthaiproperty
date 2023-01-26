@@ -6,7 +6,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    โฆษณา
+                    คูปองส่วนลด
                 </h2>
             </div>
 
@@ -30,55 +30,27 @@
 
                     <div class="flex flex-col w-full lg:w-4/4 p-3">
                         <mat-form-field class="w-full">
-                            <mat-label>ข้อความอธิบาย
+                            <mat-label>รายละเอียด
                             </mat-label>
-                            <input matInput [formControlName]="'detail'">
+                            <textarea input matInput [formControlName]="'detail'" rows="15"> </textarea>
                         </mat-form-field>
                     </div>
 
-                    <div class="flex flex-col w-full lg:w-2/5 p-3">
+     
+                    <div class="flex flex-col w-full lg:w-4/4 p-3">
                         <mat-form-field class="w-full">
-                            <mat-label>ประเภท
+                            <mat-label>แต้มสะสม
                             </mat-label>
-                            <mat-select [formControlName]="'type'">
-                                <mat-option [value]="''">
-                                    <span>เลือกสถานะ</span>
-                                </mat-option>
-                                <mat-option *ngFor="let item of typeData" [value]="item.value">
-                                    {{item.name}}
-                                </mat-option>
-                            </mat-select>
+                            <input matInput [formControlName]="'point'" type="number" min="0">
                         </mat-form-field>
                     </div>
-                    <div class="flex flex-col w-full lg:w-2/5 p-3">
+                    <div class="flex flex-col w-full lg:w-4/4 p-3">
                         <mat-form-field class="w-full">
-                            <mat-label>ตำแหน่งการแสดง
-                            </mat-label>
-                            <mat-select [formControlName]="'position'">
-                                <mat-option [value]="''">
-                                    <span>เลือกสถานะ</span>
-                                </mat-option>
-                                <mat-option *ngFor="let item of positionData" [value]="item.value">
-                                    {{item.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-label>วันหมดอายุ</mat-label>
+                            <input matInput [formControlName]="'expire_date'" type="date">
                         </mat-form-field>
                     </div>
-
-                    <div class="flex flex-col w-full lg:w-1/5 p-3">
-                        <mat-form-field class="w-full">
-                            <mat-label>ระดับความสำคัญ
-                            </mat-label>
-                            <mat-select [formControlName]="'priority'">
-                                <mat-option [value]="''">
-                                    <span>เลือกสถานะ</span>
-                                </mat-option>
-                                <mat-option *ngFor="let item of priorityData" [value]="item.value">
-                                    {{item.name}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+       
 
                     <div class="flex flex-col w-full lg:w-4/4 p-3">
                         <div class="border-t border-gray-200">
@@ -99,7 +71,7 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="banner/list">
+                    <a class="ml-4" mat-flat-button href="gift-voucher/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

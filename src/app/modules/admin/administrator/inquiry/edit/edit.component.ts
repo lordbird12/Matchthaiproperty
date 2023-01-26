@@ -95,15 +95,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+          
+            id:'',
+            name:'',
+            objective:'',
+            type:'',
+            member_fname:'',
+            property_type_name:'',
+            inquiry_type_name:'',
+            property_sub_type_name:'',
+            property_color_land_name:'',
+            status:'',
+            updated_at:'',
         });
     }
 
@@ -117,23 +120,26 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
-                title: this.itemData.title,
-                detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                id: this.itemData.id,
+                name: this.itemData.name,
+                objective: this.itemData.objective,
+                type: this.itemData.type,
+                member_fname: this.itemData.member.fname,
+                property_type_name: this.itemData.property_type.name,
+                property_sub_type_name: this.itemData.property_sub_type.name,
+                inquiry_type_name: this.itemData.inquiry_type.name,
+                property_color_land_name:this.itemData.property_color_land.name,
+                updated_at: this.itemData.updated_at,
                 status: this.itemData.status,
             });
         });

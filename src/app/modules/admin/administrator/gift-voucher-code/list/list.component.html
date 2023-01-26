@@ -12,19 +12,13 @@
         <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
             <!-- Add product button -->
-            <a routerLink="../../news/new" class="ml-4" mat-flat-button [color]="'primary'">
+            <a routerLink="../../gift-voucher/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">เพิ่มใหม่</span>
             </a>
 
         </div>
     </div>
-
-    <!-- search -->
-    <!-- <div class="search-box relative flex flex-col flex-0 px-6 md:px-8 border-b mt-4">
-
-    </div> -->
-
 
     <!-- Main -->
     <div class="flex flex-auto overflow-hidden">
@@ -36,31 +30,30 @@
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
-                            <th>ชื่อโค๊ด</th>
-                            <th>รหัสโค๊ด</th>
-                            <th>รูปภาพ</th>            
-                            <th  style="width: 30%;">รายละเอียด</th> 
-                            <th>คะแนน</th>                                   
+                            <th style="width:20%;">ชื่อ</th>
+                            <!-- <th style="width: 10%;">รหัสโค๊ด</th>                            -->
+                            <th style="width: 30%;">รายละเอียด</th>                  
+                            <th>รูปภาพ</th>
+                            <th>แต้มสะสม</th>
                             <th>วันหมดอายุ</th>
-                            <th>สร้างโดย</th>
-                            <th>ขายให้กับ</th>
+                            <th>วันที่สร้าง</th>
                             <th>จัดการ</th>
                         </tr>
                     </thead>
-
                     <tbody *ngIf="dataRow?.length != 0">
                         <tr *ngFor="let item of dataRow; let i = index">
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
-                            <td>{{ item.gift_voucher.name }}</td>
-                            <td>{{ item.code }}</td>
+                            <td>{{ item.name }}</td>
+                            <!-- <td>{{ item.gift_voucher_codes.code}}</td> -->
+                            <td>{{ item.detail }}</td>
                             <td>
-                                <button mat-button (click)="showPicture(item.gift_voucher.image)">
+                                <button mat-button (click)="showPicture(item.image)">
                                     <mat-icon>image</mat-icon>
                                 </button>
                             </td>
-                            <td>{{ item.gift_voucher.detail }}</td>
-                            <td>{{ item.gift_voucher.point }}</td>
+                            <td>{{ item.point }}</td>
                             <td>{{ item.expire_date }}</td>
+                            
                             <!-- <td>
                                 <div *ngIf="item.status === 1">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
@@ -77,13 +70,12 @@
                                     </span>
                                 </div>
                             </td> -->
-                            <td>{{ item.create_by }}</td>
-                            <td>{{ item.update_by }}</td>
+                            <td>{{ item.updated_at }}</td>
                             <td>
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-button (click)="delete(item.id)">
+                                <button mat-button (click)="Delete(item.id)">
                                     <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                 </button>
                             </td>
@@ -98,5 +90,4 @@
             </div>
         </div>
     </div>
-
 </div>

@@ -112,9 +112,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             id: '',
             name: [''],
             detail: [''],
-            type: [''],
-            priority: [''],
-            position: [''],
+            point: [''],
+            expire_date: [''],
             image: '',
             status: '',
         });
@@ -134,10 +133,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.formData.patchValue({
                 id: this.itemData.id,
                 name: this.itemData.name,
-                detail: this.itemData.detail,
-                type: this.itemData.type,
-                priority: this.itemData.priority,
-                position: this.itemData.position,
+                detail: this.itemData.detail,             
+                point: this.itemData.point,
+                expire_date: this.itemData.expire_date,
                 status: this.itemData.status,
                 image: '',
             });
@@ -202,7 +200,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.update(formData).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('banner/list')
+                            .navigateByUrl('gift-voucher/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

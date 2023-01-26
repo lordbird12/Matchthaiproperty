@@ -200,10 +200,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 children: [
                     {
                         id: 'news.category',
-                        title: 'หมวดหมู่ข่าวสาร',
+                        title: 'ประเภทข่าวสาร',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
-                        link: '/news-category/list',
+                        link: '/news-type/list',
                     },
                     {
                         id: 'news.list',
@@ -382,7 +382,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/inquiry-report/list',
             },
             {
-                id: 'gift-voucher-code',
+                id: 'member-report',
                 title: 'การรายงานสมาชิก และรายงานทั่วไป',
                 type: 'basic',
                 // icon: 'heroicons_outline:clipboard-check',

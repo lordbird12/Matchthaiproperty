@@ -997,7 +997,7 @@ export class Service {
 
   // get Users //
   getCourseType(): Observable<any[]> {
-    return this._httpClient.get<any[]>(environment.API_URL + 'api/get_course_type').pipe(
+    return this._httpClient.get<any[]>(environment.API_URL + '/api/get_post_contact_page').pipe(
       tap((meterial) => {
         this._materials.next(meterial);
       })
@@ -1017,7 +1017,7 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/get_post_contact_by_id/' + Id)
   }
 
   //   * update branch

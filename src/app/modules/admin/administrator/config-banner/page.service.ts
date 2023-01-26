@@ -978,7 +978,7 @@ export class Service {
     //  if (this._authenticated) {
     //     return throwError('User is already logged in.');
     // }
-    return this._httpClient.post(environment.API_URL + 'api/course_lesson', data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/config_banner_footer', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);

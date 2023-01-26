@@ -79,8 +79,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
         this.formData = this._formBuilder.group({
             id: '',
-            remark: '',
             name: '',
+            remark: '',
         });
     }
 
@@ -94,10 +94,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
             property_type_id: '',
-            remark: '',
             name: '',
-
-
+            remark: '',
         });
 
         this._Service.getCourseType().subscribe((resp: any) => {
@@ -107,7 +105,6 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         })
     }
-
     /**
      * After view init
      */
@@ -158,7 +155,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('property-type-detail/list')
+                            .navigateByUrl('property-type-rent/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

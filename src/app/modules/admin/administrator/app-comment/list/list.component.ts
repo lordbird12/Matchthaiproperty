@@ -59,9 +59,11 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'id',
         'name',
         'status',
-        'create_by',
+        'member',
+        'type',
+
+        'rating',
         'created_at',
-        'actions',
     ];
     dataSource: MatTableDataSource<DataBranch>;
 
@@ -152,14 +154,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             columns: [
                 { data: 'id' },
-                { data: 'avg' },
-                { data: 'rating_breakdown' },
-                { data: 'status' },
                 { data: 'member' },
-                { data: 'updated_at' },
-                { data: 'actice', orderable: false },
+                { data: 'type' },
+                { data: 'status' },
+                { data: 'rating' },
+                { data: 'message' },   
+
+              
             ]
-        };
+        };      
     }
 
     totalPriceTable() {

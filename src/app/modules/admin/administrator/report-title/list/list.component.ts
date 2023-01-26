@@ -51,7 +51,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dtOptions: DataTables.Settings = {};
     public dataRow: any[];
     public dataGrid: any[];
-
+    private destroy$ = new Subject<any>();
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -237,17 +237,83 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['course-lesson/edit/' + Id]);
+        this._router.navigate(['report-title/edit/' + Id]);
     }
 
     viewDetail(Id: string): void {
-        this._router.navigate(['course-lesson/detail/' + Id]);
+        this._router.navigate(['report-title/detail/' + Id]);
     }
 
     textStatus(status: string): string {
         return startCase(status);
     }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
 
+    Delete(id) {
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "ยืนยันลบข้อมูล",
+            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
+            "icon": {
+                "show": true,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if (result === 'confirmed') {
+                this._Service
+                    .delete(id)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((res: any) => {
+                        if (res.code == 201) {
+                            this._fuseConfirmationService.open({
+                                "title": "ลบข้อมูล",
+                                "message": "บันทึกเรียบร้อย",
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:check-circle",
+                                    "color": "success"
+                                },
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ตกลง",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก"
+                                    }
+                                },
+                                "dismissible": true
+                            }).afterClosed().subscribe((res) => {
+                                this.rerender();
+                            })
+                        }
+                    });
+
+            }
+        });
+
+    }
     showPicture(imgObject: any): void {
         this._matDialog.open(PictureComponent, {
             autoFocus: false,

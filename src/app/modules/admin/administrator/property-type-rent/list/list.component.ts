@@ -64,7 +64,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'create_by',
         'created_at',
         'actions',
-        'remark',
     ];
     dataSource: MatTableDataSource<DataBranch>;
 
@@ -182,15 +181,13 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
             },
             columns: [
-                { data: 'id' },
+ 
+                { data: 'code' },
                 { data: 'name' },
-                { data: 'remark' },
-                { data: 'property_type' },              
                 { data: 'status' },
-                { data: 'create_by' },
                 { data: 'created_at' },
+                { data: 'property_type' },
                 { data: 'actice', orderable: false },
-  
             ]
         };
     }
@@ -279,11 +276,11 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['property-type-detail/edit/' + Id]);
+        this._router.navigate(['property-type-rent/edit/' + Id]);
     }
 
     viewDetail(Id: string): void {
-        this._router.navigate(['property-type-detail/detail/' + Id]);
+        this._router.navigate(['property-type-rent/detail/' + Id]);
     }
 
     textStatus(status: string): string {

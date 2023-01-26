@@ -1087,7 +1087,7 @@ export class Service {
     create(data: any): Observable<any> {
         return this._httpClient
             .post(
-                environment.API_URL + '/api/banner',
+                environment.API_URL + '/api/gift_voucher',
                 data,
                 this.httpOptionsFormdata
             )
@@ -1120,7 +1120,7 @@ export class Service {
 
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
-            environment.API_URL + '/api/banner/' + id,
+            environment.API_URL + '/api/gift_voucher/' + id,
             { headers: this.httpOptionsFormdata.headers }
         );
     }
@@ -1128,7 +1128,7 @@ export class Service {
     //* get position by id
     getById(id: any): Observable<any[]> {
         return this._httpClient
-            .get<any[]>(environment.API_URL + '/api/banner/' + id)
+            .get<any[]>(environment.API_URL + '/api/gift_voucher/' + id)
             .pipe(
                 tap((meterial) => {
                     this._materials.next(meterial);
@@ -1140,7 +1140,7 @@ export class Service {
     update(data: any): Observable<any> {
         return this._httpClient
             .post(
-                environment.API_URL + '/api/update_banner',
+                environment.API_URL + '/api/update_gift_voucher',
                 data,
                 this.httpOptionsFormdata
             )

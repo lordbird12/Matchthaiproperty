@@ -58,10 +58,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     displayedColumns: string[] = [
         'id',
         'name',
+        'objective',
+        'type',
+        'member',
+        'property_type',
+        'inquiry_type',
+        'property_sub_type',
+        'property_color_land',
         'status',
-        'create_by',
-        'created_at',
-        'actions',
+        'updated_at',
     ];
     dataSource: MatTableDataSource<DataBranch>;
 
@@ -153,13 +158,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             columns: [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'image' },
-                { data: 'status' },
-                { data: 'create_by' },
-                { data: 'created_at' },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-                
+                { data: 'objective' },
+                { data: 'type' },
+                { data: 'member' },
+                { data: 'property_type' },
+                { data: 'inquiry_type' },
+                { data: 'property_sub_type' },
+                { data: 'updated_at' },
+
+                // { data: 'actice', orderable: false }, 
             ]
         };
     }
@@ -239,7 +246,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['course-lesson/edit/' + Id]);
+        this._router.navigate(['inquiry/edit/' + Id]);
     }
 
     viewDetail(Id: string): void {

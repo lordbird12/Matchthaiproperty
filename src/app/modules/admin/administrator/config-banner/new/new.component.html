@@ -19,27 +19,39 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
+     
+               
+
+
+
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
-                                <mat-select [formControlName]="'course_id'">
-                                    <mat-option [value]="''">
-                                        <span class="text-gray-400">เลือกประเภทคอร์ส</span>
-                                    </mat-option>
-                                    <mat-option *ngFor="let item of courseType" [value]="item.id">
-                                        {{item.name}}
-                                    </mat-option>
-                                </mat-select>
+                                <mat-label class="font-bold">หัวข้อ</mat-label>
+                                <input matInput [formControlName]="'banner_footer_title'" placeholder="กรุณาระบุหัวข้อ">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
-                                <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">รายละเอียด</mat-label>
+                                <textarea matInput rows="4" [formControlName]="'banner_footer_detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">linkwebsite</mat-label>
+                                <textarea matInput rows="4" [formControlName]="'banner_footer_url'" placeholder="linkwebsite"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ปุ่มแบนเนอร์</mat-label>
+                                <input matInput [formControlName]="'banner_footer_text_button'" placeholder="กรุณาระบุปุ่มแบนเนอร์">
                             </mat-form-field>
                         </div>
 
+                        
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียด</mat-label>
@@ -49,31 +61,11 @@
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">video</mat-label>
-                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">รูป</mat-label>
+                                <input matInput [formControlName]="'banner_footer_image'" placeholder="กรุณาใส่รูป">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชั่วโมง</mat-label>
-                                <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">นาที</mat-label>
-                                <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">วินาที</mat-label>
-                                <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
                     </div>
                 </div>
             </div>

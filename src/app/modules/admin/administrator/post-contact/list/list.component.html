@@ -57,11 +57,9 @@
                             <td>{{ item.updated_at }}</td>
                             <td>
                                 <button mat-button (click)="edit(item.id)">
-                                    <mat-icon>edit</mat-icon>
+                                    <mat-icon svgIcon="mat_outline:remove_red_eye"></mat-icon>
                                 </button>
-                                <button mat-button (click)="delete(item.id)">
-                                    <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
-                                </button>
+                
                             </td>
                         </tr>
                     </tbody>

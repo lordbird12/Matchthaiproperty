@@ -50,7 +50,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) private _sort: MatSort;
     public UserAppove: any = [];
     itemData: any = [];
-
+    url_pro: any = []
     files: File[] = [];
 
     statusData = [
@@ -97,13 +97,23 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.formData = this._formBuilder.group({
             course_id: ['', Validators.required],
             title: ['', Validators.required],
+            name: '',
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+            asset_type: '',
+            asset_member_code: '',
+            asset_name: '',
+            asset_code:'',
+            asset_description: '',
+            asset_image: '',
+            asset_updated_at: '',
+            asset_property_type_name:'',
+            asset_property_announcer_name: '',
+            asset_property_sub_type_name: '',
+            asset_property_color_land_name:'',
+            asset_asset_location_nearbys_name: '',
+            asset_member_fname: '',
+            asset_member_lname: '',
+            asset_member_tel: '',
         });
     }
 
@@ -117,23 +127,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
-                title: this.itemData.title,
-                detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                id: this.itemData.id,
+                name: this.itemData.name,
+                asset_name: this.itemData.asset.name,
+                asset_code: this.itemData.asset.code,
+                asset_description: this.itemData.asset.description,
+                asset_type: this.itemData.asset.type,
+                asset_image: this.itemData.asset.image,
+                asset_updated_at: this.itemData.asset.updated_at,
+                asset_property_type_name: this.itemData.asset.property_type.name,
+                asset_property_announcer_name: this.itemData.asset.property_announcer.name,
+                asset_property_sub_type_name: this.itemData.asset.property_sub_type.name,
+                asset_property_color_land_name: this.itemData.asset.property_color_land.name,
+                // asset_asset_location_nearbys_name: this.itemData.asset.asset_location_nearbys.property_location_nearby.name,
+                asset_member_fname: this.itemData.asset.member.fname,
+                asset_member_lname: this.itemData.asset.member.lname,
+                asset_member_tel: this.itemData.asset.member.tel,
+                member: this.itemData.member,
                 status: this.itemData.status,
             });
         });
@@ -173,7 +193,23 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
     }
-
+    onChange(event: any): void {
+        // console.log('')
+        var reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        setTimeout(() => {
+          this._changeDetectorRef.detectChanges()
+      }, 150)
+        reader.onload = (e: any) =>
+          this.url_pro = e.target.result;
+        const file = event.target.files[0];
+        this.formData.patchValue({
+          asset_image: file
+        });
+        this._changeDetectorRef.markForCheck();
+        // console.log
+      }
+      
     update(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;

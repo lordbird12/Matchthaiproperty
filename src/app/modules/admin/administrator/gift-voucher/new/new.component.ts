@@ -114,9 +114,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.formData = this._formBuilder.group({
             name: [''],
             detail: [''],
-            type: [''],
-            priority: [''],
-            position: [''],
+            point: [''],
+            expire_date: [''],
             image: '',
         });
     }
@@ -179,7 +178,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.create(formData).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('banner/list')
+                            .navigateByUrl('gift-voucher/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

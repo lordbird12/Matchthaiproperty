@@ -1,12 +1,13 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    แก้ไขรายการ
+                    รายงานสินทรัพย์
                 </h2>
             </div>
 
@@ -19,60 +20,72 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
-                                <mat-select [formControlName]="'course_id'">
-                                    <mat-option [value]="''">
-                                        <span class="text-gray-400">เลือกประเภทคอร์ส</span>
-                                    </mat-option>
-                                    <mat-option *ngFor="let item of courseType" [value]="item.id">
-                                        {{item.name}}
-                                    </mat-option>
-                                </mat-select>
+                                <mat-label class="font-bold">รหัสสินทรัพย์</mat-label>
+                                <input matInput [formControlName]="'asset_code'" readonly>
                             </mat-form-field>
                         </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
-                                <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">ชนิดสินทรัพย์</mat-label>
+                                <input matInput [formControlName]="'asset_type'" readonly>
                             </mat-form-field>
                         </div>
-
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">วันที่ลงขาย</mat-label>
+                                <input matInput [formControlName]="'asset_updated_at'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ประเภททรัพย์</mat-label>
+                                <input matInput [formControlName]="'asset_property_type_name'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ชื่อสินทรัพย์</mat-label>
+                                <input matInput [formControlName]="'asset_name'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ผู้ขาย</mat-label>
+                                <input matInput [formControlName]="'asset_property_announcer_name'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ประเภทสีที่ดิน</mat-label>
+                                <input matInput [formControlName]="'asset_property_color_land_name'" readonly>
+                            </mat-form-field>
+                        </div>
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                                <textarea matInput rows="4" [formControlName]="'asset_description'" readonly></textarea>
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">video</mat-label>
-                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชั่วโมง</mat-label>
-                                <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">นาที</mat-label>
-                                <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">วินาที</mat-label>
-                                <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
+                            <div class="border-t border-gray-200">
+                                <dl>
+                                    <div class="bg-white px-4 mt-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-l font-extrabold text-gray-500  mt-4">รูปสินทรัพย์</dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                            <div class="flex justify-center items-center w-2/4">
+                                                <label>
+                                                    <input (change)='onChange($event)' type="file" id="file"
+                                                        style="cursor: pointer;">
+                                                    <img class="img h-64 w-64" [src]="url_pro">
+                                                </label>
+                                            </div>
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,14 +93,10 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
-                        <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
-                        ยกเลิก
+                    <a class="px-6 ml-4 mat-primary" mat-flat-button href="asset-report/list">
+                        <mat-icon svgIcon="mat_outline:keyboard_return"></mat-icon>
+                        ย้อนกลับ
                     </a>
-                    <button class="px-6 ml-3 mat-primary" mat-flat-button (click)="update()">
-                        <mat-icon svgIcon="heroicons_solid:check"></mat-icon>
-                        ยืนยัน
-                    </button>
                 </div>
             </div>
         </form>

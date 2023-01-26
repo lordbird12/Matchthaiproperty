@@ -57,7 +57,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'create_by',
         'created_at',
         'image',
-        'actions',
+        'gift_voucher_codes',
+ 
     ];
     dataSource: MatTableDataSource<DataPosition>;
 
@@ -142,7 +143,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                     });
             },
             columns: [
-                { data: 'no' },
                 { data: 'name' },
                 { data: 'detail' },
                 { data: 'point' },
@@ -151,7 +151,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
-                { data: 'action' },
+         
             ],
         };
     }
@@ -207,7 +207,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(id: string): void {
-        this._router.navigate(['banner/edit/' + id]);
+        this._router.navigate(['gift-voucher/edit/' + id]);
     }
 
     textStatus(status: string): string {
@@ -228,7 +228,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
-    delete(id: any): void {
+   Delete(id: any): void {
         this.flashMessage = null;
 
         // Open the confirmation dialog

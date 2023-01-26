@@ -7,12 +7,12 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">หมวดหมู่ข่าว</div>
+        <div class="text-4xl font-extrabold tracking-tight">ประเภทข่าวสาร</div>
         <!-- Actions -->
         <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
             <!-- Add product button -->
-            <a routerLink="../../news-category/new" class="ml-4" mat-flat-button [color]="'primary'">
+            <a routerLink="../../news-type/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">เพิ่มใหม่</span>
             </a>
@@ -36,7 +36,7 @@
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
-                            <th>ชื่อหมวดหมู่</th>
+                            <th>ชื่อประเภท</th>
                             <th>จำนวนข่าว</th>
                             <th>สถานะ</th>
                             <th>สร้างโดย</th>
@@ -70,6 +70,9 @@
                             <td style="width: 15%;">
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-button (click)="Delete(item.id)">
+                                    <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                 </button>
                             </td>
                         </tr>

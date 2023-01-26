@@ -62,7 +62,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
-
+    MemberType: any = [];
     courseType: any = [];
     /**
      * Constructor
@@ -78,15 +78,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            id: [''],
+            member_id: ['', Validators.required],
+            type: ['', Validators.required],
+            message: '',
+            rating: '',
             status: '',
-            image: [''],
         });
     }
 
@@ -99,19 +96,17 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
+            id: [''],
+            member_id: ['', Validators.required],
+            type: ['', Validators.required],
+            message: '',
+            rating: '',
             status: '',
-            image: [''],
+      
         });
 
         this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+            this.MemberType = resp.data;
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
@@ -168,7 +163,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('course-lesson/list')
+                            .navigateByUrl('app-comment/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

@@ -18,7 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table'
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -32,64 +32,58 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { DataTablesModule } from 'angular-datatables';
-import {
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-} from '@angular-material-components/datetime-picker';
+import { FuseAlertModule } from '@fuse/components/alert';
 
-import { ListComponent } from './list/list.component';
-import { pageRoute } from './page.routing';
+
 import { PageComponent } from './page.component';
+import { pageRoute } from './page.routing';
+import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
-import { PrintComponent } from './print/print.component';
-
-
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
-    declarations: [
-        PageComponent,
-        ListComponent,
-        NewComponent,
-        EditComponent,
-        PrintComponent,
-    ],
-    imports: [
-        RouterModule.forChild(pageRoute),
-        DataTablesModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatRippleModule,
-        MatSortModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        MatTooltipModule,
-        SharedModule,
-        DragDropModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
-        MatTableModule,
-        MatTabsModule,
-        FuseFindByKeyPipeModule,
-        MatSidenavModule,
-        MatButtonToggleModule,
-        MatChipsModule,
-        MatDividerModule,
-        NgImageSliderModule,
-        NgxDropzoneModule,
-        MatRadioModule,
-        MatExpansionModule,
-        NgxMatTimepickerModule.setLocale('en-GB'),
-        NgxMatDatetimePickerModule,
-        NgxMatNativeDateModule,
-    ],
+  declarations: [
+    PageComponent,
+    ListComponent,
+    NewComponent,
+    EditComponent
+  ],
+  imports: [
+    RouterModule.forChild(pageRoute),
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatRippleModule,
+    MatSortModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    SharedModule,
+    DragDropModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatTableModule,
+    MatTabsModule,
+    FuseFindByKeyPipeModule,
+    MatSidenavModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatDividerModule,
+    NgImageSliderModule,
+    NgxDropzoneModule,
+    MatRadioModule,
+    MatExpansionModule,
+    NgxMatTimepickerModule.setLocale('en-GB'),
+    DataTablesModule,
+    FuseAlertModule
+  ]
 })
-export class Module {}
+export class Module {
+}
