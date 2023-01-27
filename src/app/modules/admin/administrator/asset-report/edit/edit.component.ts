@@ -139,6 +139,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.formData.patchValue({
                 id: this.itemData.id,
                 name: this.itemData.name,
+                detail: this.itemData.detail,
                 asset_name: this.itemData.asset.name,
                 asset_code: this.itemData.asset.code,
                 asset_description: this.itemData.asset.description,

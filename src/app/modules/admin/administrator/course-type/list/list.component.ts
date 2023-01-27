@@ -245,7 +245,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         return startCase(status);
     }
 
-    delete(id: any): void {
+    Delete(id: any): void {
         this.flashMessage = null;
 
         // Open the confirmation dialog

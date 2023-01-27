@@ -168,7 +168,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.update(this.formData.value, this.id).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('faq/list')
+                            .navigateByUrl('video/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

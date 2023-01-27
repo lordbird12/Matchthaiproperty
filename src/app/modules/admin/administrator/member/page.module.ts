@@ -18,7 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatTableModule } from '@angular/material/table'
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -32,22 +32,32 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { FuseCardModule } from '@fuse/components/card';
-import { UserListComponent } from './list/list.component';
-import { UserComponent } from './page.component';
-import { userRoute } from './page.routing';
 import { DataTablesModule } from 'angular-datatables';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
+
+import { ListComponent } from './list/list.component';
+import { pageRoute } from './page.routing';
+import { PageComponent } from './page.component';
+import { NewComponent } from './new/new.component';
+import { EditComponent } from './edit/edit.component';
+import { PrintComponent } from './print/print.component';
+
+
 
 @NgModule({
     declarations: [
-
-        UserComponent,
-        UserListComponent,
+        PageComponent,
+        ListComponent,
+        NewComponent,
+        EditComponent,
+        PrintComponent,
     ],
     imports: [
-        RouterModule.forChild(userRoute),
-        NgxDropzoneModule,
+        RouterModule.forChild(pageRoute),
+        DataTablesModule,
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -77,12 +87,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         NgxDropzoneModule,
         MatRadioModule,
         MatExpansionModule,
-        DataTablesModule,
-        ReactiveFormsModule,
-        FuseCardModule,
         NgxMatTimepickerModule.setLocale('en-GB'),
-
-    ]
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule,
+    ],
 })
-export class Module {
-}
+export class Module {}

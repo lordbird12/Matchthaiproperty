@@ -7,16 +7,20 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">คูปองส่วนลด</div>
+        <div class="text-4xl font-extrabold tracking-tight">    ประเภทคูปองส่วนลด
+        </div>
         <!-- Actions -->
         <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
             <!-- Add product button -->
             <a routerLink="../../gift-voucher/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1">เพิ่มใหม่</span>
+                <span class="ml-2 mr-1">เพิ่มประเภทคูปอง</span>
             </a>
-
+            <a routerLink="../../gift-voucher/add" class="ml-4" mat-flat-button [color]="'primary'">
+                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                <span class="ml-2 mr-1">เพิ่มคูปอง</span>
+            </a>
         </div>
     </div>
 
@@ -35,8 +39,10 @@
                             <th style="width: 30%;">รายละเอียด</th>                  
                             <th>รูปภาพ</th>
                             <th>แต้มสะสม</th>
+                            <th>จำนวนคูปอง</th>
                             <th>วันหมดอายุ</th>
                             <th>วันที่สร้าง</th>
+                                           
                             <th>จัดการ</th>
                         </tr>
                     </thead>
@@ -52,8 +58,12 @@
                                 </button>
                             </td>
                             <td>{{ item.point }}</td>
+                            <td>{{ item.gift_voucher_codes.length }}</td>
+
+
+                 
                             <td>{{ item.expire_date }}</td>
-                            
+                  
                             <!-- <td>
                                 <div *ngIf="item.status === 1">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
@@ -71,10 +81,12 @@
                                 </div>
                             </td> -->
                             <td>{{ item.updated_at }}</td>
+
                             <td>
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
+
                                 <button mat-button (click)="Delete(item.id)">
                                     <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                 </button>

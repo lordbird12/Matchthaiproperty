@@ -40,6 +40,7 @@ import { pageRoute } from './page.routing';
 import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
+import { AddComponent } from './add/add.component';
 import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
@@ -47,6 +48,7 @@ import { DataTablesModule } from 'angular-datatables';
     PageComponent,
     ListComponent,
     NewComponent,
+    AddComponent,
     EditComponent
   ],
   imports: [

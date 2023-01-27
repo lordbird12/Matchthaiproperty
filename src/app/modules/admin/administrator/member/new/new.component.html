@@ -1,12 +1,13 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    สร้างคำถามที่พบบ่อย
+                    เพิ่มรายการ
                 </h2>
             </div>
 
@@ -17,32 +18,172 @@
     <div class="flex-auto p-3 sm:p-10">
         <form class="flex flex-col mt-3 p-8 pb-4 bg-card shadow overflow-hidden ng-valid" [formGroup]="formData">
             <div class="flex flex-col sm:flex-row p-8">
-
-
-                <div class="flex flex-auto flex-wrap">
-
-                    <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                        <div class="flex">
+                <div class="w-full lg:w-4/4">
+                    <div class="flex flex-auto flex-wrap">
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>คำถามพบบ่อย
-                                </mat-label>
-                                <input matInput [formControlName]="'question'">
+                                <mat-label class="font-bold">เลือกประเภท</mat-label>
+                                <mat-select [formControlName]="'member_group_id'">
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">เลือกประเภท</span>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of MemberType" [value]="item.id">
+                                        {{item.name}}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="flex">
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>คำตอบ
-                                </mat-label>
-                                <textarea matInput [formControlName]="'answer'" rows="5"></textarea>
+                                <mat-label class="font-bold">ประเภทผู้ซื้อ</mat-label>
+                                <mat-select [formControlName]="'buyer_type'">
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">กรุณาระบุประเภทผู้ซื้อ</span>
+                                    </mat-option>
+                                    <mat-option value="buyer">buyer</mat-option>
+                                    <mat-option value="tenent">tenent</mat-option>
+                                    <mat-option value="null">null</mat-option>
+
+                                </mat-select>
                             </mat-form-field>
                         </div>
+
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เลขบัตรประชาชน</mat-label>
+                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"type="number">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เลขหลังบัตรประชาชน</mat-label>
+                                <input matInput [formControlName]="'citizen_back_no'" placeholder="กรุณาระบุเลขบัตรประชาชน" type="text">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ชื่อ</mat-label>
+                                <input matInput [formControlName]="'fname'" placeholder="กรุณาระบุชื่อ">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">นามสกุล</mat-label>
+                                <input matInput [formControlName]="'lname'" placeholder="กรุณาระบุนามสกุล">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <div class="flex ">
+                                <div class="flex justify-center items-center w-full">
+                                    <ngx-dropzone style="width: 100%; height: 300px;" (change)="onSelect($event)">
+                                        <ngx-dropzone-label>เลือกรูปบัตรประชาชน </ngx-dropzone-label>
+                                        <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true"
+                                            [file]="f" (removed)="onRemove(f)">
+                                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                        </ngx-dropzone-image-preview>
+                                    </ngx-dropzone>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ยูสเซอร์เนม</mat-label>
+                                <input matInput [formControlName]="'username'" placeholder="กรุณาระบุยูสเซอร์เนม">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">พาสเวิร์ด</mat-label>
+                                <input matInput [formControlName]="'password'" placeholder="กรุณาระบุพาสเวิร์ด">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">อีเมล</mat-label>
+                                <input matInput [formControlName]="'email'" placeholder="กรุณาระบุอีเมล">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ไอดีไลน์</mat-label>
+                                <input matInput [formControlName]="'line'" placeholder="กรุณาระบุชื่อไอดีไลน์">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ชื่อเฟสบุ๊ค</mat-label>
+                                <input matInput [formControlName]="'facebook'" placeholder="กรุณาระบุชื่อเฟสบุ๊ค">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">วันเกิด</mat-label>
+                                <input matInput [formControlName]="'birthday'" placeholder="กรุณาระบุชื่อวันเกิด"
+                                    type="date">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">อายุ</mat-label>
+                                <input matInput [formControlName]="'age'" placeholder="กรุณาระบุอายุ" type="number"
+                                    min="0">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ระบุเพศ</mat-label>
+                                <mat-select [formControlName]="'sex'">
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">กรุณาระบุเพศ</span>
+                                    </mat-option>
+                                    <mat-option value="male">ชาย</mat-option>
+                                    <mat-option value="female">หญิง</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เบอร์โทร</mat-label>
+                                <input matInput [formControlName]="'tel'" placeholder="กรุณาระบุเบอร์โทร" type="number">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ที่อยู่</mat-label>
+                                <textarea matInput [formControlName]="'address'" placeholder="กรุณาระบุที่อยู่"
+                                    rows="4"></textarea>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <div class="flex ">
+                                <div class="flex justify-center items-center w-full">
+                                    <ngx-dropzone style="width: 100%; height: 300px;" (change)="onSelect1($event)">
+                                        <ngx-dropzone-label>เลือกรูป โปรไฟล์ </ngx-dropzone-label>
+                                        <ngx-dropzone-image-preview *ngFor="let f of files1" [removable]="true"
+                                            [file]="f" (removed)="onRemove1(f)">
+                                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                        </ngx-dropzone-image-preview>
+                                    </ngx-dropzone>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="faq/list">
+                    <a class="ml-4" mat-flat-button href="member/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>
@@ -53,6 +194,6 @@
                 </div>
             </div>
         </form>
-
     </div>
+
 </div>

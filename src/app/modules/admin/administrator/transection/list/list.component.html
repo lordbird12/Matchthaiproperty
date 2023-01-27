@@ -72,8 +72,8 @@
                                 </div>
                             </td>
                             <td>{{ item.member.fname }} {{ item.member.lname }}</td>
-                            <td>{{ item.course.title }}</td>
-                            <td>{{ item.course.detail }}</td>
+                            <td>{{ item.course?.title }}</td>
+                            <td>{{ item.course?.detail }}</td>
                             <td>
                                 <button mat-button (click)="showPicture(item.course.image)">
                                     <mat-icon>image</mat-icon>

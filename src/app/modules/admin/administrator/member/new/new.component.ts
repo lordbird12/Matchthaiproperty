@@ -1,9 +1,32 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+    debounceTime,
+    map,
+    merge,
+    Observable,
+    Subject,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +34,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-import { AssetType, PositionPagination } from '../page.types';
+import { AssetType, BranchPagination } from '../page.types';
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
@@ -19,15 +42,13 @@ import { Service } from '../page.service';
     selector: 'new',
     templateUrl: './new.component.html',
     styleUrls: ['./new.component.scss'],
-
-    animations: fuseAnimations
+    animations: fuseAnimations,
 })
-
 export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    formData: FormGroup
+    formData: FormGroup;
     flashErrorMessage: string;
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -37,12 +58,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     tagsEditMode: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     env_path = environment.API_URL;
-
-    ClassData: any;
-
     supplierId: string | null;
-    pagination: PositionPagination;
-
+    pagination: BranchPagination;
+    public UserAppove: any = [];
+    files: File[] = [];
+    files1: File[] = [];
+    MemberType: any = [];
     /**
      * Constructor
      */
@@ -54,11 +75,29 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _matDialog: MatDialog,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService,
+        private _authService: AuthService
     ) {
-
-
-
+        this.formData = this._formBuilder.group({
+            member_group_id: '',
+            username: '',
+            email: '',
+            password:'',
+            tel: '',
+            fname: '',
+            lname: '',
+            profile_image:'',
+            birthday: '',
+            age: '',
+            sex: '',
+            address: '',
+            line: '',
+            facebook: '',
+            citizen_id: '',
+            citizen_back_no:'',
+            citizen_image:'',
+            buyer_type:'',
+           
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,130 +108,174 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this.formData = this._formBuilder.group({
-            question: ['', Validators.required],
-            answer: ['', Validators.required],
-        })
-
-        this.getClass();
-    }
-
-    getClass(): void {
-        this._Service.getClass().subscribe((resp) => {
-            this.ClassData = resp.data;
+            member_group_id: '',
+            username: '',
+            email: '',
+            password:'',
+            tel: '',
+            fname: '',
+            lname: '',
+            profile_image:'',
+            birthday: '',
+            age: '',
+            sex: '',
+            address: '',
+            line: '',
+            facebook: '',
+            citizen_id: '',
+            citizen_back_no:'',
+            citizen_image:'',
+            buyer_type:'',
+         
         });
+
+        this._Service.getCourseType().subscribe((resp: any) => {
+            this.MemberType = resp.data;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        })
     }
-
-    discard(): void {
-
-    }
-
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {
-
-    }
+    ngAfterViewInit(): void {}
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-
     }
 
-
     create(): void {
+        // console.log(this.formData.value )
+        // return
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            "title": "สร้างรายการใหม่",
-            "message": "คุณต้องการสร้างรายการใหม่ใช่หรือไม่ ",
-            "icon": {
-                "show": false,
-                "name": "heroicons_outline:exclamation",
-                "color": "warning"
+            title: 'เพิ่มข้อมูลใหม่',
+            message: 'คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
             },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ยืนยัน",
-                    "color": "primary"
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
                 },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
             },
-            "dismissible": true
+            dismissible: true,
         });
 
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
-
             // If the confirm button pressed...
-            if (result === 'confirmed') {
 
-                this._Service.create(this.formData.value).subscribe({
+            if (result === 'confirmed') {
+                this.formData.patchValue({
+                    profile_image:this.files[0],
+                    citizen_image:this.files1[0]
+                })
+                const formData = new FormData()
+                Object.entries(this.formData.value).forEach(
+                    ([key, value]: any[]) => {
+                        formData.append(key, value);
+                    }
+                );
+                this._Service.new(formData).subscribe({
                     next: (resp: any) => {
-                        this._router.navigateByUrl('faq/list').then(() => { })
+                        this._router
+                            .navigateByUrl('member/list')
+                            .then(() => {});
                     },
                     error: (err: any) => {
-
                         this._fuseConfirmationService.open({
-                            "title": "กรุณาระบุข้อมูล",
-                            "message": err.error.message,
-                            "icon": {
-                                "show": true,
-                                "name": "heroicons_outline:exclamation",
-                                "color": "warning"
+                            title: 'กรุณาระบุข้อมูล',
+                            message:
+                                'ไม่สามารถบันทึกข้อมูลได้กรุณาตรวจสอบใหม่อีกครั้ง',
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            
                             },
-                            "actions": {
-                                "confirm": {
-                                    "show": false,
-                                    "label": "ยืนยัน",
-                                    "color": "primary"
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
                                 },
-                                "cancel": {
-                                    "show": false,
-                                    "label": "ยกเลิก",
-
-                                }
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
                             },
-                            "dismissible": true
+                            dismissible: true,
                         });
-                        console.log(err.error.message)
-                    }
-                })
+                    },
+                });
             }
         });
-
+    }
+    showFlashMessage(arg0: string) {
+        throw new Error('Method not implemented.');
     }
 
-
-    showFlashMessage(type: 'success' | 'error'): void {
-        // Show the message
-        this.flashMessage = type;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
+    onSelect(event) {
+        this.files.push(...event.addedFiles);
+        // Trigger Image Preview
         setTimeout(() => {
-
-            this.flashMessage = null;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        }, 3000);
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.formData.patchValue({
+            citizen_image: this.files[0],
+        });
     }
+    onRemove(event) {
+        this.files.splice(this.files.indexOf(event), 1);
+        this.formData.patchValue({
+            image: '',
+        });
+    }
+
+
+    onSelect1(event) {
+        this.files1.push(...event.addedFiles);
+        // Trigger Image Preview
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.formData.patchValue({
+            citizen_image: this.files1[0],
+        });
+    }
+
+    onRemove1(event) {
+        this.files1.splice(this.files1.indexOf(event), 1);
+        this.formData.patchValue({
+            image: '',
+        });
+    }
+    onProfileSelect(event) {
+        this.files1.push(...event.addedFiles);
+        // Trigger Image Preview
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.formData.patchValue({
+            profile_image: this.files1[0],
+        });
+    }
+
 
 }

@@ -1087,7 +1087,7 @@ export class Service {
     create(data: any): Observable<any> {
         return this._httpClient
             .post(
-                environment.API_URL + '/api/gift_voucher',
+                environment.API_URL + '/api/gift_voucher_code',
                 data,
                 this.httpOptionsFormdata
             )
@@ -1098,6 +1098,38 @@ export class Service {
                 })
             );
     }
+    getCouponType(): Observable<any[]> {
+        return this._httpClient.post<any[]>(environment.API_URL + '/api/get_gift_voucher',{status:1},this.httpOptionsFormdata).pipe(
+          tap((meterial) => {
+            this._materials.next(meterial);
+          })
+        );
+      }
+
+    // getCourseType(data: any): Observable<any> {
+    //     return this._httpClient
+    //         .post(
+    //             environment.API_URL + '/api/get_gift_voucher',
+    //             data,
+    //             this.httpOptionsFormdata
+    //         )
+    //         .pipe(
+    //             switchMap((response: any) => {
+    //                 // Return a new observable with the response
+    //                 return of(response);
+    //             })
+    //         );
+    // }
+
+    // getCourseType(img: FormData): Observable<any> {
+    //     return this._httpClient.post(environment.API_URL + '/api/get_gift_voucher', img, this.httpOptionsFormdata).pipe(
+    //       switchMap((response: any) => {
+    //         return of(response.data);
+    //       })
+    //     );
+    //   }
+
+
 
     getClass(): Observable<any> {
         return this._httpClient.get(environment.API_URL + '/api/class').pipe(

@@ -1,9 +1,31 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+    debounceTime,
+    map,
+    merge,
+    Observable,
+    Subject,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,27 +33,37 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-import { AssetType, PermissionPagination , DataPermission} from '../permission.types';
-import { PermissionService } from '../permission.service';
+import { AssetType, BranchPagination, DataBranch } from '../page.types';
+import { Service } from '../page.service';
+import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
-// import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
-
+import { DataTableDirective } from 'angular-datatables';
+import { PictureComponent } from '../picture/picture.component';
 @Component({
-    selector: 'permission-list',
+    selector: 'list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
-    // encapsulation: ViewEncapsulation.None,
-    // changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: fuseAnimations
+    animations: fuseAnimations,
 })
-
-
-export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild(MatPaginator) private _paginator: MatPaginator;
+export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
+    @ViewChild(DataTableDirective)
+    dtElement!: DataTableDirective;
+    public dtOptions: DataTables.Settings = {};
+    public dataRow: any[];
+    public dataGrid: any[];
+    private destroy$ = new Subject<any>();
+    // dataRow: any = []
+    @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-    displayedColumns: string[] = ['id', 'name', 'status', 'create_by', 'created_at', 'actions'];
-    dataSource: MatTableDataSource<DataPermission>;
-    dataRow: any = [];
+    displayedColumns: string[] = [
+        'id',
+        'name',
+        'status',
+        'create_by',
+        'created_at',
+        'actions',
+    ];
+    dataSource: MatTableDataSource<DataBranch>;
 
     products$: Observable<any>;
     asset_types: AssetType[];
@@ -43,22 +75,18 @@ export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy
     tagsEditMode: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     env_path = environment.API_URL;
-    roleData = [
-        { id: 1, name: 'Admin' , status: 1, create_by: 'admin',created_at:'10/09/2022 08:30:21' },
-        { id: 2, name: 'Telesale' ,status: 1, create_by: 'admin',created_at:'10/09/2022 08:30:21' },
-        { id: 3, name: 'Stock' ,status: 1, create_by: 'admin',created_at:'10/09/2022 08:30:21' },
-        { id: 4, name: 'Packing' ,status: 1, create_by: 'admin',created_at:'10/09/2022 08:30:21' },
-        { id: 5, name: 'Manager' ,status: 1, create_by: 'admin',created_at:'10/09/2022 08:30:21' },
-        { id: 6, name: 'ทีมยิงad' ,status: 1, create_by: 'admin',created_at:'10/09/2022 08:30:21' },
 
-    ]
     me: any | null;
     get roleType(): string {
         return 'marketing';
     }
 
     supplierId: string | null;
-    pagination: PermissionPagination;
+    pagination: BranchPagination;
+
+    totalSummary: any;
+    totalRows: any;
+    totalRowSummary: any;
 
     /**
      * Constructor
@@ -68,13 +96,12 @@ export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
         // private _Service: PermissionService,
-        private _Service: PermissionService,
+        private _Service: Service,
         private _matDialog: MatDialog,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService,
-    ) {
-    }
+        private _authService: AuthService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -84,63 +111,84 @@ export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy
      * On init
      */
     ngOnInit(): void {
-        // this._Service.getCustomer().subscribe((resp: any) => {
-            this.dataRow = this.roleData
-            this.dataSource = new MatTableDataSource(this.dataRow)
-            this.dataSource.paginator = this._paginator;
-            this.dataSource.sort = this._sort;
-            this._changeDetectorRef.markForCheck();
-        // })
-       
+        this.loadTable();
+    }
+
+    pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
+    loadTable(): void {
+        const that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 100,
+            serverSide: true,
+            processing: true,
+            responsive: true,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+            },
+            ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.status = '';
+                that._Service
+                    .getPage(dataTablesParameters)
+                    .subscribe((resp) => {
+                        this.dataRow = resp.data;
+                        this.pages.current_page = resp.current_page;
+                        this.pages.last_page = resp.last_page;
+                        this.pages.per_page = resp.per_page;
+                        if (resp.current_page > 1) {
+                            this.pages.begin =
+                                resp.per_page * resp.current_page - 1;
+                        } else {
+                            this.pages.begin = 0;
+                        }
+
+                        callback({
+                            recordsTotal: resp.total,
+                            recordsFiltered: resp.total,
+                            data: [],
+                        });
+                        this._changeDetectorRef.markForCheck();
+                    });
+            },
+            columns: [
+                { data: 'id' },
+                { data: 'name' },
+                { data: 'status' },
+                { data: 'create_by' },
+                { data: 'created_at' },
+           
+            ]
+        };
+    }
+
+    totalPriceTable() {
+        let total = 0;
+        for (let data of this.dataRow) {
+            total += Number(data.summary);
+        }
+        return total;
+    }
+
+    totalPrice() {
+        let total = 0;
+        for (let data of this.dataGrid) {
+            total += Number(data.summary);
+        }
+        return total;
+    }
+
+    totalTrans() {
+        let total = 0;
+        for (let data of this.dataGrid) {
+            total += data.today.length;
+        }
+        return total;
     }
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {
-        if (this._sort && this._paginator) {
-            // Set the initial sort
-            this._sort.sort({
-                id: 'id',
-                start: 'asc',
-                disableClear: true
-            });
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-
-            // If the user changes the sort order...
-            this._sort.sortChange
-                .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe(() => {
-                    // Reset back to the first page
-                    this._paginator.pageIndex = 0;
-
-                    // Close the details
-                    this.closeDetails();
-                });
-
-            // Get products if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
-                switchMap(() => {
-                    this.closeDetails();
-                    this.isLoading = true;
-                    return this._Service.getProducts(
-                        this._paginator.pageIndex + 1,
-                        this._paginator.pageSize,
-                        this._sort.active,
-                        this._sort.direction,
-                        this.filterForm.value?.searchInputControl,
-                        this.filterForm.value?.asset_type == 'default' ? '' : this.filterForm.value?.asset_type,
-                        this.supplierId
-                    );
-                }),
-                map(() => {
-                    this.isLoading = false;
-                })
-            ).subscribe();
-        }
-    }
+    ngAfterViewInit(): void {}
 
     /**
      * On destroy
@@ -155,12 +203,9 @@ export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-
-
-
     resetForm(): void {
         this.filterForm.reset();
-        this.filterForm.get('asset_type').setValue("default");
+        this.filterForm.get('asset_type').setValue('default');
         this._changeDetectorRef.markForCheck();
     }
 
@@ -183,7 +228,6 @@ export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy
 
         // Hide it after 3 seconds
         setTimeout(() => {
-
             this.flashMessage = null;
 
             // Mark for check
@@ -191,45 +235,103 @@ export class PermissionListComponent implements OnInit, AfterViewInit, OnDestroy
         }, 3000);
     }
 
-    callDetail(productId: string): void {
-        // alert(this.selectedProduct.id);
-        // // If the product is already selected...
-        // if (this.selectedProduct && this.selectedProduct.id === productId) {
-        //     // Close the details
-        //     // this.closeDetails();
-        //     return;
-        // }
-
-
-        this._router.navigate(['marketing/brief-plan/' + productId]);
-
+    edit(Id: string): void {
+        this._router.navigate(['permission/edit/' + Id]);
     }
 
-    edit(permissionId: string): void {
-        this._router.navigate(['permission/edit/' + permissionId]);
-    }
-
-    openNewBrief(): void {
-        this._router.navigateByUrl('marketing/brief-plan/brief/create');
-    }
-
-    openNewOrder(productId: string): void {
-        // If the product is already selected...
-        // if (this.selectedProduct && this.selectedProduct.id === productId) {
-        //     // Close the details
-        //     // this.closeDetails();
-        //     return;
-        // }
-
-
-        this._router.navigate(['marketing/data/assets-list/new-order/' + productId]);
+    viewDetail(Id: string): void {
+        this._router.navigate(['permission/detail/' + Id]);
     }
 
     textStatus(status: string): string {
         return startCase(status);
     }
 
-    // openImportOsm(): void {
-    //     this._matDialog.open(ImportOSMComponent)
-    // }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
+
+    Delete(id) {
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "ยืนยันลบข้อมูล",
+            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
+            "icon": {
+                "show": true,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if (result === 'confirmed') {
+                this._Service
+                    .delete(id)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((res: any) => {
+                        if (res.code == 201) {
+                            this._fuseConfirmationService.open({
+                                "title": "ลบข้อมูล",
+                                "message": "บันทึกเรียบร้อย",
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:check-circle",
+                                    "color": "success"
+                                },
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ตกลง",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก"
+                                    }
+                                },
+                                "dismissible": true
+                            }).afterClosed().subscribe((res) => {
+                                this.rerender();
+                            })
+                        }
+                    });
+
+            }
+        });
+
+    }
+
+
+    showPicture(imgObject: any): void {
+        this._matDialog.open(PictureComponent, {
+            autoFocus: false,
+            data: {
+                imgSelected: imgObject
+            }
+        })
+            .afterClosed()
+            .subscribe(() => {
+
+                // Go up twice because card routes are setup like this; "card/CARD_ID"
+                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+            });
+    }
+
+
+    
 }

@@ -37,11 +37,12 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th style="width:20%;">ชื่ออสังหา</th>
-                            <th  style="width:20%;">รายละเอียด </th> 
-                            <th>สถานะ</th>
-                            <th>ภาพ</th>
                             <th>ชื่อผู้ขาย</th>
                             <th>เบอร์โทร</th>
+                            <th>ข้อมูลรายงาน </th> 
+                            <th style="width:20%;">รายละเอียดรายงาน</th>
+                            <th>ภาพ</th>
+
                             <th>จัดการ</th>
                         </tr>
                     </thead>
@@ -49,7 +50,11 @@
                         <tr *ngFor="let item of dataRow; let i = index">
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
                             <td>{{ item.asset.name }}</td>
-                            <td>{{ item.asset.description }}</td>
+                            <td>{{ item.asset.member.fname }} {{ item.asset.member.lname }}</td>
+                            <td>{{ item.asset.member.tel }}</td>
+                            <td>{{ item.name }}</td>     
+                            <td>{{ item.detail }}</td>                      
+<!--                    
                             <td>
                                 <div *ngIf="item.status === 1">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
@@ -65,14 +70,13 @@
                                         </span>
                                     </span>
                                 </div>
-                            </td>
+                            </td> -->
                             <td>
                                 <button mat-button (click)="showPicture(item.asset.image)">
                                     <mat-icon>image</mat-icon>
                                 </button>
                             </td>
-                            <td>{{ item.asset.member.fname }} {{ item.asset.member.lname }}</td>
-                            <td>{{ item.asset.member.tel }}</td>
+
                             <!-- <td>{{ item.asset.updated_at}}</td> -->
                             <td>
                                 <button mat-button (click)="edit(item.id)">

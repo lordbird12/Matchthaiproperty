@@ -9,6 +9,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
+    FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
@@ -19,6 +20,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {
     debounceTime,
+    lastValueFrom,
     map,
     merge,
     Observable,
@@ -33,7 +35,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-import { AssetType, PositionPagination } from '../page.types';
+import { AssetType, BranchPagination } from '../page.types';
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
@@ -46,19 +48,19 @@ import { Service } from '../page.service';
 export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-
-    statusData: any = [
-        { value: true, name: 'เปิดใช้งาน' },
-        { value: false, name: 'ปิดใช้งาน' },
-    ];
-
-    finishData: any = [
-        { value: true, name: 'เปิดใช้งาน' },
-        { value: false, name: 'ปิดใช้งาน' },
-    ];
-
-    id: string;
+    public UserAppove: any = [];
     itemData: any = [];
+    MemberType: any = [];
+    files: File[] = [];
+    files1: File[] = [];
+    statusData = [
+        { value: 'Yes', name: 'อนุมัติใช้งาน' },
+        { value: 'No', name: 'ไม่อนุมัติ' },
+        { value: 'Request', name: 'รออนุมัติ' },
+    ];
+
+    Id: any;
+    PropertyType: any = [];
 
     formData: FormGroup;
     flashErrorMessage: string;
@@ -71,10 +73,13 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     env_path = environment.API_URL;
 
-    ClassData: any;
+    // me: any | null;
+    // get roleType(): string {
+    //     return 'marketing';
+    // }
 
     supplierId: string | null;
-    pagination: PositionPagination;
+    pagination: BranchPagination;
 
     /**
      * Constructor
@@ -90,9 +95,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            id: ['', Validators.required],
-            question: ['', Validators.required],
-            answer: ['', Validators.required],
+            member_group_id: '',
+            username: '',
+            email: '',
+            id: '',
+            tel: '',
+            fname: '',
+            lname: '',
+            profile_image:'',
+            birthday: '',
+            age: '',
+            sex: '',
+            address: '',
+            line: '',
+            facebook: '',
+            citizen_id: '',
+            citizen_back_no:'',
+            citizen_image:'',
+            buyer_type:'',
+            app_agree:1,
+            citizen_status:1,
+            email_status:1,
+            otp_status:1,
+            profile_status:1,
+            status:1,
+            finish:1,
+
+
         });
     }
 
@@ -103,18 +132,63 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * On init
      */
-    ngOnInit(): void {
-        this.id = this._activatedRoute.snapshot.paramMap.get('id');
-        this._Service.getById(this.id).subscribe((resp: any) => {
+    async ngOnInit(): Promise<void> {
+        this.Id = this._activatedRoute.snapshot.paramMap.get('id');
+
+        this._Service.getCourseType().subscribe((resp: any) => {
+            this.MemberType = resp.data;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        })
+
+        this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
                 id: this.itemData.id,
-                question: this.itemData.question,
-                answer: this.itemData.answer,
+                member_group_id: this.itemData.member_group_id,
+                username: this.itemData.username,
+                email: this.itemData.email,
+           
+                tel: this.itemData.tel,
+                fname: this.itemData.fname,
+                lname: this.itemData.lname,
+                profile_image: this.itemData.profile_image,
+                birthday: this.itemData.birthday,
+                age: this.itemData.age,
+                sex: this.itemData.sex,
+                address: this.itemData.address,
+                line: this.itemData.line,
+                facebook: this.itemData.facebook,
+                citizen_id: this.itemData.citizen_id,
+                citizen_back_no: this.itemData.citizen_back_no,
+                citizen_image: this.itemData.citizen_image,
+                buyer_type: this.itemData.buyer_type,
+
             });
         });
     }
 
+    approve(): FormArray {
+        return this.formData.get('approve') as FormArray;
+    }
+
+    NewUser(): FormGroup {
+        return this._formBuilder.group({
+            user_id: '',
+            remark: '',
+        });
+    }
+
+    addUser(): void {
+        this.approve().push(this.NewUser());
+
+        // alert(1)
+    }
+
+    removeUser(i: number): void {
+        this.approve().removeAt(i);
+    }
 
     discard(): void {}
 
@@ -133,14 +207,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     update(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'แก้ไขรายการ',
-            message: 'คุณต้องการแก้ไขรายการใช่หรือไม่ ',
+            title: 'แก้ไขข้อมูล',
+            message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
             icon: {
                 show: false,
                 name: 'heroicons_outline:exclamation',
@@ -164,14 +233,16 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-                // Disable the form
-                this._Service.update(this.formData.value, this.id).subscribe({
+
+                this._Service.update(this.formData.value,this.Id).subscribe({
                     next: (resp: any) => {
+                        this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('faq/list')
+                            .navigateByUrl('property-type-detail/list')
                             .then(() => {});
                     },
                     error: (err: any) => {
+                        this.formData.enable();
                         this._fuseConfirmationService.open({
                             title: 'กรุณาระบุข้อมูล',
                             message: err.error.message,
@@ -215,4 +286,41 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
+
+    onSelect(event) {
+        this.files.push(...event.addedFiles);
+        // Trigger Image Preview
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.formData.patchValue({
+            citizen_image: this.files[0],
+        });
+    }
+    onRemove(event) {
+        this.files.splice(this.files.indexOf(event), 1);
+        this.formData.patchValue({
+            image: '',
+        });
+    }
+
+
+    onSelect1(event) {
+        this.files1.push(...event.addedFiles);
+        // Trigger Image Preview
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.formData.patchValue({
+            citizen_image: this.files1[0],
+        });
+    }
+
+    onRemove1(event) {
+        this.files1.splice(this.files1.indexOf(event), 1);
+        this.formData.patchValue({
+            image: '',
+        });
+    }
+    
 }

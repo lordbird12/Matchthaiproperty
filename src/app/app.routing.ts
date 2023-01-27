@@ -71,18 +71,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'permission',
                 canActivate: [], children: [
-                    { path: '', loadChildren: () => import('app/modules/admin/administrator/permission/permission.module').then(m => m.PermissionModule) },
-                    // { path: 'orders', loadChildren: () => import('app/modules/admin/marketing/orders/orders.module').then(m => m.OrdersModule) },
-                    // { path: 'expand-store-list', loadChildren: () => import('app/modules/admin/marketing/orders/expand-store-list/expand-store-list.module').then(m => m.ExpandStoreModule) },
-                    // {
-                    //     path: 'data', children: [
-                    //         { path: 'new-item-list-checking', loadChildren: () => import('app/modules/admin/marketing/new-item-list-checking/new-item-list-checking.module').then(m => m.NewItemListCheckingModule) },
-                    //         { path: 'assets-list', loadChildren: () => import('app/modules/admin/marketing/assets-list/assets-list.module').then(m => m.AssetsListModule) },
-                    //         { path: 'user', loadChildren: () => import('app/modules/admin/marketing/user/user.module').then(m => m.UserListModule) },
-                    //         { path: 'store', loadChildren: () => import('app/modules/admin/marketing/store/store.module').then(m => m.StoreModule) },
-                    //         { path: 'store-type', loadChildren: () => import('app/modules/admin/marketing/store-type/store-type.module').then(m => m.StoreTypeModule) },
-                    //     ]
-                    // },
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/permission/page.module').then(m => m.Module) },
                 ]
             },
             //user

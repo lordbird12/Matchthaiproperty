@@ -125,7 +125,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 name: this.itemData.name,
                 remark: this.itemData.remark,
                 status: this.itemData.status,
-                
+                property_type_id: this.itemData.property_type_id,
 
             });
         });

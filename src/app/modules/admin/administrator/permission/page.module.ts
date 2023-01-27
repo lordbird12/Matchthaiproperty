@@ -18,7 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatTableModule } from '@angular/material/table'
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -32,23 +32,32 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { DataTablesModule } from 'angular-datatables';
+import {
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
 
-import { PermissionListComponent } from './list/list.component';
-import { PermissionComponent } from './permission.component';
-import { permissionRoute } from './permission.routing';
-import { CreatePermissionComponent } from './create-permission/create-permission.component';
-import { EditPermissionComponent } from './edit-permission/edit-permission.component';
+import { ListComponent } from './list/list.component';
+import { pageRoute } from './page.routing';
+import { PageComponent } from './page.component';
+import { NewComponent } from './new/new.component';
+import { EditComponent } from './edit/edit.component';
+import { PrintComponent } from './print/print.component';
+
+
 
 @NgModule({
     declarations: [
-
-        PermissionComponent,
-        PermissionListComponent,
-        CreatePermissionComponent,
-        EditPermissionComponent
+        PageComponent,
+        ListComponent,
+        NewComponent,
+        EditComponent,
+        PrintComponent,
     ],
     imports: [
-        RouterModule.forChild(permissionRoute),
+        RouterModule.forChild(pageRoute),
+        DataTablesModule,
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -79,7 +88,8 @@ import { EditPermissionComponent } from './edit-permission/edit-permission.compo
         MatRadioModule,
         MatExpansionModule,
         NgxMatTimepickerModule.setLocale('en-GB'),
-    ]
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule,
+    ],
 })
-export class PermissionModule {
-}
+export class Module {}

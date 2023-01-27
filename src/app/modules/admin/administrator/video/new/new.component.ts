@@ -71,8 +71,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
 
         this.formData = this._formBuilder.group({
-            name: ['', Validators.required],
-            detail: ['', Validators.required],
+            url: ['', Validators.required],
+         
         })
 
     }
@@ -137,7 +137,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
 
                 this._Service.create(this.formData.value).subscribe({
                     next: (resp: any) => {
-                        this._router.navigateByUrl('faq/list').then(() => { })
+                        this._router.navigateByUrl('video/list').then(() => { })
                     },
                     error: (err: any) => {
 

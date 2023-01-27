@@ -19,7 +19,7 @@ export const pageRoute: Route[] = [
                 component: NewComponent,
             },
             {
-                path: 'edit/:id',
+                path: 'edit',
                 component: EditComponent,
             },
             {

@@ -1,6 +1,4 @@
-
-
-export interface UserProduct {
+export interface BranchProduct {
     id: string;
     category?: string;
     name: string;
@@ -21,7 +19,7 @@ export interface UserProduct {
     images: string[];
     active: boolean;
 }
-export interface UserPagination {
+export interface BranchPagination {
     length: number;
     size: number;
     page: number;
@@ -36,32 +34,43 @@ export interface UserPagination {
     }
 }
 
-export interface PermissionCategory {
+export interface BranchCategory {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface PermissionBrand {
+export interface BranchBrand {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface PermissionTag {
+export interface BranchTag {
     id?: string;
     title?: string;
 }
 
-export interface PermissionVendor {
+export interface BranchVendor {
     id: string;
     name: string;
     slug: string;
 }
 
+export interface BranchData {
+    data: [{
+        id: number;
+        name: string;
+        status: number;
+        create_by: string
+        update_by: string;
+        created_at: string;
+        updated_at: string
+    }]
+}
 
-export interface PermissionProduct {
+export interface BranchProduct {
     data: {
         id: number;
         attributes: {
@@ -87,7 +96,7 @@ export interface PermissionProduct {
     }
 }
 
-export interface UserProductDetail {
+export interface BranchProductDetail {
     id: string,
     attributes: {
         order_name: string;
@@ -266,7 +275,7 @@ export interface UserProductDetail {
     }
 }
 
-export interface PermissionProductDetailOSM {
+export interface BranchProductDetailOSM {
     id: string,
     attributes: {
         order_name: string;
@@ -575,6 +584,11 @@ export interface NewPermission {
     }
 }
 
+export interface NewBranch {
+    id: string;
+    name: string;
+
+}
 
 export interface NewItemListCheckingProduct_PROD {
 
@@ -705,8 +719,23 @@ export interface Division {
 }
 
 export interface PermissionTable {
-    data: PermissionProduct[],
+    data: BranchProduct[],
 
+}
+
+export interface DataBranch {
+    data: [
+        {
+            id: number,
+            name: string,
+            status: number,
+            create_by: string,
+            update_by: string,
+            created_at: Date,
+            updated_at: Date,
+            No: number
+        }
+    ]
 }
 
 export interface DataUser {
@@ -731,4 +760,36 @@ export interface DataUser {
             No: number
         }
     ]
+}
+
+export interface DataBank {
+    code: number,
+    status: boolean,
+    message: string,
+    data: {
+        id:number,
+        name: string,
+        number: number,
+        description: string,
+        summary: number,
+        bank_of: string,
+        status: string,
+        create_by: string,
+        update_by: string,
+        created_at: string,
+        updated_at: string,
+        bank_approves: [
+            {
+                id: number,
+                bank_id: number,
+                user_id: number,
+                status: string,
+                remark: string,
+                create_by: string,
+                update_by: string,
+                created_at: string,
+                updated_at: string
+            },
+        ],
+    }
 }

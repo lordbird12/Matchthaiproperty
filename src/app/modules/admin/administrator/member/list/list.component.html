@@ -7,82 +7,95 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">สมาชิกทั่วไป</div>
+        <div class="text-4xl font-extrabold tracking-tight">สมาชิก</div>
         <!-- Actions -->
-        <!-- <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
-            <a href="user/new" class="ml-4" mat-flat-button [color]="'primary'">
+            <!-- Add product button -->
+            <a routerLink="../../member/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">เพิ่มใหม่</span>
             </a>
-        </div> -->
+
+        </div>
     </div>
+
+    <!-- search -->
+    <!-- <div class="search-box relative flex flex-col flex-0 px-6 md:px-8 border-b mt-4">
+
+    </div> -->
+
 
     <!-- Main -->
     <div class="flex flex-auto overflow-hidden">
-
+        <!-- Products list -->
         <div class="flex flex-col flex-auto p-5 overflow-hidden sm:overflow-y-auto">
-            <table datatable [dtOptions]="dtOptions" class="table row-border hover" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th>ลำดับ</th>
-                        <th style="width:15%;">ชื่อ</th>
-                        <th>อีเมลล์</th>
-                        <th>เบอร์โทร</th>
-                        <th>กลุ่มสมาชิก</th>
-                        <th>คะแนน</th>
-                        <th>สถานะ</th>
-                        <th>สร้างโดย</th>
-                        <th>วันที่สร้าง</th>
-                        <th>รูปภาพ</th>
-                        <th>จัดการ</th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="dataRow?.length != 0">
-                    <tr *ngFor="let item of dataRow; let i = index">
-                        <td>{{ pages.begin + (i + 1) }}</td>
-                        <td>{{ item.fname }} {{ item.lname }}</td>
-                        <td>{{ item.email }}</td>
-                        <td>{{ item.tel }}</td>
-                        <td>{{ item.member_group.name }}</td>
-                        <td>{{ item.point }}</td>
-                        <td>
-                            <div *ngIf="item.status === 1">
-                                <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
-                                    <span class="leading-relaxed whitespace-nowrap">
-                                        เปิดการใช้งาน
-                                    </span>
-                                </span>
-                            </div>
-                            <div *ngIf="item.status != 1">
-                                <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
-                                    <span class="leading-relaxed whitespace-nowrap">
-                                        ปิดการใช้งาน
-                                    </span>
-                                </span>
-                            </div>
-                        </td>
-                        <td>{{ item.create_by }}</td>
-                        <td>{{ item.created_at }}</td>
-                        <td>
-                            <button mat-button (click)="showPicture(item.profile_image)">
-                                <mat-icon>image</mat-icon>
-                            </button>
-                        </td>
-                        <td>
-                            <button mat-button (click)="edit(item.id)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="dataRow?.length == 0">
-                    <tr>
-                        <td colspan="8" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- Products list -->
+            <div class="flex flex-col flex-auto p-5 overflow-hidden sm:overflow-y-auto ">
+                <table datatable [dtOptions]="dtOptions" class="table row-border hover">
+                    <thead>
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ประเภท</th>
+                            <th>รหัสเมมเบอร์</th>
+                            <th>ยูสเซอร์เนม</th>
+                            <th>ชื่อ-สกุล</th>
+                            <th>เบอร์โทร</th>
+                            <th>แต้มสะสม</th>                        
 
+                            <th>สถานะ</th>
+                            <th>วันที่สร้าง</th>
+                            <th>จัดการ</th>
+                    
+
+
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="dataRow?.length != 0">
+                        <tr *ngFor="let item of dataRow; let i = index">
+                            <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
+                            <td>{{ item.member_group?.name }}</td>  
+                            <td> {{ item.code }}</td>
+                            <td>{{ item.username }}</td>
+                            <td>{{ item.fname }}   {{ item.lname }}</td>
+                            <td>{{ item.tel }}</td>
+                            <td>{{ item.point }}</td>
+                                                                
+                            <td>
+                                <div *ngIf="item.status === 1">
+                                    <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
+                                        <span class="leading-relaxed whitespace-nowrap">
+                                            เปิดการใช้งาน
+                                        </span>
+                                    </span>
+                                </div>
+                                <div *ngIf="item.status != 1">
+                                    <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
+                                        <span class="leading-relaxed whitespace-nowrap">
+                                            ปิดการใช้งาน
+                                        </span>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>{{ item.created_at }}</td>
+                            <td>
+                                <button mat-button (click)="edit(item.id)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-button (click)="Delete(item.id)">
+                                    <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="dataRow?.length == 0">
+                        <tr>
+                            <td colspan="9" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
 </div>

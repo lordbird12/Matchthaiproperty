@@ -62,8 +62,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
-
-    PropertyType: any = [];
+    NewsTag: any = [];
+    NewsType: any = [];
     /**
      * Constructor
      */
@@ -77,11 +77,18 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
-        this.formData = this._formBuilder.group({
-            id: '',
-            code: '',
-            name: '',
-        });
+        // this.formData = this._formBuilder.group({
+        //     news_type_id: '',
+        //     name: '',
+        //     detail: '',
+        //     image: '',
+        //     date: '',
+        //     cedit:"admin", 
+        //     news_tag: '',
+        //     id: '',
+
+        
+        // });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -93,19 +100,33 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            property_type_id: '',
-            code: '',
+            news_type_id: '',
             name: '',
+            detail: '',
+            image: [''],
+            date: '',
+            cedit:"admin", 
+            news_tag: '',
+
 
 
         });
 
         this._Service.getCourseType().subscribe((resp: any) => {
-            this.PropertyType = resp.data;
+            this.NewsType = resp.data;
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
         })
+        
+        this._Service.getNewsTag().subscribe((resp: any) => {
+            this.NewsTag = resp.data;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        })
+
+
+
     }
 
     /**
@@ -158,7 +179,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('property-type/list')
+                            .navigateByUrl('news/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

@@ -103,6 +103,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             price_share:'',
             property_type_name:'',
             status: '',
+            floor: '',
+            bed_room: '',
+            bath_room:'',
+            kitchen_room: '',
+            parking:'',
+            living_room:'',
+            usable_area:'',
+            asset_facility_display:'',
         });
     }
 
@@ -125,6 +133,13 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
+            let asset_facility_display = ""
+            for (const data of this.itemData.asset_facility_display) {
+                asset_facility_display += data.name + "    "
+                asset_facility_display += (data.facility.property_sub_facility?.name ?? " ไม่มี")+ "\n"
+         
+            }
+            // console.log(this.itemData.asset_facility_display[1])
             this.formData.patchValue({
                 name: this.itemData.name,
                 description: this.itemData.description,
@@ -134,6 +149,19 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 price_share: this.itemData.price_share,
                 property_type_name: this.itemData.property_type.name,
                 status: this.itemData.status,
+                floor: this.itemData.floor,
+                bed_room: this.itemData.bed_room,
+                bath_room: this.itemData.bath_room,
+                kitchen_room: this.itemData.kitchen_room,
+                parking: this.itemData.parking,
+                living_room: this.itemData.living_room,
+                usable_area: this.itemData.usable_area,
+
+                asset_facility_display: asset_facility_display,
+
+
+
+
             });
         });
     }

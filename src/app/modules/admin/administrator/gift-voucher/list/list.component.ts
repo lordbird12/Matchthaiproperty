@@ -151,7 +151,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
-         
+                { data: 'action' },
+              
             ],
         };
     }
@@ -209,7 +210,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     edit(id: string): void {
         this._router.navigate(['gift-voucher/edit/' + id]);
     }
-
+    add(id: string): void {
+        this._router.navigate(['gift-voucher-code/edit/' + id]);
+    }
     textStatus(status: string): string {
         return startCase(status);
     }

@@ -115,6 +115,7 @@ export class EditUserComponent implements OnInit, AfterViewInit, OnDestroy {
                     name: this.DatabyId.name,
                     permission_id: +this.DatabyId.permission_id,
                     status: this.DatabyId.status,
+                
                 })
                 this.url_pro = this.DatabyId.image
             })

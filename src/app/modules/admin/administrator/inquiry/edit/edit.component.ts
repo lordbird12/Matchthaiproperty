@@ -107,6 +107,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             property_color_land_name:'',
             status:'',
             updated_at:'',
+            floor: '',
+            bed_room: '',
+            bath_room:'',
+            kitchen_room: '',
+            parking:'',
+            living_room:'',
+            usable_area_max:'',
+            Inquiry_facility_display_name:'',
         });
     }
 
@@ -141,6 +149,15 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 property_color_land_name:this.itemData.property_color_land.name,
                 updated_at: this.itemData.updated_at,
                 status: this.itemData.status,
+                floor: this.itemData.floor,
+                bed_room: this.itemData.bed_room,
+                bath_room: this.itemData.bath_room,
+                kitchen_room: this.itemData.kitchen_room,
+                parking: this.itemData.parking,
+                living_room: this.itemData.living_room,
+                usable_area_max: this.itemData.usable_area_max,
+                Inquiry_facility_display_name: this.itemData.Inquiry_facility_display.name,
+                
             });
         });
     }

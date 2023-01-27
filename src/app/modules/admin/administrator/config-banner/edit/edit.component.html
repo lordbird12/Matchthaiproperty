@@ -1,12 +1,13 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    แก้ไขรายการ
+                    ตั้งค่ารายการ
                 </h2>
             </div>
 
@@ -21,58 +22,48 @@
                     <div class="flex flex-auto flex-wrap">
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
-                                <mat-select [formControlName]="'course_id'">
-                                    <mat-option [value]="''">
-                                        <span class="text-gray-400">เลือกประเภทคอร์ส</span>
-                                    </mat-option>
-                                    <mat-option *ngFor="let item of courseType" [value]="item.id">
-                                        {{item.name}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
-                                <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">หัวข้อ</mat-label>
+                                <input matInput [formControlName]="'banner_footer_title'" placeholder="กรุณาระบุหัวข้อ">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                                <textarea matInput rows="4" [formControlName]="'banner_footer_detail'"
+                                    placeholder="กรุณาระบุรายละเอียด"></textarea>
                             </mat-form-field>
                         </div>
+
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">video</mat-label>
-                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">linkwebsite</mat-label>
+                                <input matInput [formControlName]="'banner_footer_url'" placeholder="linkwebsite"
+                                    type="url">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชั่วโมง</mat-label>
-                                <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">ปุ่มแบนเนอร์</mat-label>
+                                <input matInput [formControlName]="'banner_footer_text_button'"
+                                    placeholder="กรุณาระบุปุ่มแบนเนอร์">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">นาที</mat-label>
-                                <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <img class="w-100" [src]="this.formData.value.banner_footer_image">
                         </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">วินาที</mat-label>
-                                <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <ngx-dropzone style="width: 100%; height: 100%; justify-content: center;"
+                                (change)="onSelect($event)">
+                                <ngx-dropzone-label>รูปภาพ</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true" [file]="f"
+                                    (removed)="onRemove(f)">
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
                         </div>
                     </div>
                 </div>
@@ -80,7 +71,7 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="config-banner/edit">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

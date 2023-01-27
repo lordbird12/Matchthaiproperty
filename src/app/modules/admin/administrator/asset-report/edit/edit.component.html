@@ -20,18 +20,37 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ข้อมูลรายงาน</mat-label>
+                                <input matInput [formControlName]="'name'" readonly>
+                            </mat-form-field>
+                        </div>             
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">รายละเอียดรายงาน</mat-label>
+                                <textarea matInput rows="4" [formControlName]="'detail'" readonly></textarea>
+                            </mat-form-field>
+                        </div>   
+               
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-7"></div>
+
+
                         <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">รหัสสินทรัพย์</mat-label>
-                                <input matInput [formControlName]="'asset_code'" readonly>
+                                <mat-label class="font-bold">ผู้ขาย</mat-label>
+                                <input matInput [formControlName]="'asset_property_announcer_name'" readonly>
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชนิดสินทรัพย์</mat-label>
-                                <input matInput [formControlName]="'asset_type'" readonly>
+                                <mat-label class="font-bold">ชื่อผู้ขาย</mat-label>
+                                <input matInput [formControlName]="'asset_member_fname'" readonly>
                             </mat-form-field>
                         </div>
+
+  
+
                         <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">วันที่ลงขาย</mat-label>
@@ -50,10 +69,16 @@
                                 <input matInput [formControlName]="'asset_name'" readonly>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ผู้ขาย</mat-label>
-                                <input matInput [formControlName]="'asset_property_announcer_name'" readonly>
+                                <mat-label class="font-bold">รหัสสินทรัพย์</mat-label>
+                                <input matInput [formControlName]="'asset_code'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ชนิดสินทรัพย์</mat-label>
+                                <input matInput [formControlName]="'asset_type'" readonly>
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
@@ -63,14 +88,9 @@
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'asset_description'" readonly></textarea>
-                            </mat-form-field>
-                        </div>
 
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <div class="border-t border-gray-200">
+                            
+                            <div class="border-t border-gray-200 mt-7">
                                 <dl>
                                     <div class="bg-white px-4 mt-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                         <dt class="text-l font-extrabold text-gray-500  mt-4">รูปสินทรัพย์</dt>

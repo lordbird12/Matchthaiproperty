@@ -21,35 +21,51 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/user/list',
             },
             {
-                id: 'user',
-                title: 'สิทธิ์การใช้งาน',
-                type: 'basic',
-                // icon: 'heroicons_outline:clipboard-check',
-                link: '/permission/list',
-            },
-            {
-                id: 'user',
+                id: 'member',
                 title: 'สมาชิก',
                 type: 'basic',
                 // icon: 'heroicons_outline:clipboard-check',
                 link: '/member/list',
             },
+            {
+                id: 'permission',
+                title: 'สิทธิ์การใช้งาน',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/permission/list',
+            },
+
 
             {
                 id: 'vendor',
                 title: 'พันธมิตร',
-                type: 'basic',
-                // icon: 'heroicons_outline:clipboard-check',
-                link: '/vendor/list',
+                type: 'collapsable',
+                children: [
+                    {
+                        id: 'vendor-type',
+                        title: 'ประเภทพันธมิตร',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/vendor/list',
+                    },
+        
+                    {
+                        id: 'unemployed',
+                        title: 'พันธมิตร',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: 'vendor-company/list',
+                    },
+        
+
+
+                ],
             },
 
-            {
-                id: 'unemployed',
-                title: 'พันธมิตรกลุ่มย่อย',
-                type: 'basic',
-                // icon: 'heroicons_outline:clipboard-check',
-                link: 'vendor-company/list',
-            },
+
+
+
+
             {
                 id: 'unemployed',
                 title: 'Co - Agent',
@@ -169,7 +185,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             {
                 title: 'ตั้งค่าแบนเนอร์และฟูตเตอร์',
                 type: 'basic',
-                link: '/config-banner/list',
+                link: '/config-banner/edit',
             },
             {
                 title: 'จัดการติดต่อเว็ปไซต์',
@@ -313,20 +329,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'การรับชำระเงิน',
                 type: 'collapsable',
                 children: [
-                    {
-                        id: 'payment',
-                        title: 'รายการซื้อคอร์ส',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: '/payment-course/list',
-                    },
-                    {
-                        id: 'course.reward',
-                        title: 'รายการเติมเงิน',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: '/payment-member/list',
-                    },
+                    // {
+                    //     id: 'payment',
+                    //     title: 'รายการซื้อคอร์ส',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/payment-course/list',
+                    // },
+                    // {
+                    //     id: 'course.reward',
+                    //     title: 'รายการเติมเงิน',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/payment-member/list',
+                    // },
                     {
                         id: 'payment',
                         title: 'คูปองส่วนลด',
@@ -334,13 +350,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/gift-voucher/list',
                     },
-                    {
-                        id: 'gift-voucher-code',
-                        title: 'จัดการรหัสส่วนลด',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: '/gift-voucher-code/list',
-                    },
+                    // {
+                    //     id: 'gift-voucher-code',
+                    //     title: 'จัดการรหัสส่วนลด',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/gift-voucher-code/list',
+                    // },
 
                     {
                         id: 'transection',

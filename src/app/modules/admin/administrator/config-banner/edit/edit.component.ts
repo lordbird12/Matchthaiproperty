@@ -95,15 +95,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+            banner_footer_title: '',
+            banner_footer_detail: '',
+            banner_footer_image: [''],
+            banner_footer_text_button: '',
+            banner_footer_url: '',
+
         });
     }
 
@@ -117,23 +114,21 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
-                course_id: this.itemData.course_id,
-                title: this.itemData.title,
-                detail: this.itemData.detail,
-                video: this.itemData.video,
-                hour: this.itemData.hour,
-                min: this.itemData.min,
-                sec: this.itemData.sec,
+                banner_footer_title: this.itemData.banner_footer_title,
+                banner_footer_detail: this.itemData.banner_footer_detail,
+                banner_footer_image: this.itemData.banner_footer_image,
+                banner_footer_text_button: this.itemData.banner_footer_text_button,
+                banner_footer_url: this.itemData.banner_footer_url,
                 status: this.itemData.status,
             });
         });
@@ -160,12 +155,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.approve().removeAt(i);
     }
 
-    discard(): void {}
+    discard(): void { }
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -174,14 +169,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         // Unsubscribe from all subscriptions
     }
 
+
+
+
+
+
     update(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'แก้ไขข้อมูล',
             message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
@@ -203,18 +198,26 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             dismissible: true,
         });
-
+        //uploadImg
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
+        confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
 
-                this._Service.update(this.formData.value,this.Id).subscribe({
+                if (this.files.length > 0) {
+                    const formData = new FormData()
+                    formData.append("image", this.files[0])
+                    formData.append("path", "images/banner_footer/")
+                    const img = await lastValueFrom (this._Service.uploadImg(formData)) 
+                    this.formData.patchValue({
+                        banner_footer_image: img
+                    })
+                }
+                this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-                        this._router
-                            .navigateByUrl('purchase-services/list')
-                            .then(() => {});
+                        window.location.reload()
+                            
                     },
                     error: (err: any) => {
                         this.formData.enable();

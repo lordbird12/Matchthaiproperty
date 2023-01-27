@@ -1211,7 +1211,7 @@ export class Service {
     create(data: any): Observable<any> {
         return this._httpClient
             .post(
-                environment.API_URL + '/api/faq',
+                environment.API_URL + '/api/manual',
                 data,
                 this.httpOptionsFormdata
             )

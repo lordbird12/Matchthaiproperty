@@ -1,7 +1,8 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
@@ -31,32 +32,97 @@
                                 <input matInput [formControlName]="'map_address'" readonly>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+
+                        <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <input matInput [formControlName]="'description'" readonly>
+                                <mat-label class="font-bold">จำนวนชั้น</mat-label>
+                                <input matInput [formControlName]="'floor'" readonly>ชั้น
                             </mat-form-field>
                         </div>
- 
+                        <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">จำนวนห้องนอน</mat-label>
+                                <input matInput [formControlName]="'bed_room'" readonly>ห้อง
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">จำนวนห้องน้ำ</mat-label>
+                                <input matInput [formControlName]="'bath_room'" readonly>ห้อง
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">จำนวนห้องครัว</mat-label>
+                                <input matInput [formControlName]="'kitchen_room'" readonly>ห้อง
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">พื้นที่จอดรถ</mat-label>
+                                <input matInput [formControlName]="'parking'" readonly>ตรม.
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">พื้นที่ห้องครัว</mat-label>
+                                <input matInput [formControlName]="'living_room'" readonly>ตรม.
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">พื้นที่ใช้สอยทั้งหมด</mat-label>
+                                <input matInput [formControlName]="'usable_area'" readonly>ตรม.
+                            </mat-form-field>
+                        </div>
+
                         <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ราคาขาย</mat-label>
-                                <input matInput [formControlName]="'price'" readonly>
+                                <input matInput [formControlName]="'price'" readonly>บาท
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ราคาเช่าต่อเดือน</mat-label>
-                                <input matInput [formControlName]="'price_per_month'" readonly>
+                                <input matInput [formControlName]="'price_per_month'" readonly>บาท
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ราคาแบ่งเช่า</mat-label>
-                                <input matInput [formControlName]="'price_share'" readonly>
+                                <input matInput [formControlName]="'price_share'" readonly>บาท
                             </mat-form-field>
                         </div>
-                
+
+                        <!-- <table>
+                            <ng-container *ngFor="let item of this.itemData.asset_facility_display">
+                                <tr>
+                                    <h3>{{ item.name }}</h3>
+                                </tr>
+                            </ng-container>
+                        </table> -->
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">รายละเอียด</mat-label>
+                                <textarea matInput [formControlName]="'asset_facility_display'" [rows]="this.itemData.asset_facility_display.length+1"
+                                    readonly></textarea>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">รายละเอียด</mat-label>
+                                <textarea matInput [formControlName]="'description'" [rows]="4" readonly></textarea>
+                            </mat-form-field>
+                        </div>
+
+
+
+
                     </div>
                 </div>
             </div>
