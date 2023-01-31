@@ -233,14 +233,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
-                this._Service.update(this.formData.value,this.Id).subscribe({
+                let profile_image = this.formData.value.profile_image
+                let citizen_image = this.formData.value.citizen_image
+                if (typeof profile_image != "object") {
+                    this.formData.patchValue({
+                        profile_image: null
+                    })
+                }
+                if (typeof citizen_image != "object") {
+                    this.formData.patchValue({
+                        citizen_image: null
+                    })
+                }
+                const formData = new FormData()
+                Object.entries(this.formData.value).forEach(
+                    ([key, value]: any[]) => {
+                        formData.append(key, value);
+                    }
+                );
+                this._Service.update(formData,this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('property-type-detail/list')
+                            .navigateByUrl('member/list')
                             .then(() => {});
+                            
                     },
+                    
                     error: (err: any) => {
                         this.formData.enable();
                         this._fuseConfirmationService.open({
@@ -300,7 +319,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     onRemove(event) {
         this.files.splice(this.files.indexOf(event), 1);
         this.formData.patchValue({
-            image: '',
+            citizen_image: '',
         });
     }
 
@@ -312,14 +331,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.detectChanges();
         }, 150);
         this.formData.patchValue({
-            citizen_image: this.files1[0],
+            profile_image: this.files1[0],
         });
     }
 
     onRemove1(event) {
         this.files1.splice(this.files1.indexOf(event), 1);
         this.formData.patchValue({
-            image: '',
+            profile_image: '',
         });
     }
     

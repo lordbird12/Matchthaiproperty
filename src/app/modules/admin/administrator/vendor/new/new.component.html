@@ -27,23 +27,21 @@
                             </mat-form-field>
                         </div>
 
+
+
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>ประเภท
-                                </mat-label>
+                                <mat-label class="font-bold">ประเภท</mat-label>
                                 <mat-select [formControlName]="'type'">
                                     <mat-option [value]="''">
-                                        <span>เลือกสถานะ</span>
+                                        <span class="text-gray-400">เลือกสถานะ</span>
                                     </mat-option>
-                                    <mat-option value="contact">
-                                        Contact
-                                    </mat-option>
-                                    <mat-option value="agency">
-                                        Agency
-                                    </mat-option>
+                                    <mat-option value="contact">Vendor</mat-option>
+                                    <mat-option value="agency">Sponsor</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
 
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">

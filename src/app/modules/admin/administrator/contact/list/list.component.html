@@ -15,170 +15,188 @@
 
     <!-- Main -->
     <div class="flex-auto p-3 sm:p-10">
-        <form class="flex flex-col mt-3 pb-4 bg-card shadow overflow-hidden ng-valid" [formGroup]="formData">
+        <form class="flex flex-col mt-3 p-8 pb-4 bg-card shadow overflow-hidden ng-valid" [formGroup]="formData">
             <div class="flex flex-col sm:flex-row p-8">
-
-                <div class="flex flex-col w-full lg:w-2/4">
-
+                <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
-
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>เบอร์โทร 1
-                                </mat-label>
-                                <input matInput [formControlName]="'tel1'">
+                                <mat-label class="font-bold">เงื่อนไขอสังหา</mat-label>
+                                <textarea matInput [formControlName]="'condition_asset'" placeholder="กรุณาระบุเงื่อนไขอสังหา"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>เบอร์โทร 2
-                                </mat-label>
-                                <input matInput [formControlName]="'tel2'">
+                                <mat-label class="font-bold">เงื่อนไขความต้องการ</mat-label>
+                                <textarea matInput [formControlName]="'condition_inquiry'" placeholder="กรุณาระบุเงื่อนไขความต้องการ"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>อีเมล 1
-                                </mat-label>
-                                <input matInput [formControlName]="'email1'">
+                                <mat-label class="font-bold">เงื่อนไขการแชร์ข้อมูลอสังหา</mat-label>
+                                <textarea matInput [formControlName]="'share_condition_asset'" placeholder="กรุณาระบุเงื่อนไขส่วนแบ่งอสังหา"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>อีเมล 2
-                                </mat-label>
-                                <input matInput [formControlName]="'email2'">
+                                <mat-label class="font-bold">เงื่อนไขการแชร์ข้อมูลความต้องการ</mat-label>
+                                <textarea matInput [formControlName]="'share_condition_inquiry'" placeholder="กรุณาระบุเงื่อนไขส่วนแบ่งความต้องการ"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
-
-                        <div class="flex flex-col w-full lg:w-1/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>Facebook
-                                </mat-label>
-                                <input matInput [formControlName]="'facebook'">
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-1/4 p-5">
-                            <!--firstname and lastname-->
-                            <mat-form-field class="w-full">
-                                <mat-label>IG
-                                </mat-label>
-                                <input matInput [formControlName]="'ig'">
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-1/4 p-5">
-                            <!--firstname and lastname-->
-                            <mat-form-field class="w-full">
-                                <mat-label>Youtube
-                                </mat-label>
-                                <input matInput [formControlName]="'youtube'">
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-1/4 p-5">
-                            <!--firstname and lastname-->
-                            <mat-form-field class="w-full">
-                                <mat-label>Line
-                                </mat-label>
-                                <input matInput [formControlName]="'line'">
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-1/4 p-5">
-                            <!--firstname and lastname-->
-                            <mat-form-field class="w-full">
-                                <mat-label>Twitter
-                                </mat-label>
-                                <input matInput [formControlName]="'twitter'">
+                                <mat-label class="font-bold">เงื่อนไขระบบ</mat-label>
+                                <textarea matInput [formControlName]="'condition_app'" placeholder="กรุณาระบุเงื่อนไขระบบ"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-1/4 p-5">
-                            <!--firstname and lastname-->
+      
+                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>Tiktok
-                                </mat-label>
-                                <input matInput [formControlName]="'tiktok'">
+                                <mat-label class="font-bold">ที่อยู่</mat-label>
+                                <textarea matInput [formControlName]="'address'" placeholder="กรุณาระบุที่อยู่"
+                                    rows="4"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ละติจูด</mat-label>
+                                <input matInput [formControlName]="'lat'" placeholder="กรุณาระบุละติจูด">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ลองติจูด</mat-label>
+                                <input matInput [formControlName]="'long'" placeholder="กรุณาระบุลองติจูด">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+                        <!-- <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ยูสเซอร์เนม</mat-label>
+                                <input matInput [formControlName]="'username'" placeholder="กรุณาระบุยูสเซอร์เนม">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">พาสเวิร์ด</mat-label>
+                                <input matInput [formControlName]="'password'" placeholder="กรุณาระบุพาสเวิร์ด">
+                            </mat-form-field>
+                        </div> -->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">อีเมล1</mat-label>
+                                <input matInput [formControlName]="'email1'" placeholder="กรุณาระบุอีเมล">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>Line OA
-                                </mat-label>
-                                <input matInput [formControlName]="'line_oa_url'">
+                                <mat-label class="font-bold">อีเมล2</mat-label>
+                                <input matInput [formControlName]="'email2'" placeholder="กรุณาระบุอีเมล">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เบอร์โทร1</mat-label>
+                                <input matInput [formControlName]="'tel1'" placeholder="กรุณาระบุเบอร์โทร1">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>Latitute
-                                </mat-label>
-                                <input matInput [formControlName]="'lat'">
+                                <mat-label class="font-bold">เบอร์โทร2</mat-label>
+                                <input matInput [formControlName]="'tel2'" placeholder="กรุณาระบุเบอร์โทร2">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Line</mat-label>
+                                <input matInput [formControlName]="'line'" placeholder="กรุณาระบุชื่อไอดีไลน์">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Facebook</mat-label>
+                                <input matInput [formControlName]="'facebook'" placeholder="กรุณาระบุชื่อเฟสบุ๊ค">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Instagram</mat-label>
+                                <input matInput [formControlName]="'ig'" placeholder="กรุณาระบุชื่อเฟสบุ๊ค">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">URL_Line</mat-label>
+                                <input matInput [formControlName]="'line_oa_url'" placeholder="กรุณาระบุURL ไลน์">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">URL_Facebook</mat-label>
+                                <input matInput [formControlName]="'facebook_url'" placeholder="กรุณาระบุURL เฟสบุ๊ค">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">URL_Instagram</mat-label>
+                                <input matInput [formControlName]="'ig_url'" placeholder="กรุณาระบุURL อินสตาร์แกรม">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>Longtitute
-                                </mat-label>
-                                <input matInput [formControlName]="'long'">
+                                <mat-label class="font-bold">Twitter</mat-label>
+                                <input matInput [formControlName]="'twitter'" placeholder="กรุณาระบุชื่อทวิตเตอร์">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Youtube</mat-label>
+                                <input matInput [formControlName]="'youtube'" placeholder="กรุณาระบุชื่อยูทูป">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Tiktok</mat-label>
+                                <input matInput [formControlName]="'tiktok'" placeholder="กรุณาระบุชื่อติ๊กต็อก">
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-4/4 p-5">
-                            <!--firstname and lastname-->
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label>
-                                    ที่อยู่บริษัท
-                                </mat-label>
-                                <input matInput [formControlName]="'address'">
+                                <mat-label class="font-bold">URL_Twitter</mat-label>
+                                <input matInput [formControlName]="'twitter_url'" placeholder="กรุณาระบุURL ทวิตเตอร์">
+                            </mat-form-field>
+                        </div>  
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">URL_Youtube</mat-label>
+                                <input matInput [formControlName]="'url_youtube_channel'" placeholder="กรุณาระบุURL ยูทูป">
+                            </mat-form-field>
+                        </div>  
+              
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+
+                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เกี่ยวกับเรา</mat-label>
+                                <textarea matInput [formControlName]="'about_us'" placeholder="กรุณาระบุที่อยู่"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
-
-                    </div>
-                </div>
-                <div class="flex flex-col w-full lg:w-2/4">
-                    <div class="flex flex-auto flex-wrap">
-
-                        <div class="flex flex-col w-full lg:w-4/4 p-5">
+                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เงื่อนไขบริการผู้ซื้อ</mat-label>
-                                <textarea matInput rows="6" [formControlName]="'condition_asset'" placeholder="กรุณาระบุรายละเอียด"></textarea>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 p-5">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เงื่อนไขบริการผู้ขาย</mat-label>
-                                <textarea matInput rows="6" [formControlName]="'condition_inquiry'" placeholder="กรุณาระบุรายละเอียด"></textarea>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 p-5">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เงื่อนไขบริการผู้ซื้อ (ตัวแทน)</mat-label>
-                                <textarea matInput rows="6" [formControlName]="'share_condition_asset'" placeholder="กรุณาระบุรายละเอียด"></textarea>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 p-5">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เงื่อนไขบริการผู้ขาย (ตัวแทน)</mat-label>
-                                <textarea matInput rows="6" [formControlName]="'share_condition_inquiry'" placeholder="กรุณาระบุรายละเอียด"></textarea>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-4/4 p-5">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เงื่อนไขบริการ (APP)</mat-label>
-                                <textarea matInput rows="6" [formControlName]="'condition_app'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                                <mat-label class="font-bold">สถานะ</mat-label>
+                                <textarea matInput [formControlName]="'shot_desception_web'" placeholder="กรุณาระบุที่อยู่"
+                                    rows="4"></textarea>
                             </mat-form-field>
                         </div>
 
@@ -188,13 +206,16 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
+                    <!-- <a class="ml-4" mat-flat-button href="member/list">
+                        <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
+                        ยกเลิก
+                    </a> -->
                     <button class="px-6 ml-3 mat-primary" mat-flat-button (click)="update()">
                         <mat-icon svgIcon="heroicons_solid:check"></mat-icon>
-                        บันทึก
+                        ยืนยัน
                     </button>
                 </div>
             </div>
         </form>
-
     </div>
 </div>

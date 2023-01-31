@@ -44,11 +44,15 @@ import { Service } from '../page.service';
     styleUrls: ['./new.component.scss'],
     animations: fuseAnimations,
 })
+
 export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
+   
 
+        
     formData: FormGroup;
+    
     flashErrorMessage: string;
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -77,17 +81,17 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
-        this.formData = this._formBuilder.group({
-            name: ['', Validators.required],
-            menu: '',
-            menu_id: 1,
-            status: '',
-            view: '', 
-            save: '',
-            edit: '',
-            delete: '',
-
-        });
+        // this.formData = this._formBuilder.group({
+        //     name: ['', Validators.required],
+        //     menu: '',
+        //     menu_id: 1,
+        //     status: '',
+   
+        //     view: false,
+        //     add: false,
+        //     delete: false,
+        //     edit: false,
+        // });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -101,13 +105,15 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.formData = this._formBuilder.group({
             name: ['', Validators.required],
             menu: '',
-            menu_id: 1,
             status: '',
-            view: '', 
-            save: '',
-            edit: '',
-            delete: '',
-         
+            menu_id: 1,
+            view: false,
+            add: false,
+            delete: false,
+            edit: false,
+
+
+            
         });
 
         // this._Service.getCourseType().subscribe((resp: any) => {
@@ -136,10 +142,10 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 "menu": [
                     {
                         "menu_id": 1,
-                        "view":this.formData.value.view,
-                        "save":this.formData.value.save,
-                        "edit":this.formData.value.edit,
-                        "delete": this.formData.value.delete
+                        "view":this.formData.value.view == true ? 1 : 0, 
+                        "save":this.formData.value.save == true ? 1 : 0,
+                        "edit":this.formData.value.edit == true ? 1 : 0,
+                        "delete": this.formData.value.delete == true ? 1 : 0,
                     }
                 ]
             }
@@ -169,6 +175,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
+            // console.log(this.formData.value)
+            // return
             // If the confirm button pressed...
             if (result === 'confirmed') {
                 this._Service.new(data).subscribe({

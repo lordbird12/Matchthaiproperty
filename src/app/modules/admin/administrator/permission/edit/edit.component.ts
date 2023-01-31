@@ -60,7 +60,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     ];
 
     Id: any;
-    courseType: any = [];
+    permissionName: any = [];
 
     formData: FormGroup;
     flashErrorMessage: string;
@@ -95,7 +95,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            name: ['', Validators.required],
+            id: '',
+            name: '',
             menu: '',
             menu_id: 1,
             status: '',
@@ -117,25 +118,25 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
-        // this._Service.getCourseType().subscribe((resp: any) => {
-        //     this.courseType = resp.data;
-
-        //     // Mark for check
-        //     this._changeDetectorRef.markForCheck();
-        // })
-
+        this._Service.getPermissionId().subscribe((resp: any) => {
+            this.permissionName = resp.data;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        })
+        
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
+            console.log(this.itemData)
             this.formData.patchValue({
-                name: this.itemData.name,
-                status: this.itemData.status,
-                menu: this.itemData.menu,
-                menu_id: this.itemData.menu_id,
-                view: this.itemData.view,
-                save: this.itemData.save,
-                edit: this.itemData.edit,
-                delete: this.itemData.delete,
-
+                id: this.itemData[0].id,
+                name: this.itemData[0].name,
+                status: this.itemData[0].status,
+                menu: this.itemData[0].menu,
+                menu_id: this.itemData[0].menu_id,
+                view: this.itemData[0].view  == 1 ? true : false, 
+                save: this.itemData[0].save  == 1 ? true : false, 
+                edit: this.itemData[0].edit  == 1 ? true : false, 
+                delete: this.itemData[0].delete  == 1 ? true : false, 
             });
         });
     }
@@ -219,7 +220,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
+            console.log(this.formData.value)
+            return
                 this._Service.update(data,this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');

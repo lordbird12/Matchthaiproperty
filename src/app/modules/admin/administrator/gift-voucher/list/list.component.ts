@@ -211,7 +211,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         this._router.navigate(['gift-voucher/edit/' + id]);
     }
     add(id: string): void {
-        this._router.navigate(['gift-voucher-code/edit/' + id]);
+        this._router.navigate(['gift-voucher/add/' + id]);
     }
     textStatus(status: string): string {
         return startCase(status);

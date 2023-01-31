@@ -723,6 +723,16 @@ export class Service {
     );
   }
 
+  delete(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/course/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
   /**
 * Get Asset Type
 */
@@ -1025,7 +1035,7 @@ export class Service {
 
   //   * get branch by id
   getById(Id: string): Observable<DataBank> {
-    return this._httpClient.get<DataBank>(environment.API_URL + 'api/course_lesson/' + Id)
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/get_course_by_id/' + Id)
   }
 
   //   * update branch

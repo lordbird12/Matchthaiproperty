@@ -1,7 +1,8 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
@@ -43,18 +44,25 @@
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                                <textarea matInput rows="4" [formControlName]="'detail'"
+                                    placeholder="กรุณาระบุรายละเอียด"></textarea>
                             </mat-form-field>
                         </div>
-
+                        <!-- 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">video</mat-label>
-                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ">
+                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ" >
                             </mat-form-field>
+                        </div> -->
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-label class="font-bold">video</mat-label>
+                            <input class=" w-full text-lg border rounded-lg cursor-pointer " id="video" type="file">
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-4">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ผู้สอน</mat-label>
                                 <input matInput [formControlName]="'lecturer'" placeholder="กรุณาระบุชื่อ">
@@ -64,7 +72,8 @@
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียดผู้สอน</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'lecturer_profile'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                                <textarea matInput rows="4" [formControlName]="'lecturer_profile'"
+                                    placeholder="กรุณาระบุรายละเอียด"></textarea>
                             </mat-form-field>
                         </div>
 
@@ -112,7 +121,8 @@
 
                         <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
 
-                            <table formArrayName="course_rewards" style="cursor: pointer" class="table datatable row-border hover" style="width: 100%">
+                            <table formArrayName="course_rewards" style="cursor: pointer"
+                                class="table datatable row-border hover" style="width: 100%">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width:5%;">ลำดับ</th>
@@ -145,7 +155,8 @@
                                     </tr>
                                     <tr>
                                         <th colspan="2" class="text-right">
-                                            <button class="px-6 ml-3 mat-primary p-5" mat-flat-button (click)="addCourse_reward()">
+                                            <button class="px-6 ml-3 mat-primary p-5" mat-flat-button
+                                                (click)="addCourse_reward()">
                                                 <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
                                             </button>
                                         </th>

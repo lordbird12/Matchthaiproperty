@@ -151,8 +151,9 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     create(): void {
-        // console.log(this.formData.value )
-        // return
+        // let file =this.formData.value.citizen_image
+        //  console.log(typeof file )
+        //  return
         this.flashMessage = null;
         this.flashErrorMessage = null;
         const confirmation = this._fuseConfirmationService.open({
@@ -183,8 +184,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (result === 'confirmed') {
                 this.formData.patchValue({
-                    profile_image:this.files[0],
-                    citizen_image:this.files1[0]
+                    citizen_image:this.files[0],
+                    profile_image:this.files1[0],
                 })
                 const formData = new FormData()
                 Object.entries(this.formData.value).forEach(
@@ -244,7 +245,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     onRemove(event) {
         this.files.splice(this.files.indexOf(event), 1);
         this.formData.patchValue({
-            image: '',
+            citizen_image: '',
         });
     }
 
@@ -256,26 +257,26 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.detectChanges();
         }, 150);
         this.formData.patchValue({
-            citizen_image: this.files1[0],
+            profile_image: this.files1[0],
         });
     }
 
     onRemove1(event) {
         this.files1.splice(this.files1.indexOf(event), 1);
         this.formData.patchValue({
-            image: '',
+            profile_image: '',
         });
     }
-    onProfileSelect(event) {
-        this.files1.push(...event.addedFiles);
-        // Trigger Image Preview
-        setTimeout(() => {
-            this._changeDetectorRef.detectChanges();
-        }, 150);
-        this.formData.patchValue({
-            profile_image: this.files1[0],
-        });
-    }
+    // onProfileSelect(event) {
+    //     this.files1.push(...event.addedFiles);
+    //     // Trigger Image Preview
+    //     setTimeout(() => {
+    //         this._changeDetectorRef.detectChanges();
+    //     }, 150);
+    //     this.formData.patchValue({
+    //         profile_image: this.files1[0],
+    //     });
+    // }
 
 
 }

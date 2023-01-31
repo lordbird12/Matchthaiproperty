@@ -31,7 +31,7 @@ export const pageRoute: Route[] = [
                 // }
             },
             {
-                path: 'add',
+                path: 'add/:id',
                 component: AddComponent,
                 // resolve: {
                 //     products: PermissionProductsResolver,

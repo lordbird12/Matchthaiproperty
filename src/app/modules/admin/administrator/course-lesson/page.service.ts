@@ -600,6 +600,17 @@ export class Service {
     );
   }
 
+  delete(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/course_reward/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
+
   approveArtworkAll(data: any, briefId): Observable<any> {
     return this._httpClient.post(environment.API_URL + 'api/briefs/' + briefId + '/approve_asset_all', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {

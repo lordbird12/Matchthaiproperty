@@ -47,7 +47,11 @@ import { Service } from '../page.service';
 export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-
+    // @ViewChild(DataTableDirective)
+    // dtElement!: DataTableDirective;
+    dtOptions: DataTables.Settings = {};
+    dataRow: any = [];
+    private destroy$ = new Subject<any>();
     formData: FormGroup;
     flashErrorMessage: string;
     flashMessage: 'success' | 'error' | null = null;
@@ -63,32 +67,11 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     supplierId: string | null;
     pagination: PositionPagination;
-
+    id: string;
+    itemData: any = [];
     files: File[] = [];
     AddCouponType: any = [];
-    typeData: any = [
-        { value: 'banner', name: 'ทั่วไป' },
-        { value: 'advert', name: 'โฆษณา' },
-    ];
-
-    priorityData: any = [
-        { value: 1, name: '1' },
-        { value: 2, name: '2' },
-        { value: 3, name: '3' },
-        { value: 4, name: '4' },
-        { value: 5, name: '5' },
-    ];
-
-    positionData: any = [
-        { value: 'banner_main', name: 'Banner Main (Banner)' },
-        { value: 'banner_home_1', name: 'Banner Home 1 (Banner)' },
-        { value: 'banner_home_2', name: 'Banner Home 2 (Banner)' },
-        { value: 'banner_home_3', name: 'Banner Home 3 (Banner)' },
-        { value: 'search', name: 'Search (Ads)' },
-        { value: 'news', name: 'News (Ads)' },
-        { value: 'news_detail', name: 'News Detail (Ads)' },
-        { value: 'course', name: 'Course (Ads)' },
-    ];
+    
     /**
      * Constructor
      */
@@ -101,7 +84,15 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
-    ) {}
+    ) {
+        {
+            this.formData = this._formBuilder.group({
+                id: '',
+                name: '',
+                status: '',
+            });
+        }
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -111,22 +102,68 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.loadTable();
         this.formData = this._formBuilder.group({
             code: '',
             expire_date: '',
             gift_voucher_id: '',
-            
         });
 
-        
-        this._Service.getCouponType().subscribe((resp: any) => {
-            this.AddCouponType = resp.data;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        this.id = this._activatedRoute.snapshot.paramMap.get('id');
+        this._Service.getById(this.id).subscribe((resp: any) => {
+            this.itemData = resp.data;
+            this.formData.patchValue({
+                id: this.itemData.id,
+                name: this.itemData.name,
+                gift_voucher_id:this.id,
+            });
+        });
     }
 
+    pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
+    loadTable(): void {
+        const that = this;
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 10,
+            serverSide: true,
+            processing: true,
+            responsive: true,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+            },
+            ajax: (dataTablesParameters: any, callback) => {
+                that._Service
+                    .getCodePage(dataTablesParameters)
+                    .subscribe((resp) => {
+                        this.dataRow = resp.data;
+                        this.pages.current_page = resp.current_page;
+                        this.pages.last_page = resp.last_page;
+                        this.pages.per_page = resp.per_page;
+                        if (resp.current_page > 1) {
+                            this.pages.begin =
+                                resp.per_page * resp.current_page - 1;
+                        } else {
+                            this.pages.begin = 0;
+                        }
+
+                        callback({
+                            recordsTotal: resp.total,
+                            recordsFiltered: resp.total,
+                            data: [],
+                        });
+                        this._changeDetectorRef.markForCheck();
+                    });
+            },
+            columns: [
+                { data: 'No' },
+                { data: 'code' },
+                { data: 'expire_date' },
+                { data: 'action' },
+            
+            ],
+        };
+    }
     discard(): void {}
 
     /**
@@ -141,7 +178,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         // Unsubscribe from all subscriptions
     }
 
-    create(): void {
+    createCoupon(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
         // Return if the form is invalid
@@ -182,11 +219,10 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
                     }
                 );
 
-                this._Service.create(formData).subscribe({
+                this._Service.createCoupon(formData).subscribe({
                     next: (resp: any) => {
-                        this._router
-                            .navigateByUrl('gift-voucher/list')
-                            .then(() => {});
+                        this.showFlashMessage('success');
+                        window.location.reload()
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({
@@ -232,7 +268,66 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
+    DeleteCoupon(id: any): void {
+        this.flashMessage = null;
 
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title: 'ลบรายการที่เลือก',
+            message: 'คุณต้องการลบรายการที่เลือกใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
+                },
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
+            },
+            dismissible: true,
+        });
+        confirmation.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                this._Service.deleteCoupon(id).subscribe({
+                    next: (resp: any) => {
+                        location.reload();
+                    },
+                    error: (err: any) => {
+                        this._fuseConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                        console.log(err.error.message);
+                    },
+                });
+            }
+        });
+    }
+    
     onSelect(event) {
         this.files.push(...event.addedFiles);
         // Trigger Image Preview

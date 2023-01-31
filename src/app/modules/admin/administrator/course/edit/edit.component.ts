@@ -98,7 +98,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             course_id: ['', Validators.required],
             title: ['', Validators.required],
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
+            video:'',              //'images/course_lesson/1666553407.mp4',
             hour: '',
             min: '',
             sec: '',

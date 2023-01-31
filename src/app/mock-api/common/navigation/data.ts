@@ -43,7 +43,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 children: [
                     {
                         id: 'vendor-type',
-                        title: 'ประเภทพันธมิตร',
+                        title: 'พันธมิตร',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/vendor/list',
@@ -51,7 +51,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         
                     {
                         id: 'unemployed',
-                        title: 'พันธมิตร',
+                        title: 'พันธมิตรย่อย',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'vendor-company/list',
@@ -210,6 +210,51 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/video/list',
             },
             {
+                id: 'payment',
+                title: 'คูปองส่วนลด',
+                type: 'basic',
+                // icon: 'heroicons_outline:clipboard-check',
+                link: '/gift-voucher/list',
+            },
+
+            {
+                id: 'payment',
+                title: 'การรับชำระเงิน',
+                type: 'collapsable',
+                children: [
+                    // {
+                    //     id: 'payment',
+                    //     title: 'รายการซื้อคอร์ส',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/payment-course/list',
+                    // },
+                    // {
+                    //     id: 'course.reward',
+                    //     title: 'รายการเติมเงิน',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/payment-member/list',
+                    // },
+
+                    // {
+                    //     id: 'gift-voucher-code',
+                    //     title: 'จัดการรหัสส่วนลด',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/gift-voucher-code/list',
+                    // },
+                    {
+                        id: 'transection',
+                        title: 'รายงานการจ่ายเงิน',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/transection/list',
+                    },
+
+                ],
+            },
+            {
                 id: 'website.news',
                 title: 'ข่าวสาร',
                 type: 'collapsable',
@@ -324,49 +369,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 ],
             },
 
-            {
-                id: 'payment',
-                title: 'การรับชำระเงิน',
-                type: 'collapsable',
-                children: [
-                    // {
-                    //     id: 'payment',
-                    //     title: 'รายการซื้อคอร์ส',
-                    //     type: 'basic',
-                    //     // icon: 'heroicons_outline:clipboard-check',
-                    //     link: '/payment-course/list',
-                    // },
-                    // {
-                    //     id: 'course.reward',
-                    //     title: 'รายการเติมเงิน',
-                    //     type: 'basic',
-                    //     // icon: 'heroicons_outline:clipboard-check',
-                    //     link: '/payment-member/list',
-                    // },
-                    {
-                        id: 'payment',
-                        title: 'คูปองส่วนลด',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: '/gift-voucher/list',
-                    },
-                    // {
-                    //     id: 'gift-voucher-code',
-                    //     title: 'จัดการรหัสส่วนลด',
-                    //     type: 'basic',
-                    //     // icon: 'heroicons_outline:clipboard-check',
-                    //     link: '/gift-voucher-code/list',
-                    // },
-
-                    {
-                        id: 'transection',
-                        title: 'รายงานการจ่ายเงิน',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: '/transection/list',
-                    },
-                ],
-            },
+       
         ],
     },
 

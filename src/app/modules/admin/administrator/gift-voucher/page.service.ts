@@ -1087,6 +1087,22 @@ export class Service {
     create(data: any): Observable<any> {
         return this._httpClient
             .post(
+                environment.API_URL + '/api/gift_voucher',
+                data,
+                this.httpOptionsFormdata
+            )
+            .pipe(
+                switchMap((response: any) => {
+                    // Return a new observable with the response
+                    return of(response);
+                })
+            );
+    }
+
+
+    createCoupon(data: any): Observable<any> {
+        return this._httpClient
+            .post(
                 environment.API_URL + '/api/gift_voucher_code',
                 data,
                 this.httpOptionsFormdata
@@ -1157,6 +1173,25 @@ export class Service {
         );
     }
 
+    deleteCoupon(id: any): Observable<any> {
+        return this._httpClient.delete<any>(
+            environment.API_URL + '/api/gift_voucher_code/' + id,
+            { headers: this.httpOptionsFormdata.headers }
+        );
+    }
+
+    // deleteCoupon(itemId: number): Observable<{}> {
+    //     return this._httpClient
+    //       .delete<any>(`${environment.API_URL}/api/gift_voucher_code/${itemId}`, this.httpOptionsFormdata)
+    //       .pipe(
+    //         map((mtplan) => {
+    //           return mtplan;
+    //         }),
+    //         catchError((err) => this.handlerError(err))
+    //       );
+    //   }
+
+
     //* get position by id
     getById(id: any): Observable<any[]> {
         return this._httpClient
@@ -1186,6 +1221,13 @@ export class Service {
 
     getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
         return this._httpClient.post(environment.API_URL + '/api/gift_voucher_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+          switchMap((response: any) => {
+            return of(response.data);
+          })
+        );
+      }
+      getCodePage(dataTablesParameters: any): Observable<DataTablesResponse> {
+        return this._httpClient.post(environment.API_URL + '/api/gift_voucher_code_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
           switchMap((response: any) => {
             return of(response.data);
           })

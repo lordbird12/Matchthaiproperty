@@ -161,11 +161,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     update(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'แก้ไขรายการ',
             message: 'คุณต้องการแก้ไขรายการใช่หรือไม่ ',

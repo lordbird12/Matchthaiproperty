@@ -112,6 +112,12 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             youtube: '',
             tiktok: '',
             line_oa_url: '',
+            facebook_url: '',
+            twitter_url: '',
+            ig_url: '',
+            about_us: '',
+            shot_desception_web: '',
+            
         });
     }
 
@@ -146,6 +152,12 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 youtube: this.itemData.youtube,
                 tiktok: this.itemData.tiktok,
                 line_oa_url: this.itemData.line_oa_url,
+                facebook_url: this.itemData.facebook_url,
+                twitter_url: this.itemData.twitter_url,
+                ig_url: this.itemData.ig_url,
+                about_us: this.itemData.about_us,
+                shot_desception_web: this.itemData.shot_desception_web,
+
             });
             this._changeDetectorRef.markForCheck();
         });

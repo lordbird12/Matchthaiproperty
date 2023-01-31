@@ -114,6 +114,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             asset_member_fname: '',
             asset_member_lname: '',
             asset_member_tel: '',
+ 
         });
     }
 
@@ -156,6 +157,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 asset_member_tel: this.itemData.asset.member.tel,
                 member: this.itemData.member,
                 status: this.itemData.status,
+    
             });
         });
     }

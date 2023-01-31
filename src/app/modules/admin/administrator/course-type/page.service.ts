@@ -1352,7 +1352,7 @@ export class Service {
 
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
-            environment.API_URL + '/api/course-type/' + id,
+            environment.API_URL + '/api/course_type/' + id,
             { headers: this.httpOptionsFormdata.headers }
         );
     }
