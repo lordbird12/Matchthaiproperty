@@ -51,7 +51,15 @@
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
                             <td>{{ item.course.title }}</td>
                             <td>{{ item.title }}</td>
-                            <td>{{ item.video }}</td>
+                            <td>
+                                <a  mat-raised-button href="{{item.video}}" target="_blank">
+                                    <mat-icon svgIcon="mat_outline:videocam"></mat-icon>
+                                </a>
+
+                            </td>
+                            
+
+                            
                             <td>{{ item.hour }} ชั่วโมง {{ item.min }} นาที</td>
                             <td>
                                 <span class="bg-green-100 text-green-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900" *ngIf="item.status === 1"> อนุมัติแล้ว</span>

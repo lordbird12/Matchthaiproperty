@@ -31,19 +31,8 @@
                                 <input matInput [formControlName]="'member_fname'" readonly>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ลักษณะสถานที่</mat-label>
-                                <input matInput [formControlName]="'type'" readonly>
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ลักษณะอสังหา</mat-label>
-                                <input matInput [formControlName]="'property_type_name'" readonly>
-                                <input matInput [formControlName]="'property_sub_type_name'" readonly>
-                            </mat-form-field>
-                        </div>
+            
+           
                         <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">จำนวนชั้น</mat-label>
@@ -106,18 +95,82 @@
                                 <textarea matInput rows="4" [formControlName]="'objective'" readonly></textarea>
                             </mat-form-field>
                         </div>
-                        <!-- <div class="flex flex-col w-full lg:w-2/6  sm:pl-8">
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ประเภทอสังหา</mat-label>
+                                <textarea matInput [formControlName]="'property_type_name'" [rows]="4" readonly></textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ประเภทย่อย</mat-label>
+                                <textarea matInput [formControlName]="'property_sub_type_name'" [rows]="4" readonly  ></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ลักษณะสถานที่</mat-label>
+                                <textarea matInput [formControlName]="'type'" [rows]="4" readonly  ></textarea>
+                            </mat-form-field>
+                        </div>
+                 
+             
+               
+         
+
+
+
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สิ่งอำนวยความสะดวก</mat-label>
-                                <input matInput [formControlName]="'Inquiry_facility_display_name'" readonly>
+                                <textarea matInput [formControlName]="'property_sub_facility'" [rows]="4"
+                                    readonly></textarea>
                             </mat-form-field>
-                        </div> 
-                        <div class="flex flex-col w-full lg:w-2/6  sm:pl-8">
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">สภานที่ใกล้เคียง</mat-label>
-                                <input matInput [formControlName]="'updated_at'" readonly>
+                                <mat-label class="font-bold">ประเภทสินทรัพย์</mat-label>
+                                <textarea matInput [formControlName]="'property_sub_type_explend'" [rows]="4"
+                                    readonly></textarea>
+                                <!-- [rows]="this.formData.value.property_location_nearby.length+1" -->
                             </mat-form-field>
-                        </div>   -->
+                        </div>
+
+
+
+
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ความต้องการสถานที่ใกล้เคียง</mat-label>
+                                <textarea matInput [formControlName]="'property_location_nearby'" [rows]="4"
+                                    readonly></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">แท็กความต้องการ</mat-label>
+                                <textarea matInput [formControlName]="'inquiry_tags'" [rows]="4" readonly></textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">อสังหาให้เช่า</mat-label>
+                                <textarea matInput [formControlName]="'property_sub_type_rent'" [rows]="4" readonly></textarea>
+                            </mat-form-field>
+                        </div>
+
+
+                        
+
+      
+
+
                     </div>
                 </div>
             </div>

@@ -23,6 +23,7 @@ import {
     map,
     merge,
     Observable,
+    lastValueFrom,
     Subject,
     switchMap,
     takeUntil,
@@ -63,6 +64,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     public UserAppove: any = [];
     files: File[] = [];
     NewsTag: any = [];
+    image: File;
     NewsType: any = [];
     /**
      * Constructor
@@ -103,7 +105,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             news_type_id: '',
             name: '',
             detail: '',
-            image: [''],
+            image: '',
             date: '',
             cedit:"admin", 
             news_tag: '',
@@ -144,11 +146,6 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     create(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูลใหม่',
             message: 'คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ',
@@ -172,9 +169,15 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
+        confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
+          
+                const image = new FormData()
+                image.append("file",this.files[0])
+                image.append("path","/images/news/")
+                const file = await lastValueFrom(this._Service.uploadFiles(image))
+                this.formData.patchValue({image:file})
 
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {

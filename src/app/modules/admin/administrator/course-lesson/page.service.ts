@@ -619,7 +619,13 @@ export class Service {
       })
     );
   }
-
+  uploadVideo(data: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/upload_file', data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
   approveArtworkOSM(data: any, briefId): Observable<any> {
     return this._httpClient.post(environment.API_URL + 'api/briefs-osm-store-file/' + briefId + '/approve', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
@@ -989,7 +995,7 @@ export class Service {
     //  if (this._authenticated) {
     //     return throwError('User is already logged in.');
     // }
-    return this._httpClient.post(environment.API_URL + 'api/course_lesson', data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/course_lesson', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -1008,7 +1014,7 @@ export class Service {
 
   // get Users //
   getCourseType(): Observable<any[]> {
-    return this._httpClient.get<any[]>(environment.API_URL + 'api/get_course_type').pipe(
+    return this._httpClient.get<any[]>(environment.API_URL + '/api/get_course_type').pipe(
       tap((meterial) => {
         this._materials.next(meterial);
       })
@@ -1022,7 +1028,7 @@ export class Service {
 
   //   * update branch
   update(data: any,id:any): Observable<any> {
-    return this._httpClient.put(environment.API_URL + 'api/course_lesson/'+id, data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.put(environment.API_URL + '/api/course_lesson/'+id, data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);

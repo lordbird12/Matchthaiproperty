@@ -50,7 +50,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) private _sort: MatSort;
     public UserAppove: any = [];
     itemData: any = [];
-
+    video: File;
     files: File[] = [];
 
     statusData = [
@@ -159,7 +159,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     removeUser(i: number): void {
         this.approve().removeAt(i);
     }
-
+    videoChange(event) {
+        this.video = event.target.files[0]
+    }
     discard(): void {}
 
     /**
@@ -177,11 +179,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     update(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'แก้ไขข้อมูล',
             message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
@@ -205,15 +202,23 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            // If the confirm button pressed...
+        confirmation.afterClosed().subscribe(async (result) => {
             if (result === 'confirmed') {
+                if (this.video != null) 
+                {
+                    const video = new FormData()
+                    video.append("file", this.video)
+                    video.append("path", "images/course_lesson/")
+                    const file = await lastValueFrom(this._Service.uploadVideo(video))
+                    this.formData.patchValue({ video: file })
+                }
+
 
                 this._Service.update(this.formData.value,this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('purchase-services/list')
+                            .navigateByUrl('course-lesson/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

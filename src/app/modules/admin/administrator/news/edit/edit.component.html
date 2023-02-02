@@ -21,12 +21,12 @@
                     <div class="flex flex-auto flex-wrap">
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เลือกประเภท</mat-label>
+                                <mat-label class="font-bold">เลือกประเภทข่าว</mat-label>
                                 <mat-select [formControlName]="'news_type_id'">
-                                    <mat-option  [value]="''">
-                                        <span class="text-gray-400">เลือกประเภท</span>
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">เลือกประเภทข่าว</span>
                                     </mat-option>
-                                    <mat-option *ngFor="let item of PropertyType" [value]="item.id">
+                                    <mat-option *ngFor="let item of NewsType" [value]="item.id">
                                         {{item.name}}
                                     </mat-option>
                                 </mat-select>
@@ -34,13 +34,54 @@
                         </div>
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
-                                <input matInput [formControlName]="'name'" placeholder="กรุณาระบุชื่อ">
+                            <mat-form-field appearance="fill">
+                                <mat-label>เลือกแท็กข่าว</mat-label>
+                                <mat-select [formControlName]="'news_tags'" multiple>
+                                    <mat-option *ngFor="let topping of NewsTag"
+                                        [value]="topping.name">{{topping.name}}</mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
 
 
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ชื่อข่าว</mat-label>
+                                <input matInput [formControlName]="'name'" placeholder="กรุณาระบุชื่อข่าว">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">รายละเอียด</mat-label>
+                                <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">วันที่สร้าง</mat-label>
+                                <input matInput [formControlName]="'date'" placeholder="วันที่สร้าง" type="date">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <img class="w-100" [src]="this.formData.value.image">
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <div class="flex ">
+                                <div class="flex justify-center items-center w-full">
+                                    <ngx-dropzone style="width: 100%; height: 300px;" (change)="onSelect($event)">
+                                        <ngx-dropzone-label>เลือกรูปข่าว </ngx-dropzone-label>
+                                        <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true"
+                                            [file]="f" (removed)="onRemove(f)">
+                                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                        </ngx-dropzone-image-preview>
+                                    </ngx-dropzone>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -48,7 +89,7 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="news/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

@@ -22,6 +22,7 @@ import {
     debounceTime,
     map,
     merge,
+    lastValueFrom,
     Observable,
     Subject,
     switchMap,
@@ -62,7 +63,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
-
+    video: File;
     courseType: any = [];
     /**
      * Constructor
@@ -81,12 +82,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             course_id: ['', Validators.required],
             title: ['', Validators.required],
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
+            video: '',
             hour: '',
             min: '',
             sec: '',
             status: '',
-            image: [''],
+      
         });
     }
 
@@ -102,12 +103,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             course_id: ['', Validators.required],
             title: ['', Validators.required],
             detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
+            video: '',
             hour: '',
             min: '',
             sec: '',
             status: '',
-            image: [''],
+     
         });
 
         this._Service.getCourseType().subscribe((resp: any) => {
@@ -129,15 +130,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
     }
-
+    videoChange(event) {
+        this.video = event.target.files[0]
+    }
     create(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูลใหม่',
             message: 'คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ',
@@ -161,10 +159,14 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
+        confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
+                const video = new FormData()
+                video.append("file",this.video)
+                video.append("path","images/course_lesson/")
+                const file = await lastValueFrom(this._Service.uploadVideo(video))
+                this.formData.patchValue({video:file})
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router

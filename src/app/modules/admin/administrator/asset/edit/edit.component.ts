@@ -50,7 +50,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) private _sort: MatSort;
     public UserAppove: any = [];
     itemData: any = [];
-
+    images: String[]=[];
     files: File[] = [];
 
     statusData = [
@@ -61,6 +61,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     Id: any;
     courseType: any = [];
+    property_type:string="";
 
     formData: FormGroup;
     flashErrorMessage: string;
@@ -94,24 +95,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
-        this.formData = this._formBuilder.group({
-            name:'',
-            description:'',
-            map_address:'',
-            price:'',
-            price_per_month:'',
-            price_share:'',
-            property_type_name:'',
-            status: '',
-            floor: '',
-            bed_room: '',
-            bath_room:'',
-            kitchen_room: '',
-            parking:'',
-            living_room:'',
-            usable_area:'',
-            asset_facility_display:'',
-        });
+       
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -122,24 +106,74 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     async ngOnInit(): Promise<void> {
+        this.formData = this._formBuilder.group({
+            name:'',
+            description:'',
+            map_address:'',
+            price:'',
+            price_per_month:'',
+            price_share:'',
+            status: '',
+            floor: '',
+            bed_room: '',
+            bath_room:'',
+            kitchen_room: '',
+            parking:'',
+            living_room:'',
+            usable_area:'',
+            responsible_transfer:'',
+            view:'',
+            asset_facility_display:'',
+            property_type:'',
+            inquiry_type:'',
+            property_location_nearby:'',
+            property_sub_facility:'',
+            property_announcer:'',
+            property_ownership:'',
+            property_color_land:'',
+            asset_tags:'',
+            property_sub_type_rent:'',
+            property_sub_type:'',
+        });
+
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
-
-        // this._Service.getCourseType().subscribe((resp: any) => {
-        //     this.courseType = resp.data;
-
-        //     // Mark for check
-        //     this._changeDetectorRef.markForCheck();
-        // })
-
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
-            let asset_facility_display = ""
-            for (const data of this.itemData.asset_facility_display) {
-                asset_facility_display += data.name + "    "
-                asset_facility_display += (data.facility.property_sub_facility?.name ?? " ไม่มี")+ "\n"
-         
+
+            /////เก็บรูป string
+            this.images=this.itemData.asset_images
+
+                        // ARRAY2ชั้น
+            let property_sub_facility = ""
+            for (const data of this.itemData.asset_facilitys) {
+                // property_sub_facility += data.name + "    "
+                property_sub_facility += (data.property_sub_facility?.name)+ "   "
+                // property_sub_facility += (data.property_sub_facility?.name ?? "  ,")+ "\n"
             }
-            // console.log(this.itemData.asset_facility_display[1])
+            // console.log(this.itemData)
+
+                      
+            let property_location_nearby = ""
+            for (const data of this.itemData.asset_location_nearbys) {
+                // property_location_nearby += data.name + "    "
+                property_location_nearby += (data.property_location_nearby?.name  )+ "   "
+            }
+
+               // ARRAY1ชั้น
+            let asset_tags = ""
+            for (const data of this.itemData.asset_tags) {
+                // property_location_nearby += data.name + "    "
+                asset_tags += (data.name?? " ")+ "   "
+            }
+
+            let property_sub_type_rent = ""
+            for (const data of this.itemData.asset_property_rents) {
+                // property_location_nearby += data.name + "    "
+                property_sub_type_rent += (data.property_sub_type_rent?.name  )+ "   "
+            }
+
+
+            asset_tags
             this.formData.patchValue({
                 name: this.itemData.name,
                 description: this.itemData.description,
@@ -147,7 +181,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 price: this.itemData.price,
                 price_per_month: this.itemData.price_per_month,
                 price_share: this.itemData.price_share,
-                property_type_name: this.itemData.property_type.name,
                 status: this.itemData.status,
                 floor: this.itemData.floor,
                 bed_room: this.itemData.bed_room,
@@ -156,12 +189,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 parking: this.itemData.parking,
                 living_room: this.itemData.living_room,
                 usable_area: this.itemData.usable_area,
-
-                asset_facility_display: asset_facility_display,
-
-
-
-
+                responsible_transfer: this.itemData.responsible_transfer,
+                view: this.itemData.view,
+                property_type: this.itemData.property_type.name,
+                inquiry_type: this.itemData.inquiry_type.name,
+                property_location_nearby: property_location_nearby,
+                property_sub_facility:property_sub_facility,
+                property_announcer: this.itemData.property_announcer.name,
+                property_ownership: this.itemData.property_ownership.name,
+                property_color_land: this.itemData.property_color_land.name,
+                asset_tags:asset_tags,
+                property_sub_type_rent:property_sub_type_rent,
+                property_sub_type: this.itemData.property_sub_type.name,
             });
         });
     }

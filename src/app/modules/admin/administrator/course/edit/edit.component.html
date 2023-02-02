@@ -1,7 +1,8 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
@@ -13,6 +14,7 @@
         </div>
     </div>
 
+
     <!-- Main -->
     <div class="flex-auto p-3 sm:p-10">
         <form class="flex flex-col mt-3 p-8 pb-4 bg-card shadow overflow-hidden ng-valid" [formGroup]="formData">
@@ -22,7 +24,7 @@
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
-                                <mat-select [formControlName]="'course_id'">
+                                <mat-select [formControlName]="'course_type_id'">
                                     <mat-option [value]="''">
                                         <span class="text-gray-400">เลือกประเภทคอร์ส</span>
                                     </mat-option>
@@ -43,14 +45,79 @@
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รายละเอียด</mat-label>
-                                <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
+                                <textarea matInput rows="4" [formControlName]="'detail'"
+                                    placeholder="กรุณาระบุรายละเอียด"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <!-- 
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">video</mat-label>
+                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ" >
+                            </mat-form-field>
+                        </div> -->
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <img class="w-100" [src]="this.formData.value.image">
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8 mt-5">
+                            <ngx-dropzone style="width: 100%; height: 100%; justify-content: center;"
+                                (change)="onSelect($event)">
+                                <ngx-dropzone-label>เลือกรูปภาพ</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true" [file]="f"
+                                    (removed)="onRemove(f)">
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8 mt-5">
+                            <a class="ml-4 mt-5" mat-flat-button href="{{this.formData.value.video}}" target="_blank">
+                                <mat-icon svgIcon="mat_outline:videocam"></mat-icon>
+                                กดดูคลิป
+                            </a>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8 mt-5">
+                            <mat-label class="font-bold">video</mat-label>
+                            <input class=" w-full text-lg border rounded-lg cursor-pointer " id="video" type="file"
+                                (change)="videoChange($event)">
+                        </div>
+              
+
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-4">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ผู้สอน</mat-label>
+                                <input matInput [formControlName]="'lecturer'" placeholder="กรุณาระบุชื่อ">
                             </mat-form-field>
                         </div>
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">video</mat-label>
-                                <input matInput [formControlName]="'video'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">รายละเอียดผู้สอน</mat-label>
+                                <textarea matInput rows="4" [formControlName]="'lecturer_profile'"
+                                    placeholder="กรุณาระบุรายละเอียด"></textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ราคา</mat-label>
+                                <input matInput [formControlName]="'price'" placeholder="กรุณาระบุชื่อ">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ต้นทุน</mat-label>
+                                <input matInput [formControlName]="'cost'" placeholder="กรุณาระบุชื่อ">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ราคาขาย</mat-label>
+                                <input matInput [formControlName]="'price_sale'" placeholder="กรุณาระบุชื่อ">
                             </mat-form-field>
                         </div>
 
@@ -74,6 +141,51 @@
                                 <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
                             </mat-form-field>
                         </div>
+
+                        <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
+                            <table formArrayName="course_rewards" style="cursor: pointer"
+                                class="table datatable row-border hover" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;width:5%;">ลำดับ</th>
+                                        <th style="text-align: left;">สิ่งที่จะได้รับ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of course_reward().controls; let i = index" [formGroupName]="i">
+                                        <!-- <th scope="row">{{ i + 1 }}</th> -->
+                                        <td style="text-align: center;">
+                                            <button (click)="removeCourse_reward(i)" class="btn btn-danger">
+                                                <span class="flex items-center">
+                                                    <mat-icon class="icon-size-5 mr-3"
+                                                        [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                                </span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <mat-form-field class="w-full">
+                                                <mat-select formControlName="course_reward_id">
+                                                    <mat-option [value]="''">
+                                                        <span>สิ่งที่จะได้รับ</span>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let item of rewardData" [value]="item.id">
+                                                        {{item.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-right">
+                                            <button class="px-6 ml-3 mat-primary p-5" mat-flat-button
+                                                (click)="addCourse_reward()">
+                                                <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,5 +204,4 @@
             </div>
         </form>
     </div>
-
 </div>

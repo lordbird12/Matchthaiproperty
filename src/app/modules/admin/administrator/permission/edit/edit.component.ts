@@ -126,19 +126,21 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
-            console.log(this.itemData)
+        
             this.formData.patchValue({
                 id: this.itemData[0].id,
                 name: this.itemData[0].name,
-                status: this.itemData[0].status,
-                menu: this.itemData[0].menu,
+                status: this.itemData.status,
+                menu: this.itemData.menu,
                 menu_id: this.itemData[0].menu_id,
                 view: this.itemData[0].view  == 1 ? true : false, 
                 save: this.itemData[0].save  == 1 ? true : false, 
                 edit: this.itemData[0].edit  == 1 ? true : false, 
                 delete: this.itemData[0].delete  == 1 ? true : false, 
             });
+            // console.log(this.formData.value)
         });
+        
     }
 
     approve(): FormArray {
@@ -177,21 +179,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     update(): void {
-
         const data = {
             "name": this.formData.value.name,
             "menu": [
                 {
                     "menu_id": 1,
-                    "view":this.formData.value.view,
-                    "save":this.formData.value.save,
-                    "edit":this.formData.value.edit,
-                    "delete": this.formData.value.delete
+                    "view":this.formData.value.view == true ? 1 : 0, 
+                    "save":this.formData.value.save == true ? 1 : 0,
+                    "edit":this.formData.value.edit == true ? 1 : 0,
+                    "delete": this.formData.value.delete == true ? 1 : 0,
                 }
             ]
         }
-
-
         this.flashMessage = null;
         this.flashErrorMessage = null;
         const confirmation = this._fuseConfirmationService.open({
@@ -220,10 +219,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-            console.log(this.formData.value)
-            return
+                // console.log(data)
+                // return
                 this._Service.update(data,this.Id).subscribe({
+                    
                     next: (resp: any) => {
+
                         this.showFlashMessage('success');
                         this._router
                             .navigateByUrl('permission/list')

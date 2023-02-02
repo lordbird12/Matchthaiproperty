@@ -20,6 +20,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {
     debounceTime,
+    lastValueFrom,
     map,
     merge,
     Observable,
@@ -62,7 +63,9 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
-
+    video: File;
+    image: File;
+    
     courseType: any = [];
     rewardData: any = [];
     /**
@@ -83,6 +86,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             title: ['', Validators.required],
             detail: '',
             video: '',      //'images/course_lesson/1666553407.mp4',
+            image: '', 
             lecturer: '',
             lecturer_profile: '',
             qty_lesson: '10',
@@ -110,6 +114,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             course_type_id: ['', Validators.required],
             title: ['', Validators.required],
             detail: '',
+            image: '',
             video:  '',    //'images/course_lesson/1666553407.mp4',
             lecturer: '',
             lecturer_profile: '',
@@ -171,20 +176,14 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     create(): void {
-
+        // console.log(this.files)
+        // return
         const course_reward = [];
         this.formData.value.course_rewards.forEach(element => {
             course_reward.push(element.id);
         });
-
-
         this.flashMessage = null;
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูลใหม่',
             message: 'คุณต้องการเพิ่มข้อมูลใหม่ใช่หรือไม่ ',
@@ -208,13 +207,25 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
+        confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
 
                 this.formData.patchValue({
                     course_reward:course_reward
                 })
+                const video = new FormData()
+                video.append("file",this.video)
+                video.append("path","images/course/")
+                const file = await lastValueFrom(this._Service.uploadVideo(video))
+                this.formData.patchValue({video:file})
+
+                const image = new FormData()
+                image.append("file",this.files[0])
+                image.append("path","images/course/")
+                const file1 = await lastValueFrom(this._Service.uploadVideo(image))
+                this.formData.patchValue({image:file1})
+           
 
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
@@ -254,9 +265,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         throw new Error('Method not implemented.');
     }
 
+    videoChange(event) {
+        this.video = event.target.files[0]
+    }
+
     onSelect(event) {
         this.files.push(...event.addedFiles);
-        // Trigger Image Preview
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
         }, 150);

@@ -94,28 +94,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
-        this.formData = this._formBuilder.group({
-          
-            id:'',
-            name:'',
-            objective:'',
-            type:'',
-            member_fname:'',
-            property_type_name:'',
-            inquiry_type_name:'',
-            property_sub_type_name:'',
-            property_color_land_name:'',
-            status:'',
-            updated_at:'',
-            floor: '',
-            bed_room: '',
-            bath_room:'',
-            kitchen_room: '',
-            parking:'',
-            living_room:'',
-            usable_area_max:'',
-            Inquiry_facility_display_name:'',
-        });
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -126,17 +105,69 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     async ngOnInit(): Promise<void> {
+
+        this.formData = this._formBuilder.group({
+
+            id: '',
+            name: '',
+            objective: '',
+            type: '',
+            member_fname: '',
+            property_type_name: '',
+            inquiry_type_name: '',
+            property_sub_type_name: '',
+            property_color_land_name: '',
+            status: '',
+            updated_at: '',
+            floor: '',
+            bed_room: '',
+            bath_room: '',
+            kitchen_room: '',
+            parking: '',
+            living_room: '',
+            usable_area_max: '',
+            property_sub_facility: '',
+            Inquiry_facility_display: '',
+            property_sub_type_explend: '',
+            property_sub_type_rent:'',
+            property_location_nearby:'',
+            inquiry_tags:'',
+        });
+
+
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
-
-        // this._Service.getCourseType().subscribe((resp: any) => {
-        //     this.courseType = resp.data;
-
-        //     // Mark for check
-        //     this._changeDetectorRef.markForCheck();
-        // })
-
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
+
+           //// ARRAY 3ชั้น forซ้อนfor
+            let property_sub_facility = ""
+            for (const data of this.itemData.Inquiry_facility_display) {
+                for (const data1 of data.facility) {
+                    property_sub_facility += (data1.property_sub_facility?.name) + "   "
+                }
+            }
+
+            let property_sub_type_explend = ""
+            for (const data of this.itemData.inquiry_property_explends) {
+                property_sub_type_explend += (data.property_sub_type_explend?.name)+ "   "
+            }
+
+            let property_sub_type_rent = ""
+            for (const data of this.itemData.inquiry_property_rents) {
+                property_sub_type_rent += (data.property_sub_type_rent?.name)+ "   "
+            }
+
+            let property_location_nearby = ""
+            for (const data of this.itemData.inquiry_locations) {
+                for (const data1 of data.inquiry_location_nearbys) {
+                    property_location_nearby += (data1.property_location_nearby?.name) + "   "
+                }
+            }
+            let inquiry_tags = ""
+            for (const data of this.itemData.inquiry_tags) {
+                inquiry_tags += (data?.name)+ "   "
+            }
+
             this.formData.patchValue({
                 id: this.itemData.id,
                 name: this.itemData.name,
@@ -146,7 +177,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 property_type_name: this.itemData.property_type.name,
                 property_sub_type_name: this.itemData.property_sub_type.name,
                 inquiry_type_name: this.itemData.inquiry_type.name,
-                property_color_land_name:this.itemData.property_color_land.name,
+                property_color_land_name: this.itemData.property_color_land.name,
                 updated_at: this.itemData.updated_at,
                 status: this.itemData.status,
                 floor: this.itemData.floor,
@@ -156,8 +187,11 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 parking: this.itemData.parking,
                 living_room: this.itemData.living_room,
                 usable_area_max: this.itemData.usable_area_max,
-                Inquiry_facility_display_name: this.itemData.Inquiry_facility_display.name,
-                
+                property_sub_facility: property_sub_facility,
+                property_sub_type_explend:property_sub_type_explend,
+                property_sub_type_rent:property_sub_type_rent,
+                property_location_nearby:property_location_nearby,
+                inquiry_tags:inquiry_tags,
             });
         });
     }
@@ -183,12 +217,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.approve().removeAt(i);
     }
 
-    discard(): void {}
+    discard(): void { }
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -232,12 +266,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             // If the confirm button pressed...
             if (result === 'confirmed') {
 
-                this._Service.update(this.formData.value,this.Id).subscribe({
+                this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
                             .navigateByUrl('purchase-services/list')
-                            .then(() => {});
+                            .then(() => { });
                     },
                     error: (err: any) => {
                         this.formData.enable();

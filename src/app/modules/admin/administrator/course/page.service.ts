@@ -1040,7 +1040,7 @@ export class Service {
 
   //   * update branch
   update(data: any,id:any): Observable<any> {
-    return this._httpClient.put(environment.API_URL + 'api/course_lesson/'+id, data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.put(environment.API_URL + '/api/course/'+id, data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         // Return a new observable with the response
         return of(response);
@@ -1056,6 +1056,25 @@ export class Service {
       })
     );
   }
+
+
+  uploadVideo(data: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/upload_file', data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
+  uploadImage(data: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/upload_images', data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
+
 
   getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
     return this._httpClient.post(environment.API_URL + '/api/course_page', dataTablesParameters, this.httpOptionsFormdata).pipe(

@@ -52,7 +52,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     itemData: any = [];
 
     files: File[] = [];
-
+    NewsTag: any = [];
+    image: File;
+    NewsType: any = [];
     statusData = [
         { value: 'Yes', name: 'อนุมัติใช้งาน' },
         { value: 'No', name: 'ไม่อนุมัติ' },
@@ -95,10 +97,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            property_type_id: '',
-            code: '',
+     
+
+            news_type_id: '',
             name: '',
+            detail: '',
+            image: '',
+            date: '',
+            cedit:"admin", 
+            news_tags: '',
             status: '',
+            news_tag: [],
+
         });
     }
 
@@ -113,21 +123,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
 
         this._Service.getCourseType().subscribe((resp: any) => {
-            this.PropertyType = resp.data;
-
-            // Mark for check
+            this.NewsType = resp.data;
             this._changeDetectorRef.markForCheck();
+        })
+        
+        this._Service.getNewsTag().subscribe((resp: any) => {
+            this.NewsTag = resp.data;
+            this._changeDetectorRef.markForCheck();
+
         })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
+            // console.log(this.itemData.news_tags)
+            // return
             this.formData.patchValue({
                 name: this.itemData.name,
                 status: this.itemData.status,
-                
-
+                news_type_id: this.itemData.news_type_id,
+                detail: this.itemData.detail,
+                image: this.itemData.image,
+                date: this.itemData.date,
+                cedit: this.itemData.cedit,
+                news_tags: this.itemData.news_tags.map(t => t.name),
             });
+           
         });
+
     }
 
     approve(): FormArray {
@@ -167,6 +189,10 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     update(): void {
         this.flashMessage = null;
+        this.formData.patchValue({
+            news_tag: this.formData.value.news_tags
+        })
+
         this.flashErrorMessage = null;
         const confirmation = this._fuseConfirmationService.open({
             title: 'แก้ไขข้อมูล',
@@ -191,15 +217,26 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
+        confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
+
+                if (this.files.length>0) 
+                {
+                const image = new FormData()
+                image.append("file", this.files[0])
+                image.append("path", "images/course/")
+                const file1 = await lastValueFrom(this._Service.uploadFiles(image))
+                this.formData.patchValue({ image: file1 })
+                 }
+
+                  
 
                 this._Service.update(this.formData.value,this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('property-type/list')
+                            .navigateByUrl('news/list')
                             .then(() => {});
                     },
                     error: (err: any) => {
@@ -254,9 +291,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
         }, 150);
-        this.formData.patchValue({
-            image: this.files[0],
-        });
+        // this.formData.patchValue({
+        //     image: this.files[0],
+        // });
     }
 
     onRemove(event) {

@@ -50,9 +50,11 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) private _sort: MatSort;
     public UserAppove: any = [];
     itemData: any = [];
-
+    rewardData: any = [];
     files: File[] = [];
+    video: File;
 
+    image: File;
     statusData = [
         { value: 'Yes', name: 'อนุมัติใช้งาน' },
         { value: 'No', name: 'ไม่อนุมัติ' },
@@ -95,15 +97,23 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
+            course_type_id: '',
             course_id: ['', Validators.required],
             title: ['', Validators.required],
             detail: '',
-            video:'',              //'images/course_lesson/1666553407.mp4',
+            video: '',              //'images/course_lesson/1666553407.mp4',
             hour: '',
             min: '',
             sec: '',
             status: '',
             image: [''],
+            lecturer: '',
+            lecturer_profile: '',
+            price: '',
+            cost: '',
+            price_sale: '',
+            course_rewards: this._formBuilder.array([]),
+            course_reward: [],
         });
     }
 
@@ -116,17 +126,26 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
-
+        const file: any = await lastValueFrom(this._Service.getReward())
+        this.rewardData = file.data
+        console.log(file.data)
         this._Service.getCourseType().subscribe((resp: any) => {
             this.courseType = resp.data;
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
         })
+        // this._Service.getReward().subscribe((resp: any) => {
+        //     this.rewardData = resp.data;
+
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
+                course_type_id: this.itemData.course_type_id,
                 course_id: this.itemData.course_id,
                 title: this.itemData.title,
                 detail: this.itemData.detail,
@@ -135,7 +154,21 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 min: this.itemData.min,
                 sec: this.itemData.sec,
                 status: this.itemData.status,
+                image: this.itemData.image,
+                lecturer: this.itemData.lecturer,
+                lecturer_profile: this.itemData.lecturer_profile,
+                price: this.itemData.price,
+                cost: this.itemData.cost,
+                price_sale: this.itemData.price_sale,
+                // course_rewards: this.itemData.course_rewards,
+                // course_rewards: this._formBuilder.array([]),
+
+
             });
+            for (const cr of this.itemData.course_course_rewards) {
+                this.course_reward().push(this.getCourse_reward(cr.id, cr.course_reward_id));
+            }
+
         });
     }
 
@@ -159,13 +192,35 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     removeUser(i: number): void {
         this.approve().removeAt(i);
     }
+    course_reward(): FormArray {
+        return this.formData.get('course_rewards') as FormArray;
+    }
 
-    discard(): void {}
+    newCourse_reward(): FormGroup {
+        return this._formBuilder.group({
+            id: '',course_reward_id:""
+        });
+    }
+    getCourse_reward(id: any, course_reward_id: any): FormGroup {
+        return this._formBuilder.group({
+            id, course_reward_id
+        });
+    }
+
+    removeCourse_reward(i: number): void {
+        this.course_reward().removeAt(i);
+    }
+
+    addCourse_reward(): void {
+        this.course_reward().push(this.newCourse_reward());
+    }
+
+    discard(): void { }
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -175,13 +230,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     update(): void {
+      
+        const course_reward = [];
+        this.formData.value.course_rewards.forEach(element => {
+            console.log(element)
+            
+            course_reward.push(element.course_reward_id);
+        });
+        this.formData.patchValue({course_reward})
         this.flashMessage = null;
+        //   console.log(this.formData.value)
+        //  return
         this.flashErrorMessage = null;
-        // Return if the form is invalid
-        // if (this.formData.invalid) {
-        //     return;
-        // }
-        // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'แก้ไขข้อมูล',
             message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
@@ -205,16 +265,32 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            // If the confirm button pressed...
-            if (result === 'confirmed') {
+        confirmation.afterClosed().subscribe(async (result) => {
 
-                this._Service.update(this.formData.value,this.Id).subscribe({
+            if (result === 'confirmed') {
+                if (this.video != null) 
+                {
+                    const video = new FormData()
+                    video.append("file", this.video)
+                    video.append("path", "images/course/")
+                    const file = await lastValueFrom(this._Service.uploadVideo(video))
+                    this.formData.patchValue({ video: file })
+                }
+                if (this.files.length>0) 
+                {
+                const image = new FormData()
+                image.append("file", this.files[0])
+                image.append("path", "images/course/")
+                const file1 = await lastValueFrom(this._Service.uploadVideo(image))
+                this.formData.patchValue({ image: file1 })
+                 }
+
+                this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('purchase-services/list')
-                            .then(() => {});
+                            .navigateByUrl('course/list')
+                            .then(() => { });
                     },
                     error: (err: any) => {
                         this.formData.enable();
@@ -261,6 +337,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
+    videoChange(event) {
+        this.video = event.target.files[0]
+    }
 
     onSelect(event) {
         this.files.push(...event.addedFiles);
@@ -268,9 +347,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
         }, 150);
-        this.formData.patchValue({
-            image: this.files[0],
-        });
+        // this.formData.patchValue({
+        //     image: this.files[0],
+        // });
     }
 
     onRemove(event) {
