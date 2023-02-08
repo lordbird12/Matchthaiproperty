@@ -37,15 +37,16 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th>ประเภทคอร์ส</th>
-                            <th>รหัสสินค้า</th>
+                            <!-- <th>รหัสสินค้า</th> -->
                             <th>ชื่อคอร์ส</th>
                             <th>ผู้สอน</th>
-                            <th>เวลา</th>
-                            <th>ทุน</th>
+                            <th>ต้นทุน</th>
                             <th>ราคาขาย</th>
+                            <th>เวลา</th>
                             <th>สถานะ</th>
                             <th>สร้างโดย</th>
                             <th>วันที่สร้าง</th>
+                            <th>จัดการบทเรียน</th>
                             <th>จัดการ</th>
                         </tr>
                     </thead>
@@ -53,7 +54,7 @@
                         <tr *ngFor="let item of dataRow; let i = index">
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
                             <td>{{ item.course_type.name }}</td>
-                            <td>{{ item.code }}</td>
+                            <!-- <td>{{ item.code }}</td> -->
                             <td>{{ item.title }}</td>
                             <td>{{ item.lecturer }}</td>
                             <td>{{ item.cost }}</td>
@@ -66,6 +67,12 @@
                             </td>
                             <td style="width: 5%;">{{ item.create_by }}</td>
                             <td>{{ item.created_at }}</td>
+
+                            <td  style="width: 8%;">
+                                <button mat-button (click)="add(item.id)">
+                                    <mat-icon svgIcon="library_add"></mat-icon>
+                                </button>
+                            </td>
                             <td style="width: 5%;">
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon>edit</mat-icon>
@@ -74,6 +81,7 @@
                                     <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                 </button>
                             </td>
+
                         </tr>
                     </tbody>
                     <tbody *ngIf="dataRow?.length == 0">

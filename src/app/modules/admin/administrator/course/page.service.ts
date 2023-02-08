@@ -984,13 +984,16 @@ export class Service {
 
   ///create branch////
   new(data: any): Observable<any> {
-    // Throw error, if the user is already logged in
-    //  if (this._authenticated) {
-    //     return throwError('User is already logged in.');
-    // }
     return this._httpClient.post(environment.API_URL + '/api/course', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
-        // Return a new observable with the response
+        return of(response);
+      })
+    );
+  }
+
+  newCourse(data: any): Observable<any> {
+    return this._httpClient.post(environment.API_URL + '/api/course_lesson', data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
         return of(response);
       })
     );
@@ -1013,7 +1016,15 @@ export class Service {
       })
     );
   }
+  getAddType(): Observable<any[]> {
+    return this._httpClient.get<any[]>(environment.API_URL + '/api/get_course_type').pipe(
+      tap((meterial) => {
+        this._materials.next(meterial);
+      })
+    );
+  }
 
+  
   getReward(): Observable<any[]> {
     return this._httpClient.get<any[]>(environment.API_URL + '/api/get_course_reward').pipe(
       tap((meterial) => {
@@ -1038,6 +1049,12 @@ export class Service {
     return this._httpClient.get<DataBank>(environment.API_URL + '/api/get_course_by_id/' + Id)
   }
 
+  getCourseById(Id: string): Observable<DataBank> {
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/get_course_by_id/' + Id)
+  }
+
+
+  
   //   * update branch
   update(data: any,id:any): Observable<any> {
     return this._httpClient.put(environment.API_URL + '/api/course/'+id, data, this.httpOptionsFormdata).pipe(
@@ -1083,7 +1100,13 @@ export class Service {
       })
     );
   }
-
+  getLessonPage(dataTablesParameters: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/course_lesson_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
   getBankAll(): Observable<any> {
     return this._httpClient.get<any>(environment.API_URL + 'api/get_bank')
   }
@@ -1110,6 +1133,37 @@ export class Service {
   updateTransaction(data: FormData): Observable<DataUser> {
     return this._httpClient.post<DataUser>(environment.API_URL + 'api/update_bank_trans', data, { headers: this.httpOptionsFormdata.headers });
   }
+  createCoupon(data: any): Observable<any> {
+    return this._httpClient
+        .post(
+            environment.API_URL + '/api/gift_voucher_code',
+            data,
+            this.httpOptionsFormdata
+        )
+        .pipe(
+            switchMap((response: any) => {
+                // Return a new observable with the response
+                return of(response);
+            })
+        );
+}
+getCodePage(dataTablesParameters: any): Observable<DataTablesResponse> {
+  return this._httpClient.post(environment.API_URL + '/api/gift_voucher_code_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+    switchMap((response: any) => {
+      return of(response.data);
+    })
+  );
+}
 
 
+deleteCourse(itemId: number): Observable<{}> {
+  return this._httpClient
+    .delete<any>(`${environment.API_URL}/api/course_reward/${itemId}`, this.httpOptionsFormdata)
+    .pipe(
+      map((mtplan) => {
+        return mtplan;
+      }),
+      catchError((err) => this.handlerError(err))
+    );
+}
 }

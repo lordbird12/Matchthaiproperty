@@ -37,6 +37,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
 import { AssetType, BranchPagination } from '../page.types';
 import { Service } from '../page.service';
+import { Location } from '@angular/common';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
 @Component({
@@ -92,7 +93,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _matDialog: MatDialog,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService
+        private _authService: AuthService,
+
+        private location: Location,
     ) {
         this.formData = this._formBuilder.group({
             course_id: ['', Validators.required],
@@ -162,12 +165,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     videoChange(event) {
         this.video = event.target.files[0]
     }
-    discard(): void {}
+    discard(): void { }
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -204,8 +207,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe(async (result) => {
             if (result === 'confirmed') {
-                if (this.video != null) 
-                {
+                if (this.video != null) {
                     const video = new FormData()
                     video.append("file", this.video)
                     video.append("path", "images/course_lesson/")
@@ -214,12 +216,13 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
 
 
-                this._Service.update(this.formData.value,this.Id).subscribe({
+                this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-                        this._router
-                            .navigateByUrl('course-lesson/list')
-                            .then(() => {});
+                        // this._router
+                        //     .navigateByUrl('course-lesson/list')
+                        //     .then(() => {});
+                        this.location.back()
                     },
                     error: (err: any) => {
                         this.formData.enable();
@@ -277,6 +280,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             image: this.files[0],
         });
     }
+
+    back() {
+        this.location.back()
+
+    }
+
 
     onRemove(event) {
         this.files.splice(this.files.indexOf(event), 1);

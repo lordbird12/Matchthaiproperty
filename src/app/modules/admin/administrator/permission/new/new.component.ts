@@ -108,7 +108,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             status: '',
             menu_id: 1,
             view: false,
-            add: false,
+            save: false,
             delete: false,
             edit: false,
 

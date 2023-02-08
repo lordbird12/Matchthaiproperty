@@ -34,8 +34,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
-import { sortBy, startCase } from 'lodash-es';
+import { sortBy, startCase,chain,groupBy } from 'lodash';
 import { AssetType, BranchPagination } from '../page.types';
+
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
@@ -52,7 +53,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     itemData: any = [];
 
     files: File[] = [];
-
+    inquiry_facilitys : any=[];
     statusData = [
         { value: 'Yes', name: 'อนุมัติใช้งาน' },
         { value: 'No', name: 'ไม่อนุมัติ' },
@@ -126,7 +127,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             parking: '',
             living_room: '',
             usable_area_max: '',
-            property_sub_facility: '',
+            // property_sub_facility: '',
             Inquiry_facility_display: '',
             property_sub_type_explend: '',
             property_sub_type_rent:'',
@@ -138,14 +139,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
-
+            console.log(this.itemData.inquiry_facilitys)
            //// ARRAY 3ชั้น forซ้อนfor
-            let property_sub_facility = ""
-            for (const data of this.itemData.Inquiry_facility_display) {
-                for (const data1 of data.facility) {
-                    property_sub_facility += (data1.property_sub_facility?.name) + "   "
-                }
-            }
+            // let property_sub_facility = ""
+            // for (const data of this.itemData.Inquiry_facility_display) {
+            //     for (const data1 of data.facility) {
+            //         property_sub_facility += (data1.property_sub_facility?.name) + "   "
+            //     }
+            // }
 
             let property_sub_type_explend = ""
             for (const data of this.itemData.inquiry_property_explends) {
@@ -168,6 +169,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 inquiry_tags += (data?.name)+ "   "
             }
 
+            // console.log(this.itemData.inquiry_facilitys)
+            this.inquiry_facilitys = chain(this.itemData.inquiry_facilitys).groupBy("property_sub_facility.property_facility.name").map((value,key)=>({key,value})).value()
+          
+
+
+
             this.formData.patchValue({
                 id: this.itemData.id,
                 name: this.itemData.name,
@@ -187,7 +194,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 parking: this.itemData.parking,
                 living_room: this.itemData.living_room,
                 usable_area_max: this.itemData.usable_area_max,
-                property_sub_facility: property_sub_facility,
+                // property_sub_facility: property_sub_facility,
                 property_sub_type_explend:property_sub_type_explend,
                 property_sub_type_rent:property_sub_type_rent,
                 property_location_nearby:property_location_nearby,
@@ -205,6 +212,15 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             user_id: '',
             remark: '',
         });
+    }
+
+    property_sub_facilityFN(item){
+        console.log(item)
+       let property_sub_facility_name=""
+        for (const data of item.value) {
+            property_sub_facility_name += (data.property_sub_facility.name?? " ")+ "   "
+        }
+        return property_sub_facility_name
     }
 
     addUser(): void {

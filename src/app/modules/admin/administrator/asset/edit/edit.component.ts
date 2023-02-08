@@ -34,7 +34,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
-import { sortBy, startCase } from 'lodash-es';
+import { chain, groupBy, sortBy, startCase, values } from 'lodash';
 import { AssetType, BranchPagination } from '../page.types';
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
@@ -52,7 +52,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     itemData: any = [];
     images: String[]=[];
     files: File[] = [];
-
+    asset_facilitys : any=[];
     statusData = [
         { value: 'Yes', name: 'อนุมัติใช้งาน' },
         { value: 'No', name: 'ไม่อนุมัติ' },
@@ -152,6 +152,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             // console.log(this.itemData)
 
+
+//////////////////////////////////////////////////////////
+
+            this.asset_facilitys = chain(this.itemData.asset_facilitys).groupBy("property_sub_facility.property_facility.name").map((value,key)=>({key,value})).value()
+            console.log(this.asset_facilitys)
+            // for (const data of this.itemData.asset_facilitys) {
+            //     // property_sub_facility += data.name + "    "
+            //     asset_facilitys += (data.name)+ "   "
+            //     // property_sub_facility += (data.property_sub_facility?.name ?? "  ,")+ "\n"
+            // }
+
+//////////////////////////////////////////////
                       
             let property_location_nearby = ""
             for (const data of this.itemData.asset_location_nearbys) {
@@ -165,6 +177,13 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 // property_location_nearby += data.name + "    "
                 asset_tags += (data.name?? " ")+ "   "
             }
+
+            // let asset_facility_display = ""
+            // for (const data of this.itemData.asset_facility_display) {
+            //     // property_location_nearby += data.name + "    "
+            //     asset_facility_display += (data.name?? " ")+ "   "
+            // }
+
 
             let property_sub_type_rent = ""
             for (const data of this.itemData.asset_property_rents) {
@@ -311,6 +330,17 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         });
     }
+
+    property_sub_facilityFN(item){
+        console.log(item)
+       let property_sub_facility_name=""
+        for (const data of item.value) {
+            // property_location_nearby += data.name + "    "
+            property_sub_facility_name += (data.property_sub_facility.name?? " ")+ "   "
+        }
+        return property_sub_facility_name
+    }
+
 
     showFlashMessage(type: 'success' | 'error'): void {
         // Show the message

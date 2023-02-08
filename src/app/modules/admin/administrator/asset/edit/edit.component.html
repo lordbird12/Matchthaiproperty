@@ -120,7 +120,8 @@
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ประเภทย่อย</mat-label>
-                                <textarea matInput [formControlName]="'property_sub_type'" [rows]="4" readonly  ></textarea>
+                                <textarea matInput [formControlName]="'property_sub_type'" [rows]="4"
+                                    readonly></textarea>
                             </mat-form-field>
                         </div>
 
@@ -131,20 +132,23 @@
                                     readonly></textarea>
                             </mat-form-field>
                         </div>
-               
-         
+
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+                        <ng-container *ngFor="let item of this.asset_facilitys">
+                            <div class="flex flex-col w-full lg:w-1/6 sm:pl-8 ">
+                                <mat-form-field class="w-full">
+                                    <mat-label class="font-bold">{{item.key}}</mat-label>
+                                    <textarea matInput [rows]="4" value="{{property_sub_facilityFN(item)}}"
+                                        readonly></textarea>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+
 
 
 
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
-                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">สิ่งอำนวยความสะดวก</mat-label>
-                                <textarea matInput [formControlName]="'property_sub_facility'" [rows]="4"
-                                    readonly></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สถานที่ใกล้เคียง</mat-label>
                                 <textarea matInput [formControlName]="'property_location_nearby'" [rows]="4"
@@ -153,21 +157,18 @@
                             </mat-form-field>
                         </div>
 
-
-
-
-                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">คุณสมบัติผู้เช่า</mat-label>
                                 <textarea matInput [formControlName]="'property_ownership'" [rows]="4"
                                     readonly></textarea>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">อสังหาให้เช่า</mat-label>
-                                <textarea matInput [formControlName]="'property_sub_type_rent'" [rows]="4" readonly></textarea>
+                                <textarea matInput [formControlName]="'property_sub_type_rent'" [rows]="4"
+                                    readonly></textarea>
                             </mat-form-field>
                         </div>
 
@@ -195,7 +196,7 @@
                         </div>
 
 
-       
+
 
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
                         <mat-label class="flex flex-col w-full lg:w-2/6 sm:pl-8 mb-4 font-bold">รูปอสังหา</mat-label>

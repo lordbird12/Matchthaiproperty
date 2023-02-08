@@ -113,8 +113,6 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this._Service.getCourseType().subscribe((resp: any) => {
             this.courseType = resp.data;
-
-            // Mark for check
             this._changeDetectorRef.markForCheck();
         })
     }
@@ -133,6 +131,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     videoChange(event) {
         this.video = event.target.files[0]
     }
+    
     create(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;

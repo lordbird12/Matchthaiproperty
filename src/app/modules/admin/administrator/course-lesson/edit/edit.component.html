@@ -19,7 +19,7 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <!-- <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
                                 <mat-select [formControlName]="'course_id'">
@@ -31,11 +31,11 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
+                                <mat-label class="font-bold">ชื่อบทเรียน</mat-label>
                                 <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
                             </mat-form-field>
                         </div>
@@ -87,10 +87,10 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <button class="ml-4" mat-flat-button (click)="back()" >
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
-                    </a>
+                    </button>
                     <button class="px-6 ml-3 mat-primary" mat-flat-button (click)="update()">
                         <mat-icon svgIcon="heroicons_solid:check"></mat-icon>
                         ยืนยัน

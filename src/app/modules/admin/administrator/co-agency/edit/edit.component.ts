@@ -53,7 +53,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     statusData = [
         { value: 'open', name: 'Open' },
-        { value: 'post', name: 'Post' },
+        { value: 'post', name: 'Share' },
         { value: 'contact', name: 'Contact' },
         { value: 'close_deal', name: 'Close Deal' },
         { value: 'finish', name: 'Finish' },

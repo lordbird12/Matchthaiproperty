@@ -3,6 +3,7 @@ import { PageComponent } from './page.component';
 import { EditComponent } from './edit/edit.component';
 import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
+import { AddComponent } from './add/add.component';
 import { PrintComponent } from './print/print.component';
 
 export const pageRoute: Route[] = [
@@ -23,6 +24,10 @@ export const pageRoute: Route[] = [
                 component: EditComponent,
             },
             {
+                path: 'add/:id',
+                component: AddComponent,
+            },
+            {  
                 path: 'print/:id',
                 component: PrintComponent,
             },

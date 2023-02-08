@@ -359,13 +359,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/course/list',
                     },
-                    {
-                        id: 'course.lesson',
-                        title: 'บทเรียน',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: '/course-lesson/list',
-                    },
+                    // {
+                    //     id: 'course.lesson',
+                    //     title: 'บทเรียน',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: '/course-lesson/list',
+                    // },
                 ],
             },
 

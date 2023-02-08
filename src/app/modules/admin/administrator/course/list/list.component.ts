@@ -306,7 +306,10 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
     }
-
+    add(Id: string): void {
+        this._router.navigate(['course/add/' + Id]);
+    }
+    
     edit(Id: string): void {
         this._router.navigate(['course/edit/' + Id]);
     }

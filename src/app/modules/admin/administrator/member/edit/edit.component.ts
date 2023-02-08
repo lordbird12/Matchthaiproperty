@@ -53,10 +53,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     MemberType: any = [];
     files: File[] = [];
     files1: File[] = [];
-    statusData = [
-        { value: 'Yes', name: 'อนุมัติใช้งาน' },
-        { value: 'No', name: 'ไม่อนุมัติ' },
-        { value: 'Request', name: 'รออนุมัติ' },
+    statusData: any = [
+        { value: 1, name: 'เปิดใช้งาน' },
+        { value: 0, name: 'ปิดใช้งาน' },
     ];
 
     Id: any;
@@ -118,7 +117,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             email_status:1,
             otp_status:1,
             profile_status:1,
-            status:1,
+            status:'',
             finish:1,
 
 
@@ -149,7 +148,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 member_group_id: this.itemData.member_group_id,
                 username: this.itemData.username,
                 email: this.itemData.email,
-           
+                status: this.itemData.status,
                 tel: this.itemData.tel,
                 fname: this.itemData.fname,
                 lname: this.itemData.lname,
