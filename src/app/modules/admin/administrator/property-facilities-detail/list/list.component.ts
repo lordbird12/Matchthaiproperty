@@ -38,7 +38,6 @@ import { Service } from '../page.service';
 import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
-import { PictureComponent } from '../picture/picture.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
@@ -51,8 +50,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dtOptions: DataTables.Settings = {};
     public dataRow: any[];
     public dataGrid: any[];
-    formData: FormGroup
-    public TypeList: any = [];
     private destroy$ = new Subject<any>();
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
@@ -61,7 +58,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'id',
         'name',
         'status',
-        'property_facility',
+        'create_by',
+        'created_at',
+        'actions',
     ];
     dataSource: MatTableDataSource<DataBranch>;
 
@@ -69,7 +68,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     asset_types: AssetType[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    searchInputControl: FormControl = new FormControl(null);
+    searchInputControl: FormControl = new FormControl();
     selectedProduct: any | null = null;
     filterForm: FormGroup;
     tagsEditMode: boolean = false;
@@ -112,20 +111,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.loadTable();
-        this.formData = this._formBuilder.group({
-            property_facility_id: [null, Validators.required],
-   
-        });
-       
-        this._Service.getPropertyTypeId().subscribe((resp: any) => {
-            this.TypeList = resp.data;
-            this._changeDetectorRef.markForCheck();
-        });
-        
-
-
-
-
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -142,10 +127,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = '';
-                dataTablesParameters.property_facility_id = this.formData.value.property_facility_id;
-                if(!!dataTablesParameters.property_facility_id)
-                {               
-                     that._Service
+                that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
                         this.dataRow = resp.data;
@@ -166,23 +148,16 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                         });
                         this._changeDetectorRef.markForCheck();
                     });
-                }
-                else
-                {          
-                    callback({
-                    recordsTotal: 0,
-                    recordsFiltered: 0,
-                    data: [],
-                });
-                 }
-
-
             },
             columns: [
-                { data: 'name' },
+                { data: 'id' },
+                { data: 'course' },
+                { data: 'title' },
+                { data: 'video' },
+                { data: 'time' },
                 { data: 'status' },
-                { data: 'property_facility' },
-                { data: 'actice', orderable: false },
+                { data: 'create_by' },
+                { data: 'created_at' },
                 { data: 'actice', orderable: false },
             ]
         };
@@ -229,15 +204,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    Search() {
-        this.rerender();
-      
-    }
-    rerender(): void {
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.ajax.reload();
-        });
-    }
 
     resetForm(): void {
         this.filterForm.reset();
@@ -272,21 +238,13 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['property-facilities/edit/' + Id]);
+        this._router.navigate(['course-lesson/edit/' + Id]);
     }
-
-    viewDetail(Id: string): void {
-        this._router.navigate(['property-facilities/detail/' + Id]);
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
     }
-    add(Id: string): void {
-        this._router.navigate(['property-facilities/add/' + Id]);
-    }
-    
-    textStatus(status: string): string {
-        return startCase(status);
-    }
-
-
 
     Delete(id) {
         const confirmation = this._fuseConfirmationService.open({
@@ -349,19 +307,11 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
     }
+    viewDetail(Id: string): void {
+        this._router.navigate(['course-lesson/detail/' + Id]);
+    }
 
-    showPicture(imgObject: any): void {
-        this._matDialog.open(PictureComponent, {
-            autoFocus: false,
-            data: {
-                imgSelected: imgObject
-            }
-        })
-            .afterClosed()
-            .subscribe(() => {
-
-                // Go up twice because card routes are setup like this; "card/CARD_ID"
-                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
-            });
+    textStatus(status: string): string {
+        return startCase(status);
     }
 }

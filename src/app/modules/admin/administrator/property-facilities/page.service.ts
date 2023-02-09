@@ -1047,6 +1047,14 @@ export class Service {
     );
   }
 
+  getFacilitiePage(dataTablesParameters: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/property_sub_facility_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
   delete(itemId: number): Observable<{}> {
     return this._httpClient
       .delete<any>(`${environment.API_URL}/api/property_sub_facility/${itemId}`, this.httpOptionsFormdata)
@@ -1057,7 +1065,16 @@ export class Service {
         catchError((err) => this.handlerError(err))
       );
   }
-
+  deleteCourse(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/property_sub_facility/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
   getBankAll(): Observable<any> {
     return this._httpClient.get<any>(environment.API_URL + 'api/get_bank')
   }

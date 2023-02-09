@@ -43,7 +43,6 @@ import { pageRoute } from './page.routing';
 import { PageComponent } from './page.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
-import { AddComponent } from './add/add.component';
 import { PrintComponent } from './print/print.component';
 
 
@@ -54,7 +53,6 @@ import { PrintComponent } from './print/print.component';
         ListComponent,
         NewComponent,
         EditComponent,
-        AddComponent,
         PrintComponent,
     ],
     imports: [

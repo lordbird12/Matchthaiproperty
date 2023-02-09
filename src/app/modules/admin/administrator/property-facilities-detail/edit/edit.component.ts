@@ -37,6 +37,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
 import { AssetType, BranchPagination } from '../page.types';
 import { Service } from '../page.service';
+import { Location } from '@angular/common';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
 @Component({
@@ -50,9 +51,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) private _sort: MatSort;
     public UserAppove: any = [];
     itemData: any = [];
-
+    video: File;
     files: File[] = [];
-    getMenu: any = [];
+
     statusData = [
         { value: 'Yes', name: 'อนุมัติใช้งาน' },
         { value: 'No', name: 'ไม่อนุมัติ' },
@@ -60,7 +61,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     ];
 
     Id: any;
-    permissionName: any = [];
+    courseType: any = [];
 
     formData: FormGroup;
     flashErrorMessage: string;
@@ -92,19 +93,20 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _matDialog: MatDialog,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService
+        private _authService: AuthService,
+
+        private location: Location,
     ) {
         this.formData = this._formBuilder.group({
-            id: '',
-            name: '',
-            menu: '',
-            menu_id: 1,
+            course_id: ['', Validators.required],
+            title: ['', Validators.required],
+            detail: '',
+            video: 'images/course_lesson/1666553407.mp4',
+            hour: '',
+            min: '',
+            sec: '',
             status: '',
-            view: '',
-            save: '',
-            edit: '',
-            delete: '',
-
+            image: [''],
         });
     }
 
@@ -117,76 +119,27 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     async ngOnInit(): Promise<void> {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
-        this.formData = this._formBuilder.group({
-            name: ['', Validators.required],
-            menu: this._formBuilder.array([]),
+
+        this._Service.getCourseType().subscribe((resp: any) => {
+            this.courseType = resp.data;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        })
+
+        this._Service.getById(this.Id).subscribe((resp: any) => {
+            this.itemData = resp.data;
+            this.formData.patchValue({
+                course_id: this.itemData.course_id,
+                title: this.itemData.title,
+                detail: this.itemData.detail,
+                video: this.itemData.video,
+                hour: this.itemData.hour,
+                min: this.itemData.min,
+                sec: this.itemData.sec,
+                status: this.itemData.status,
+            });
         });
-        const menus = await lastValueFrom(this._Service.getMenu())
-        this.getMenu = menus.data
-        // console.log(menus.data)
-        // this._Service.getMenu().subscribe((resp: any) => {
-        //     this.getMenu = resp.data;
-        //     this._changeDetectorRef.markForCheck();
-        // })
-
-        const resp = await lastValueFrom(this._Service.getById(this.Id))
-
-
-        this.itemData = resp.data;
-        for (const menu of this.itemData) {
-            console.log(menu)
-            let item = this._formBuilder.group({
-                id: '',
-                name: menu.name,
-                menu_id: menu.menu_id,
-                view: menu.view == 1 ? true : false,
-                save: menu.save == 1 ? true : false,
-                delete: menu.delete == 1 ? true : false,
-                edit: menu.edit == 1 ? true : false,
-            })
-            this.permission().push(item)
-        }
-        this._changeDetectorRef.markForCheck();
-        // this.formData.patchValue({
-        //     id: this.itemData[0].id,
-        //     name: this.itemData[0].name,
-        //     status: this.itemData.status,
-        //     menu: this.itemData.menu,
-        //     menu_id: this.itemData[0].menu_id,
-        //     view: this.itemData[0].view  == 1 ? true : false, 
-        //     save: this.itemData[0].save  == 1 ? true : false, 
-        //     edit: this.itemData[0].edit  == 1 ? true : false, 
-        //     delete: this.itemData[0].delete  == 1 ? true : false, 
-        // });
-
-
-        // this._Service.getById(this.Id).subscribe((resp: any) => {
-        //     this.itemData = resp.data;
-        //     for (const menu of this.itemData) {
-        //         console.log(menu)
-        //         let item = this._formBuilder.group({
-        //           id: '',
-        //           name: menu.name,
-        //           menu_id: menu.id,
-        //           view: menu.view  == 1 ? true : false, 
-        //           save: menu.save  == 1 ? true : false, 
-        //           edit: menu.edit  == 1 ? true : false, 
-        //           delete: menu.delete  == 1 ? true : false, 
-        //         })
-        //         this.permission().push(item)
-        //       }
-        //     this.formData.patchValue({
-        //         id: this.itemData[0].id,
-        //         name: this.itemData[0].name,
-        //         status: this.itemData.status,
-        //         menu: this.itemData.menu,
-        //         menu_id: this.itemData[0].menu_id,
-        //         view: this.itemData[0].view  == 1 ? true : false, 
-        //         save: this.itemData[0].save  == 1 ? true : false, 
-        //         edit: this.itemData[0].edit  == 1 ? true : false, 
-        //         delete: this.itemData[0].delete  == 1 ? true : false, 
-        //     });
-        // });
     }
 
     approve(): FormArray {
@@ -209,7 +162,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     removeUser(i: number): void {
         this.approve().removeAt(i);
     }
-
+    videoChange(event) {
+        this.video = event.target.files[0]
+    }
     discard(): void { }
 
     /**
@@ -223,34 +178,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
     }
-    permission(): FormArray {
-        return this.formData.get('menu') as FormArray;
-    }
-    newPermission(): FormGroup {
-        return this._formBuilder.group({
-            menu_id: '',
-            view: '',
-            save: '',
-            edit: '',
-            delete: '',
-        });
-    }
-    addPermission(): void {
-        this.permission().push(this.newPermission());
-    }
+
     update(): void {
-        // const data = {
-        //     "name": this.formData.value.name,
-        //     "menu": [
-        //         {
-        //             "menu_id": 1,
-        //             "view":this.formData.value.view == true ? 1 : 0, 
-        //             "save":this.formData.value.save == true ? 1 : 0,
-        //             "edit":this.formData.value.edit == true ? 1 : 0,
-        //             "delete": this.formData.value.delete == true ? 1 : 0,
-        //         }
-        //     ]
-        // }
         this.flashMessage = null;
         this.flashErrorMessage = null;
         const confirmation = this._fuseConfirmationService.open({
@@ -276,32 +205,24 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            // If the confirm button pressed...
+        confirmation.afterClosed().subscribe(async (result) => {
             if (result === 'confirmed') {
-                const menuedit = []
-                for (const m of this.formData.value.menu) {
-                    const menunew =
-                    {
-                        "menu_id":m.menu_id,
-                        "view": m.view? 1:0 ,
-                        "save": m.save? 1:0,
-                        "delete":m.delete? 1:0,
-                        "edit": m.edit? 1:0,
-                     
-                    }
-                    menuedit.push(menunew)
+                if (this.video != null) {
+                    const video = new FormData()
+                    video.append("file", this.video)
+                    video.append("path", "images/course_lesson/")
+                    const file = await lastValueFrom(this._Service.uploadVideo(video))
+                    this.formData.patchValue({ video: file })
                 }
-                const payload = {name:this.formData.value.name,menu:menuedit}
 
 
-
-                this._Service.update(payload, this.Id).subscribe({
+                this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-                        this._router
-                            .navigateByUrl('permission/list')
-                            .then(() => { });
+                        // this._router
+                        //     .navigateByUrl('course-lesson/list')
+                        //     .then(() => {});
+                        this.location.back()
                     },
                     error: (err: any) => {
                         this.formData.enable();
@@ -359,6 +280,12 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             image: this.files[0],
         });
     }
+
+    back() {
+        this.location.back()
+
+    }
+
 
     onRemove(event) {
         this.files.splice(this.files.indexOf(event), 1);

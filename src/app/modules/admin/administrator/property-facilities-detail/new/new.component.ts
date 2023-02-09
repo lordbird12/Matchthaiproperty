@@ -22,6 +22,7 @@ import {
     debounceTime,
     map,
     merge,
+    lastValueFrom,
     Observable,
     Subject,
     switchMap,
@@ -44,15 +45,11 @@ import { Service } from '../page.service';
     styleUrls: ['./new.component.scss'],
     animations: fuseAnimations,
 })
-
 export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-
-
     formData: FormGroup;
-
     flashErrorMessage: string;
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -66,8 +63,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
-    form: FormGroup;
-    getMenu: any = [];
+    video: File;
+    courseType: any = [];
     /**
      * Constructor
      */
@@ -81,17 +78,17 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
-        // this.formData = this._formBuilder.group({
-        //     name: ['', Validators.required],
-        //     menu: '',
-        //     menu_id: 1,
-        //     status: '',
-
-        //     view: false,
-        //     add: false,
-        //     delete: false,
-        //     edit: false,
-        // });
+        this.formData = this._formBuilder.group({
+            course_id: ['', Validators.required],
+            title: ['', Validators.required],
+            detail: '',
+            video: '',
+            hour: '',
+            min: '',
+            sec: '',
+            status: '',
+      
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -103,45 +100,27 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            name: ['', Validators.required],
-            menu: this._formBuilder.array([]),
+            course_id: ['', Validators.required],
+            title: ['', Validators.required],
+            detail: '',
+            video: '',
+            hour: '',
+            min: '',
+            sec: '',
+            status: '',
+     
         });
 
-        this._Service.getMenu().subscribe((resp: any) => {
-            this.getMenu = resp.data;
+        this._Service.getCourseType().subscribe((resp: any) => {
+            this.courseType = resp.data;
             this._changeDetectorRef.markForCheck();
-            for (const menu of this.getMenu) {
-                this.permission().push(this._formBuilder.group({
-                    menu_id: menu.id,
-                    name:menu.name,
-                    view: false,
-                    save: false,
-                    delete: false,
-                    edit: false,
-                }));
-            }
         })
     }
 
-    permission(): FormArray {
-        return this.formData.get('menu') as FormArray;
-    }
-    newPermission(): FormGroup {
-        return this._formBuilder.group({
-            menu_id: '',
-            view: '',
-            save: '',
-            edit: '',
-            delete: '',
-        });
-    }
-    addPermission(): void {
-        this.permission().push(this.newPermission());
-    }
     /**
      * After view init
      */
-    ngAfterViewInit(): void { }
+    ngAfterViewInit(): void {}
 
     /**
      * On destroy
@@ -149,21 +128,11 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
     }
-
+    videoChange(event) {
+        this.video = event.target.files[0]
+    }
+    
     create(): void {
-        // const data = {
-        //     "name": this.formData.value.name,
-        //     "menu": [
-        //         {
-        //             "menu_id": 1,
-        //             "view": this.formData.value.view == true ? 1 : 0,
-        //             "save": this.formData.value.save == true ? 1 : 0,
-        //             "edit": this.formData.value.edit == true ? 1 : 0,
-        //             "delete": this.formData.value.delete == true ? 1 : 0,
-        //         }
-        //     ]
-        // }
-
         this.flashMessage = null;
         this.flashErrorMessage = null;
         const confirmation = this._fuseConfirmationService.open({
@@ -187,17 +156,21 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             dismissible: true,
         });
+
         // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            // console.log(this.formData.value)
-            // return
+        confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
+                const video = new FormData()
+                video.append("file",this.video)
+                video.append("path","images/course_lesson/")
+                const file = await lastValueFrom(this._Service.uploadVideo(video))
+                this.formData.patchValue({video:file})
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('permission/list')
-                            .then(() => { });
+                            .navigateByUrl('course-lesson/list')
+                            .then(() => {});
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({

@@ -174,6 +174,16 @@ export const appRoutes: Route[] = [
                     { path: '', loadChildren: () => import('app/modules/admin/administrator/property-facilities/page.module').then(m => m.Module) },
                 ]
             },
+
+            {
+                path: 'property-facilities-detail',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-facilities-detail/page.module').then(m => m.Module) },
+                ]
+            },
+
+
+
             {
                 path: 'property-tag',
                 canActivate: [], children: [
