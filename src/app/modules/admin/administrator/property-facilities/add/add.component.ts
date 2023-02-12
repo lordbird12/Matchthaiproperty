@@ -22,7 +22,6 @@ import {
     map,
     merge,
     Observable,
-    lastValueFrom,
     Subject,
     switchMap,
     takeUntil,
@@ -34,7 +33,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
-// import { AssetType, PositionPagination } from '../page.types';
+import { AssetType,PositionPagination } from '../page.types';
 import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
@@ -67,16 +66,12 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
     ClassData: any;
 
     supplierId: string | null;
-    // pagination: PositionPagination;
+    pagination: PositionPagination;
     id: string;
     itemData: any = [];
     files: File[] = [];
     AddCouponType: any = [];
-    AddType: any = [];
-    video: File;
-
-
-
+    
     /**
      * Constructor
      */
@@ -90,18 +85,14 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
+        {
             this.formData = this._formBuilder.group({
                 id: '',
-                course_id: '',
-                title: '',
-                detail: '',
-                video: '',
-                hour: '',
-                min: '',
-                sec: '',
+                name: '',
                 status: '',
-
-            }); 
+                property_sub_facility_id:'',
+            });
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -112,53 +103,53 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.id = this._activatedRoute.snapshot.paramMap.get('id');
         this.loadTable();
         this.formData = this._formBuilder.group({
-            course_id: this.id,
-            title: '',
-            detail: '',
-            video: '',
-            hour: '',
-            min: '',
-            sec: '',
+            id: '',
+            name: '',
             status: '',
+            property_sub_facility_id:'',
         });
-        // this._Service.getAddType().subscribe((resp: any) => {
-        //     this.AddType = resp.data;
-        //     this._changeDetectorRef.markForCheck();
-        // })
-        // this._Service.getCourseById(this.id).subscribe((resp: any) => {
+
+        // this.id = this._activatedRoute.snapshot.paramMap.get('id');
+        // this._Service.getBySubId(this.id).subscribe((resp: any) => {
         //     this.itemData = resp.data;
         //     this.formData.patchValue({
         //         id: this.itemData.id,
-
+        //         name: this.itemData.name,
+        //         status: this.itemData.status,
+        //         property_sub_facility_id:this.id,
         //     });
         // });
+        
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
         const that = this;
+        // this.itemData.property_sub_facility_id=1,
+
+     
         this.dtOptions = {
             pagingType: 'full_numbers',
-            pageLength: 100,
+            pageLength: 10,
             serverSide: true,
             processing: true,
             responsive: true,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
+        
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = '';
-                dataTablesParameters.course_id= this.id;
                 that._Service
-                    .getFacilitiePage(dataTablesParameters)
+            
+                    .getSubPage(dataTablesParameters)
                     .subscribe((resp) => {
                         this.dataRow = resp.data;
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
+                        
                         if (resp.current_page > 1) {
                             this.pages.begin =
                                 resp.per_page * resp.current_page - 1;
@@ -176,18 +167,11 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             columns: [
                 { data: 'id' },
-                { data: 'title' },
-                { data: 'video' },
-                { data: 'detail' },     
-                { data: 'time' },
-                { data: 'status' },
-                { data: 'create_by' },
-                { data: 'created_at' },
-                { data: 'actice', orderable: false },
-            ]
+                { data: 'name' },
+                { data: 'property_sub_facility' },
+            ],
         };
     }
-
     discard(): void {}
 
     /**
@@ -202,75 +186,81 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         // Unsubscribe from all subscriptions
     }
 
-    // createCoupon(): void {
-    //     this.flashMessage = null;
-    //     this.flashErrorMessage = null;
-    //     const confirmation = this._fuseConfirmationService.open({
-    //         title: 'สร้างรายการใหม่',
-    //         message: 'คุณต้องการสร้างรายการใหม่ใช่หรือไม่ ',
-    //         icon: {
-    //             show: false,
-    //             name: 'heroicons_outline:exclamation',
-    //             color: 'warning',
-    //         },
-    //         actions: {
-    //             confirm: {
-    //                 show: true,
-    //                 label: 'ยืนยัน',
-    //                 color: 'primary',
-    //             },
-    //             cancel: {
-    //                 show: true,
-    //                 label: 'ยกเลิก',
-    //             },
-    //         },
-    //         dismissible: true,
-    //     });
-    //     confirmation.afterClosed().subscribe(async (result) => {
-    //         if (result === 'confirmed') {
-    //             const video = new FormData()
-    //             video.append("file",this.video)
-    //             video.append("path","images/course_lesson/")
-    //             const file = await lastValueFrom(this._Service.uploadVideo(video))
-    //             this.formData.patchValue({video:file})
-    //             this._Service.newCourse(this.formData.value).subscribe({
-    //                 next: (resp: any) => {
-    //                     // this._router
-    //                     //     .navigateByUrl('course/add')
-    //                     //     .then(() => {});
-    //                     window.location.reload()
-    //                 },
-    //                 error: (err: any) => {
-    //                     this._fuseConfirmationService.open({
-    //                         title: 'กรุณาระบุข้อมูล',
-    //                         message: err.error.message,
-    //                         icon: {
-    //                             show: true,
-    //                             name: 'heroicons_outline:exclamation',
-    //                             color: 'warning',
-    //                         },
-    //                         actions: {
-    //                             confirm: {
-    //                                 show: false,
-    //                                 label: 'ยืนยัน',
-    //                                 color: 'primary',
-    //                             },
-    //                             cancel: {
-    //                                 show: false,
-    //                                 label: 'ยกเลิก',
-    //                             },
-    //                         },
-    //                         dismissible: true,
-    //                     });
-    //                     console.log(err.error.message);
-    //                 },
-    //             });
-    //         }
-    //     });
-    // }
-    videoChange(event) {
-        this.video = event.target.files[0]
+    createSub(): void {
+        this.flashMessage = null;
+        this.flashErrorMessage = null;
+        // Return if the form is invalid
+        // if (this.formData.invalid) {
+        //     return;
+        // }
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title: 'สร้างรายการใหม่',
+            message: 'คุณต้องการสร้างรายการใหม่ใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
+                },
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
+            },
+            dismissible: true,
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            // If the confirm button pressed...
+            if (result === 'confirmed') {
+                const formData = new FormData();
+                Object.entries(this.formData.value).forEach(
+                    ([key, value]: any[]) => {
+                        formData.append(key, value);
+                    }
+                );
+
+                this._Service.createSub(formData).subscribe({
+                    next: (resp: any) => {
+                        this.showFlashMessage('success');
+                        window.location.reload()
+                    },
+                    error: (err: any) => {
+                        this._fuseConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                        console.log(err.error.message);
+                    },
+                });
+            }
+        });
     }
+
     showFlashMessage(type: 'success' | 'error'): void {
         // Show the message
         this.flashMessage = type;
@@ -286,9 +276,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
-
-
-    DeleteCourse(id: any): void {
+    DeleteCoupon(id: any): void {
         this.flashMessage = null;
 
         // Open the confirmation dialog
@@ -315,7 +303,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
-                this._Service.deleteCourse(id).subscribe({
+                this._Service.deleteSub(id).subscribe({
                     next: (resp: any) => {
                         location.reload();
                     },
@@ -348,9 +336,6 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
     
-    edit(Id: string): void {
-        this._router.navigate(['course-lesson/edit/' + Id]);
-    }
     onSelect(event) {
         this.files.push(...event.addedFiles);
         // Trigger Image Preview

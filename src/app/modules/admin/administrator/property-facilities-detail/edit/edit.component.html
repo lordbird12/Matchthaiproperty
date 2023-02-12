@@ -46,41 +46,6 @@
                                 <textarea matInput rows="4" [formControlName]="'detail'" placeholder="กรุณาระบุรายละเอียด"></textarea>
                             </mat-form-field>
                         </div>
-
-                  
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8 mt-5">
-                            <a class="mt-5" mat-flat-button href="{{this.formData.value.video}}" target="_blank">
-                                <mat-icon svgIcon="mat_outline:videocam"></mat-icon>
-                                กดดูคลิป
-                            </a>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8 mt-5">
-                            <mat-label class="font-bold">video</mat-label>
-                            <input class=" w-full text-lg border rounded-lg cursor-pointer mb-6 " id="video" type="file"
-                                (change)="videoChange($event)">
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชั่วโมง</mat-label>
-                                <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">นาที</mat-label>
-                                <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">วินาที</mat-label>
-                                <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
                     </div>
                 </div>
             </div>

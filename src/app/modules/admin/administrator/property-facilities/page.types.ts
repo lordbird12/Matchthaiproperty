@@ -19,6 +19,20 @@ export interface BranchProduct {
     images: string[];
     active: boolean;
 }
+export interface PositionPagination {
+    length: number;
+    size: number;
+    page: number;
+    lastPage: number;
+    startIndex: number;
+    endIndex: number;
+    pagination: {
+        page: number,
+        pageSize: number,
+        pageCount: number,
+        total: number
+    }
+}
 export interface BranchPagination {
     length: number;
     size: number;
