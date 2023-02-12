@@ -38,13 +38,13 @@ import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
 @Component({
-    selector: 'add',
-    templateUrl: './add.component.html',
-    styleUrls: ['./add.component.scss'],
+    selector: 'add-sub-explend',
+    templateUrl: './add-sub-explend.component.html',
+    styleUrls: ['./add-sub-explend.component.scss'],
 
     animations: fuseAnimations,
 })
-export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AddSubExplendComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     // @ViewChild(DataTableDirective)
@@ -91,7 +91,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
                 id: '',
                 name: '',
                 status: '',
-                property_sub_facility_id:'',
+                sub_facility_explend_id:'',
             });
         }
     }
@@ -110,27 +110,13 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
             id: '',
             name: '',
             status: '',
-            property_sub_facility_id: this.id,
-        });
-
-      
-        // this._Service.getBySubId(this.id).subscribe((resp: any) => {
-        //     this.itemData = resp.data;
-        //     this.formData.patchValue({
-        //         id: this.itemData.id,
-        //         name: this.itemData.name,
-        //         status: this.itemData.status,
-        //         property_sub_facility_id:this.id,
-        //     });
-        // });
-        
+            sub_facility_explend_id: this.id,
+        });        
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
         const that = this;
-        // this.itemData.property_sub_facility_id=1,
-
         this.dtOptions = {
             pagingType: 'full_numbers',
             pageLength: 10,
@@ -141,9 +127,9 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.property_sub_facility_id= this.id;
+                dataTablesParameters.sub_facility_explend_id= this.id;
                 that._Service
-                    .getSubPage(dataTablesParameters)
+                    .getSubExplendPage(dataTablesParameters)
                     .subscribe((resp) => {
                         this.dataRow = resp.data;
                         this.pages.current_page = resp.current_page;
@@ -168,7 +154,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'status' },
-                { data: 'action' },
+                
             ],
         };
     }
@@ -187,9 +173,70 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
   
-   
-
-    createSub(): void {
+    EditSubExplend(Id: string): void {
+        this._router.navigate(['property-facilities/edit-sub-explend/' + Id]);
+    }
+    
+    DeleteSubExplend(id: any): void {
+        this.flashMessage = null;
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title: 'ลบรายการที่เลือก',
+            message: 'คุณต้องการลบรายการที่เลือกใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
+                },
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
+            },
+            dismissible: true,
+        });
+        confirmation.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                this._Service.deleteSubExplend(id).subscribe({
+                    next: (resp: any) => {
+                        location.reload();
+                    },
+                    error: (err: any) => {
+                        this._fuseConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                        console.log(err.error.message);
+                    },
+                });
+            }
+        });
+    }
+    
+    createSubExplend(): void {
         
         this.flashMessage = null;
         this.flashErrorMessage = null;
@@ -225,7 +272,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
                         formData.append(key, value);
                     }
                 );
-                this._Service.createSub(formData).subscribe({
+                this._Service.createSubExplend(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         window.location.reload()
@@ -258,14 +305,6 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         });
     }
-    EditSub(Id: string): void {
-        this._router.navigate(['property-facilities/edit-sub/' + Id]);
-    }
-
-    addSub(Id: string): void {
-        this._router.navigate(['property-facilities/add-sub-explend/'+ Id]);
-    }
-
 
     showFlashMessage(type: 'success' | 'error'): void {
         // Show the message
@@ -282,66 +321,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
-    DeleteSub(id: any): void {
-        this.flashMessage = null;
-
-        // Open the confirmation dialog
-        const confirmation = this._fuseConfirmationService.open({
-            title: 'ลบรายการที่เลือก',
-            message: 'คุณต้องการลบรายการที่เลือกใช่หรือไม่ ',
-            icon: {
-                show: false,
-                name: 'heroicons_outline:exclamation',
-                color: 'warning',
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: 'ยืนยัน',
-                    color: 'primary',
-                },
-                cancel: {
-                    show: true,
-                    label: 'ยกเลิก',
-                },
-            },
-            dismissible: true,
-        });
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                this._Service.deleteSub(id).subscribe({
-                    next: (resp: any) => {
-                        location.reload();
-                    },
-                    error: (err: any) => {
-                        this._fuseConfirmationService.open({
-                            title: 'กรุณาระบุข้อมูล',
-                            message: err.error.message,
-                            icon: {
-                                show: true,
-                                name: 'heroicons_outline:exclamation',
-                                color: 'warning',
-                            },
-                            actions: {
-                                confirm: {
-                                    show: false,
-                                    label: 'ยืนยัน',
-                                    color: 'primary',
-                                },
-                                cancel: {
-                                    show: false,
-                                    label: 'ยกเลิก',
-                                },
-                            },
-                            dismissible: true,
-                        });
-                        console.log(err.error.message);
-                    },
-                });
-            }
-        });
-    }
-    
+   
     onSelect(event) {
         this.files.push(...event.addedFiles);
         // Trigger Image Preview

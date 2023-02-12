@@ -1024,6 +1024,11 @@ export class Service {
     return this._httpClient.get<DataBank>(environment.API_URL + '/api/property_sub_facility_explend/' + Id)
   }
 
+  getBySubExplendId(Id: string): Observable<DataBank> {
+    return this._httpClient.get<DataBank>(environment.API_URL + '/api/property_sub_facility_explend_li/' + Id)
+  }
+
+
 
   //   * update branch
   update(data: any,id:any): Observable<any> {
@@ -1034,7 +1039,25 @@ export class Service {
       })
     );
   }
+  updateSub(data: any,id:any): Observable<any> {
+    return this._httpClient.put(environment.API_URL + '/api/property_sub_facility_explend/'+id, data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        // Return a new observable with the response
+        return of(response);
+      })
+    );
+  }
+  updateSubExplend(data: any,id:any): Observable<any> {
+    return this._httpClient.put(environment.API_URL + '/api/property_sub_facility_explend_li/'+id, data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        // Return a new observable with the response
+        return of(response);
+      })
+    );
+  }
 
+
+ 
 
   getTransactionPage(dataTablesParameters: any): Observable<DataTablesResponse> {
     return this._httpClient.post(environment.API_URL + 'api/bank_trans_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
@@ -1059,6 +1082,17 @@ export class Service {
       })
     );
   }
+  getSubExplendPage(dataTablesParameters: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/property_sub_facility_explend_li_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
+
+
+
   createSub(data: any): Observable<any> {
     return this._httpClient
         .post(
@@ -1074,12 +1108,36 @@ export class Service {
         );
 }
 
+createSubExplend(data: any): Observable<any> {
+  return this._httpClient
+      .post(
+          environment.API_URL + '/api/property_sub_facility_explend_li',
+          data,
+          this.httpOptionsFormdata
+      )
+      .pipe(
+          switchMap((response: any) => {
+              // Return a new observable with the response
+              return of(response);
+          })
+      );
+}
+
+
 deleteSub(id: any): Observable<any> {
   return this._httpClient.delete<any>(
-      environment.API_URL + '/api/property_sub_facility_explend/' + id,
+      environment.API_URL + '/api/property_sub_facility_explend/'+id,
       { headers: this.httpOptionsFormdata.headers }
   );
 }
+
+deleteSubExplend(id: any): Observable<any> {
+  return this._httpClient.delete<any>(
+      environment.API_URL + '/api/property_sub_facility_explend_li/'+id,
+      { headers: this.httpOptionsFormdata.headers }
+  );
+}
+
 
   delete(itemId: number): Observable<{}> {
     return this._httpClient

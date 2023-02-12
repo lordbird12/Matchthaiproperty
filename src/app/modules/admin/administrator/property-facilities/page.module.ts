@@ -43,6 +43,9 @@ import { pageRoute } from './page.routing';
 import { PageComponent } from './page.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
+import { EditSubComponent } from './edit-sub/edit-sub.component';
+import { EditSubExplendComponent } from './edit-sub-explend/edit-sub-explend.component';
+import { AddSubExplendComponent } from './add-sub-explend/add-sub-explend.component';
 import { AddComponent } from './add/add.component';
 import { PrintComponent } from './print/print.component';
 
@@ -54,7 +57,10 @@ import { PrintComponent } from './print/print.component';
         ListComponent,
         NewComponent,
         EditComponent,
+        EditSubComponent,
+        EditSubExplendComponent,
         AddComponent,
+        AddSubExplendComponent,
         PrintComponent,
     ],
     imports: [

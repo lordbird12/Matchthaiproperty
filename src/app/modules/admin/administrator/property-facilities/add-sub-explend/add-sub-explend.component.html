@@ -7,7 +7,7 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    เพิ่มสายเดินรถ 
+                    เพิ่มสถานที่
                 </h2>
             </div>
 
@@ -23,7 +23,7 @@
 
                     <div class="flex flex-col w-full lg:w-4/4 p-3">
                         <mat-form-field class="w-full">
-                            <mat-label>สายเดินรถ
+                            <mat-label>สถานที่
                             </mat-label>
                             <input matInput [formControlName]="'name'">
                         </mat-form-field>
@@ -47,7 +47,7 @@
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>
-                    <button class="px-6 ml-3 mat-primary" mat-flat-button (click)="createSub()">
+                    <button class="px-6 ml-3 mat-primary" mat-flat-button (click)="createSubExplend()">
                         <mat-icon svgIcon="heroicons_solid:check"></mat-icon>
                         ยืนยัน
                     </button>
@@ -66,31 +66,21 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th style="width:50%;">สายเดินรถ</th>
-                            <th>รายละเอียดสายเดินรถ</th>
                             <th>จัดการ</th>
 
                         </tr>
                     </thead>
                     <tbody *ngIf="dataRow?.length != 0">
                         <ng-container *ngFor="let item of dataRow; let i = index">
-                            <tr *ngIf="item.property_sub_facility_id == this.id">
+                            <tr *ngIf="item.sub_facility_explend_id == this.id">
                                 <td style="width: 30%;">{{ pages.begin + (i + 1) }}</td>
                                 <td>{{ item.name }}</td>
-
-                                <td style="width: 15%;">
-                                    
-                                        <button mat-button (click)="addSub(item.id)">
-                                            <mat-icon svgIcon="library_add"></mat-icon>
-                                        </button>
-                                 
-                                </td>
                                 <td>
-
-                                    <button mat-button (click)="EditSub(item.id)">
+                                    <button mat-button (click)="EditSubExplend(item.id)">
                                         <mat-icon>edit</mat-icon>
                                     </button>
                                 
-                                    <button mat-button (click)="DeleteSub(item.id)">
+                                    <button mat-button (click)="DeleteSubExplend(item.id)">
                                         <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                     </button>
                                 </td>
