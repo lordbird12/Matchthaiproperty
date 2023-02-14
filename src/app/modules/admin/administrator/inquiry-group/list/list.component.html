@@ -7,15 +7,15 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">รายการอสังหา</div>
+        <div class="text-4xl font-extrabold tracking-tight">สีที่ดิน</div>
         <!-- Actions -->
         <div *ngIf="roleType == 'marketing'" class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
 
             <!-- Add product button -->
-            <!-- <a routerLink="../../news/new" class="ml-4" mat-flat-button [color]="'primary'">
+            <a routerLink="../../property-color-land/new" class="ml-4" mat-flat-button [color]="'primary'">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">เพิ่มใหม่</span>
-            </a> -->
+            </a>
 
         </div>
     </div>
@@ -36,32 +36,20 @@
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
-                            <!-- <th>รหัสอสังหา</th> -->
-                            <th>ชื่ออสังหา</th>
-                            <th>ภาพ</th>
-                            <th>รายละเอียด</th>
-                            <th>ประเภท</th>
-                            <th>สถานที่ตั้ง</th> 
+                            <th>รหัสสี</th>
+                            <th style="width:30%;">ชื่อ</th>
                             <th>สถานะ</th>
-                            <th>รายละเอียดอสังหา</th>
-                            <th>ราคาขาย</th>
-                            <th>ราคาเช่าต่อเดือน</th>
+                            <th>สร้างโดย</th>
+                            <th>วันที่สร้าง</th>
                             <th>จัดการ</th>
                         </tr>
                     </thead>
                     <tbody *ngIf="dataRow?.length != 0">
                         <tr *ngFor="let item of dataRow; let i = index">
-                            <td>{{ pages.begin + (i + 1) }}</td>
-                  
+                            <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
+                            <td> {{ item.code }}</td>
                             <td>{{ item.name }}</td>
-                            <td>
-                                <button mat-button (click)="showPicture(item.asset_images[0].image)">
-                                    <mat-icon>image</mat-icon>
-                                </button>
-                            </td>
-                            <td>{{ item.description }}</td>
-                            <td>{{ item.type }}</td>
-                            <td>{{ item.map_address }}</td>                        
+
                             <td>
                                 <div *ngIf="item.status === 1">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
@@ -78,15 +66,14 @@
                                     </span>
                                 </div>
                             </td>
-                            <td>{{ item.floor }}ชั้น {{ item.bed_room }}ห้องนอน {{ item.bath_room }}ห้องน้ำ {{ item.kitchen_room }}{{ item.area_unit }}ห้องครัว
-                                {{ item.parking }}{{ item.area_unit }}ลานจอดรถ {{ item.living_room }}{{ item.area_unit }}ห้องนั่งเล่น    
-                            </td>
-                            <td>{{ item.price }}</td>     
-                            <td>{{ item.price_per_month }}</td>                          
-                            <!-- <td>{{ item.created_at }}</td> -->
+                            <td>{{ item.create_by }}</td>
+                            <td>{{ item.created_at }}</td>
                             <td>
                                 <button mat-button (click)="edit(item.id)">
-                                    <mat-icon svgIcon="mat_outline:remove_red_eye"></mat-icon>
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-button (click)="Delete(item.id)">
+                                    <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
                                 </button>
                             </td>
                         </tr>

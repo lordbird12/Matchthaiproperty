@@ -15,7 +15,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'user',
-                title: 'ผู้ใช้งาน',
+                title: 'แอดมิน',
                 type: 'basic',
                 // icon: 'heroicons_outline:clipboard-check',
                 link: '/user/list',
@@ -87,7 +87,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'website.news',
-                title: 'จัดการข้อมูล website',
+                title: 'จัดการข้อมูลทรัพย์',
                 type: 'collapsable',
                 children: [
                     {
@@ -97,6 +97,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-color-land/list',
                     },
+
+                    {
+                        id: 'property-color-land',
+                        title: 'จัดการหมวดหมู่อสังหา',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-color-land/list',
+                    },
+                    {
+                        id: 'property-color-land',
+                        title: 'จัดการประเภทความต้องการ',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/property-color-land/list',
+                    },
+
+
+
+
                     {
                         id: 'property-type',
                         title: 'ประเภทอสังหา',
@@ -172,12 +191,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 ],
             },
             {
-                title: 'รายการจัดการอสังหา',
+                title: 'รายการอสังหา',
                 type: 'basic',
                 link: '/asset/list',
             },
             {
-                title: 'จัดการความต้องการ',
+                title: 'รายการความต้องการ',
                 type: 'basic',
                 link: '/inquiry/list',
             },
@@ -188,7 +207,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/config-banner/edit',
             },
             {
-                title: 'จัดการติดต่อเว็ปไซต์',
+                title: 'รายชื่อติดต่อเว็ปไซต์',
                 type: 'basic',
                 link: '/post-contact/list',
             },

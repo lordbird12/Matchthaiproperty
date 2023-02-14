@@ -48,18 +48,13 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เลขบัตรประชาชน</mat-label>
-                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"type="number">
-                            </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+       
+                        <!-- <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลขหลังบัตรประชาชน</mat-label>
                                 <input matInput [formControlName]="'citizen_back_no'" placeholder="กรุณาระบุเลขบัตรประชาชน" type="text">
                             </mat-form-field>
-                        </div>
+                        </div> -->
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ชื่อ</mat-label>
@@ -72,7 +67,12 @@
                                 <input matInput [formControlName]="'lname'" placeholder="กรุณาระบุนามสกุล">
                             </mat-form-field>
                         </div>
-
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เลขบัตรประชาชน</mat-label>
+                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"type="number">
+                            </mat-form-field>
+                        </div>
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <div class="flex ">
                                 <div class="flex justify-center items-center w-full">
