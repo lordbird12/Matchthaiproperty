@@ -228,6 +228,20 @@ export const appRoutes: Route[] = [
                     { path: '', loadChildren: () => import('app/modules/admin/administrator/property-color-land/page.module').then(m => m.Module) },
                 ]
             },
+            {
+                path: 'inquiry-group',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/inquiry-group/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-group',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-group/page.module').then(m => m.Module) },
+                ]
+            },
+
+
 
             {
                 path: 'property-type',
