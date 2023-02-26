@@ -19,6 +19,10 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
+
+
+
+
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เงื่อนไขอสังหา</mat-label>
@@ -26,6 +30,16 @@
                                     rows="4"></textarea>
                             </mat-form-field>
                         </div>
+
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">สถานะการยินยอมเงื่อนไขอสังหา</mat-label>
+                                <input matInput [formControlName]="'text_check_condition_asset'" placeholder="สถานะการยินยอมเงื่อนไขอสังหา">
+                            </mat-form-field>
+                        </div>
+
+
+
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เงื่อนไขความต้องการ</mat-label>
@@ -35,6 +49,14 @@
                         </div>
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
+                                <mat-label class="font-bold">สถานะการยินยอมเงื่อนไขความต้องการ</mat-label>
+                                <input matInput [formControlName]="'text_check_share_condition_asset'" placeholder="กรุณาระบุอีเมล">
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เงื่อนไขการแชร์ข้อมูลอสังหา</mat-label>
                                 <textarea matInput [formControlName]="'share_condition_asset'" placeholder="กรุณาระบุเงื่อนไขส่วนแบ่งอสังหา"
                                     rows="4"></textarea>
@@ -42,16 +64,36 @@
                         </div>
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
+                                <mat-label class="font-bold">สถานะการยินยอมแชร์ข้อมูลอสังหา</mat-label>
+                                <input matInput [formControlName]="'text_check_condition_inquiry'" placeholder="กรุณาระบุอีเมล">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เงื่อนไขการแชร์ข้อมูลความต้องการ</mat-label>
                                 <textarea matInput [formControlName]="'share_condition_inquiry'" placeholder="กรุณาระบุเงื่อนไขส่วนแบ่งความต้องการ"
                                     rows="4"></textarea>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เงื่อนไขระบบ</mat-label>
+                                <mat-label class="font-bold">สถานะการยินยอมแชร์ข้อมูลความต้องการ</mat-label>
+                                <input matInput [formControlName]="'text_check_share_condition_inquiry'" placeholder="กรุณาระบุอีเมล">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เงื่อนไขการสมัครเข้าใช้งานระบบ</mat-label>
                                 <textarea matInput [formControlName]="'condition_app'" placeholder="กรุณาระบุเงื่อนไขระบบ"
                                     rows="4"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">สถานะการยินยอมสมัครเข้าใช้งานระบบ</mat-label>
+                                <input matInput [formControlName]="'text_check_condition_app'" placeholder="กรุณาระบุอีเมล">
                             </mat-form-field>
                         </div>
 
@@ -200,6 +242,11 @@
                             </mat-form-field>
                         </div>
 
+
+
+
+
+                        
                     </div>
                 </div>
             </div>

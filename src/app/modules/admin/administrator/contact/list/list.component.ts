@@ -97,6 +97,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             share_condition_asset: '',
             share_condition_inquiry: '',
             condition_app: '',
+
+            text_check_condition_asset: '',
+            text_check_share_condition_asset: '',
+            text_check_condition_inquiry: '',
+            text_check_share_condition_inquiry: '',
+            text_check_condition_app: '',
+
+
+
             url_youtube_channel: '',
             lat: '',
             long: '',
@@ -137,6 +146,14 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 share_condition_asset: this.itemData.share_condition_asset,
                 share_condition_inquiry: this.itemData.share_condition_inquiry,
                 condition_app: this.itemData.condition_app,
+
+                text_check_condition_asset: this.itemData.text_check_condition_asset,
+                text_check_share_condition_asset: this.itemData.text_check_share_condition_asset,
+                text_check_condition_inquiry: this.itemData.text_check_condition_inquiry,
+                text_check_share_condition_inquiry: this.itemData.text_check_share_condition_inquiry,
+                text_check_condition_app: this.itemData.text_check_condition_app,
+
+
                 url_youtube_channel: this.itemData.url_youtube_channel,
                 lat: this.itemData.lat,
                 long: this.itemData.long,
