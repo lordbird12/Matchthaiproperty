@@ -38,6 +38,7 @@ import { Service } from '../page.service';
 import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
+import { PictureComponent } from '../picture/picture.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
@@ -153,6 +154,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'vendor' },
+                { data: 'image' },
                 { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
@@ -245,6 +247,22 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     textStatus(status: string): string {
         return startCase(status);
+    }
+
+
+    showPicture(imgObject: any): void {
+        this._matDialog
+            .open(PictureComponent, {
+                autoFocus: false,
+                data: {
+                    imgSelected: imgObject,
+                },
+            })
+            .afterClosed()
+            .subscribe(() => {
+                // Go up twice because card routes are setup like this; "card/CARD_ID"
+                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+            });
     }
 
     delete(id: any): void {

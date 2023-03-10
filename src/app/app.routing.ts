@@ -162,6 +162,22 @@ export const appRoutes: Route[] = [
                     { path: '', loadChildren: () => import('app/modules/admin/administrator/inquiry/page.module').then(m => m.Module) },
                 ]
             },
+
+
+            {
+                path: 'inquiry-type',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/inquiry-type/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'property-type-name',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/property-type-name/page.module').then(m => m.Module) },
+                ]
+            },
+
+
             {
                 path: 'property-facilities-type',
                 canActivate: [], children: [

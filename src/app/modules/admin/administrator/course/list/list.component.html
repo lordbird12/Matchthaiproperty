@@ -46,6 +46,7 @@
                             <th>สถานะ</th>
                             <th>สร้างโดย</th>
                             <th>วันที่สร้าง</th>
+                            <th>ภาพ</th>
                             <th>จัดการบทเรียน</th>
                             <th>จัดการ</th>
                         </tr>
@@ -68,6 +69,11 @@
                             <td style="width: 5%;">{{ item.create_by }}</td>
                             <td>{{ item.created_at }}</td>
 
+                            <td>
+                                <button mat-button (click)="showPicture(item.image)">
+                                    <mat-icon>image</mat-icon>
+                                </button>
+                            </td>
                             <td  style="width: 8%;">
                                 <button mat-button (click)="add(item.id)">
                                     <mat-icon svgIcon="library_add"></mat-icon>

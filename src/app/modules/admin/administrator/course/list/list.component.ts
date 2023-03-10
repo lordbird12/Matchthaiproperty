@@ -38,6 +38,7 @@ import { Service } from '../page.service';
 import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
+import { PictureComponent } from '../picture/picture.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
@@ -117,6 +118,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     loadTable(): void {
         const that = this;
         this.dtOptions = {
+            order: [[0, 'desc']],
             pagingType: 'full_numbers',
             pageLength: 100,
             serverSide: true,
@@ -154,13 +156,14 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'course' },
                 { data: 'title' },
                 { data: 'video' },
-                { data: 'video' },
-                { data: 'video' },
-                { data: 'video' },
+                { data: 'image' },
+                { data: 'actice', orderable: false },
+                { data: 'actice', orderable: false },
                 { data: 'time' },
                 { data: 'status' },
                 { data: 'create_by' },
                 { data: 'created_at' },
+                { data: 'actice', orderable: false },
                 { data: 'actice', orderable: false },
             ]
         };
@@ -238,6 +241,17 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         }, 3000);
+    }
+    showPicture(imgObject: any): void {
+        this._matDialog.open(PictureComponent, {
+            autoFocus: false,
+            data: {
+                imgSelected: imgObject
+            }
+        })
+            .afterClosed()
+            .subscribe(() => {
+            });
     }
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {

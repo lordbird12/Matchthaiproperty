@@ -99,18 +99,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     },
 
                     {
-                        id: 'property-color-land',
+                        id: 'property-type-name',
                         title: 'จัดการหมวดหมู่อสังหา',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
-                        link: '/property-color-land/list',
+                        link: '/property-type-name/list',
                     },
                     {
-                        id: 'property-color-land',
+                        id: 'inquiry-type/list',
                         title: 'จัดการประเภทความต้องการ',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
-                        link: '/property-color-land/list',
+                        link: '/inquiry-type/list',
                     },
 
 

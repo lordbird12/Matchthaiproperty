@@ -38,6 +38,7 @@ import { Service } from '../page.service';
 import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
+import { PictureComponent } from '../picture/picture.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
@@ -50,7 +51,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dtOptions: DataTables.Settings = {};
     public dataRow: any[];
     public dataGrid: any[];
-
+    private destroy$ = new Subject<any>();
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -79,6 +80,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     get roleType(): string {
         return 'marketing';
     }
+
     supplierId: string | null;
     pagination: BranchPagination;
 
@@ -116,9 +118,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     loadTable(): void {
         const that = this;
         this.dtOptions = {
-            order: [[0, 'desc']],
             pagingType: 'full_numbers',
-            pageLength: 10,
+            pageLength: 100,
             serverSide: true,
             processing: true,
             responsive: true,
@@ -126,12 +127,11 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                // dataTablesParameters.status = 'Yes';
+                dataTablesParameters.status = '';
                 that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
                         this.dataRow = resp.data;
-                        // this.totalRowSummary = this.totalPriceTable();
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
@@ -152,16 +152,14 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             columns: [
                 { data: 'id' },
-                { data: 'asset' },
+                { data: 'code' },
+                { data: 'name' },
+                { data: 'name_sale' },
                 { data: 'status' },
+                { data: 'create_by' },
+                { data: 'created_at' },
                 { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
-
+                
             ]
         };
     }
@@ -241,75 +239,102 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(Id: string): void {
-        this._router.navigate(['co-agency/edit/' + Id]);
+        this._router.navigate(['inquiry-type/edit/' + Id]);
     }
 
+    viewDetail(Id: string): void {
+        this._router.navigate(['inquiry-type/detail/' + Id]);
+    }
 
     textStatus(status: string): string {
         return startCase(status);
     }
 
-    delete(id: any): void {
-        this.flashMessage = null;
 
-        // Open the confirmation dialog
-        const confirmation = this._fuseConfirmationService.open({
-            title: 'ลบรายการที่เลือก',
-            message: 'คุณต้องการลบรายการที่เลือกใช่หรือไม่ ',
-            icon: {
-                show: false,
-                name: 'heroicons_outline:exclamation',
-                color: 'warning',
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: 'ยืนยัน',
-                    color: 'primary',
-                },
-                cancel: {
-                    show: true,
-                    label: 'ยกเลิก',
-                },
-            },
-            dismissible: true,
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
         });
+    }
 
+    Delete(id) {
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "ยืนยันลบข้อมูล",
+            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
+            "icon": {
+                "show": true,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-                this._Service.delete(id).subscribe({
-                    next: (resp: any) => {
-                        location.reload();
-                    },
-                    error: (err: any) => {
-                        this._fuseConfirmationService.open({
-                            title: 'กรุณาระบุข้อมูล',
-                            message: err.error.message,
-                            icon: {
-                                show: true,
-                                name: 'heroicons_outline:exclamation',
-                                color: 'warning',
-                            },
-                            actions: {
-                                confirm: {
-                                    show: false,
-                                    label: 'ยืนยัน',
-                                    color: 'primary',
+                this._Service
+                    .delete(id)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe((res: any) => {
+                        if (res.code == 201) {
+                            this._fuseConfirmationService.open({
+                                "title": "ลบข้อมูล",
+                                "message": "บันทึกเรียบร้อย",
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:check-circle",
+                                    "color": "success"
                                 },
-                                cancel: {
-                                    show: false,
-                                    label: 'ยกเลิก',
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ตกลง",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก"
+                                    }
                                 },
-                            },
-                            dismissible: true,
-                        });
-                        console.log(err.error.message);
-                    },
-                });
+                                "dismissible": true
+                            }).afterClosed().subscribe((res) => {
+                                this.rerender();
+                            })
+                        }
+                    });
+
             }
         });
+
     }
 
+
+    showPicture(imgObject: any): void {
+        this._matDialog.open(PictureComponent, {
+            autoFocus: false,
+            data: {
+                imgSelected: imgObject
+            }
+        })
+            .afterClosed()
+            .subscribe(() => {
+
+                // Go up twice because card routes are setup like this; "card/CARD_ID"
+                // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+            });
+    }
+
+
+    
 }
