@@ -1222,6 +1222,52 @@ export class Service {
                 })
             );
     }
+    getAddType(): Observable<any[]> {
+        return this._httpClient.get<any[]>(environment.API_URL + '/api/get_course_type').pipe(
+          tap((meterial) => {
+            this._materials.next(meterial);
+          })
+        );
+      }
+    
+      getCourseById(Id: string): Observable<DataBank> {
+        return this._httpClient.get<DataBank>(environment.API_URL + '/api/get_course_by_id/' + Id)
+      }
+
+      getSponsorPage(dataTablesParameters: any): Observable<DataTablesResponse> {
+        return this._httpClient.post(environment.API_URL + '/api/vendor_company_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+          switchMap((response: any) => {
+            return of(response.data);
+          })
+        );
+      }
+      uploadVideo(data: any): Observable<DataTablesResponse> {
+        return this._httpClient.post(environment.API_URL + '/api/upload_file', data, this.httpOptionsFormdata).pipe(
+          switchMap((response: any) => {
+            return of(response.data);
+          })
+        );
+      }
+
+      newCourse(data: any): Observable<any> {
+        return this._httpClient.post(environment.API_URL + '/api/vendor_company', data, this.httpOptionsFormdata).pipe(
+          switchMap((response: any) => {
+            return of(response);
+          })
+        );
+      }
+
+      
+deleteCourse(itemId: number): Observable<{}> {
+    return this._httpClient
+      .delete<any>(`${environment.API_URL}/api/course_reward/${itemId}`, this.httpOptionsFormdata)
+      .pipe(
+        map((mtplan) => {
+          return mtplan;
+        }),
+        catchError((err) => this.handlerError(err))
+      );
+  }
 
     getAll(dataTablesParameters: any): Observable<any> {
         return this._httpClient
@@ -1364,7 +1410,7 @@ export class Service {
 
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
-            environment.API_URL + '/api/vendor/' + id,
+            environment.API_URL + '/api/vendor_company/' + id,
             { headers: this.httpOptionsFormdata.headers }
         );
     }

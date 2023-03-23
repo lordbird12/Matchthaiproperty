@@ -44,6 +44,8 @@ import { PageComponent } from './page.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
+import { AddGalleryComponent } from './add-gallery/add-gallery.component';
+import { EditGalleryComponent } from './edit-gallery/edit-gallery.component';
 import { PrintComponent } from './print/print.component';
 
 
@@ -56,6 +58,8 @@ import { PrintComponent } from './print/print.component';
         EditComponent,
         PrintComponent,
         AddComponent,
+        AddGalleryComponent,
+        EditGalleryComponent,
     ],
     imports: [
         RouterModule.forChild(pageRoute),

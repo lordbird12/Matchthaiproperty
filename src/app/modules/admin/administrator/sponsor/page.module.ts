@@ -44,7 +44,7 @@ import { PageComponent } from './page.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { PrintComponent } from './print/print.component';
-
+import { AddComponent } from './add/add.component';
 
 
 @NgModule({
@@ -54,6 +54,7 @@ import { PrintComponent } from './print/print.component';
         NewComponent,
         EditComponent,
         PrintComponent,
+        AddComponent,
     ],
     imports: [
         RouterModule.forChild(pageRoute),

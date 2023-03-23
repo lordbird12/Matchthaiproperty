@@ -165,6 +165,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'created_at' },
                 { data: 'actice', orderable: false },
                 { data: 'actice', orderable: false },
+                { data: 'actice', orderable: false },
             ]
         };
     }
@@ -323,7 +324,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     add(Id: string): void {
         this._router.navigate(['course/add/' + Id]);
     }
-    
+    addGallery(Id: string): void {
+        this._router.navigate(['course/add-gallery/' + Id]);
+    }
     edit(Id: string): void {
         this._router.navigate(['course/edit/' + Id]);
     }

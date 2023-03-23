@@ -65,7 +65,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     files: File[] = [];
     video: File;
     image: File;
-    
+
     courseType: any = [];
     rewardData: any = [];
     /**
@@ -86,7 +86,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             title: ['', Validators.required],
             detail: '',
             video: '',      //'images/course_lesson/1666553407.mp4',
-            image: '', 
+            image: '',
             lecturer: '',
             lecturer_profile: '',
             qty_lesson: '10',
@@ -115,11 +115,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             title: ['', Validators.required],
             detail: '',
             image: '',
-            video:  '',    //'images/course_lesson/1666553407.mp4',
+            video: '',    //'images/course_lesson/1666553407.mp4',
             lecturer: '',
             lecturer_profile: '',
             qty_lesson: '10',
             price: '',
+            type: '',
             cost: '',
             price_sale: '',
             hour: '',
@@ -151,7 +152,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
 
     newCourse_reward(): FormGroup {
         return this._formBuilder.group({
-           id:''
+            id: ''
         });
     }
 
@@ -166,7 +167,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -212,26 +213,26 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             if (result === 'confirmed') {
 
                 this.formData.patchValue({
-                    course_reward:course_reward
+                    course_reward: course_reward
                 })
                 const video = new FormData()
-                video.append("file",this.video)
-                video.append("path","images/course/")
+                video.append("file", this.video)
+                video.append("path", "images/course/")
                 const file = await lastValueFrom(this._Service.uploadVideo(video))
-                this.formData.patchValue({video:file})
+                this.formData.patchValue({ video: file })
 
                 const image = new FormData()
-                image.append("file",this.files[0])
-                image.append("path","images/course/")
+                image.append("file", this.files[0])
+                image.append("path", "images/course/")
                 const file1 = await lastValueFrom(this._Service.uploadVideo(image))
-                this.formData.patchValue({image:file1})
-           
+                this.formData.patchValue({ image: file1 })
+
 
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
                             .navigateByUrl('course/list')
-                            .then(() => {});
+                            .then(() => { });
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({
@@ -285,4 +286,23 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             image: '',
         });
     }
+
+    changeType(event) {
+        console.log(event)
+        if (event.value == 'seminar'){
+            this.formData.patchValue({
+                sec: 0, 
+                hour: 0,
+                min: 0,
+            });
+        this.formData.get("sec").disable()
+        this.formData.get("hour").disable()
+        this.formData.get("min").disable()
+        }
+        else if (event.value == 'online')
+        this.formData.enable()
+    }
+
+
+
 }

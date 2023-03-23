@@ -999,6 +999,14 @@ export class Service {
     );
   }
 
+  newGallery(data: any): Observable<any> {
+    return this._httpClient.post(environment.API_URL + '/api/course_gallery', data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response);
+      })
+    );
+  }
+
   getAll(dataTablesParameters: any): Observable<any> {
     return this._httpClient
       .post<any>(`${environment.API_URL}api/branch_page`, dataTablesParameters, this.httpOptionsFormdata)
@@ -1107,6 +1115,15 @@ export class Service {
       })
     );
   }
+
+  getGalleryPage(dataTablesParameters: any): Observable<DataTablesResponse> {
+    return this._httpClient.post(environment.API_URL + '/api/course_gallery_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
   getBankAll(): Observable<any> {
     return this._httpClient.get<any>(environment.API_URL + 'api/get_bank')
   }
@@ -1166,4 +1183,17 @@ deleteCourse(itemId: number): Observable<{}> {
       catchError((err) => this.handlerError(err))
     );
 }
+
+deleteGallery(itemId: number): Observable<{}> {
+  return this._httpClient
+    .delete<any>(`${environment.API_URL}/api/course_gallery/${itemId}`, this.httpOptionsFormdata)
+    .pipe(
+      map((mtplan) => {
+        return mtplan;
+      }),
+      catchError((err) => this.handlerError(err))
+    );
+}
+
+
 }

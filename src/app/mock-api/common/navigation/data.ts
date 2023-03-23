@@ -76,25 +76,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 children: [
                     {
                         id: 'vendor',
-                        title: 'vendor',
+                        title: 'sponsor',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'vendor/list',
                     },
                     {
                         id: 'sponsor',
-                        title: 'sponsor',
+                        title: 'vendor',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'sponsor/list',
                     },
-                    {
-                        id: 'unemployed',
-                        title: 'พันธมิตรย่อย',
-                        type: 'basic',
-                        // icon: 'heroicons_outline:clipboard-check',
-                        link: 'vendor-company/list',
-                    },
+                    // {
+                    //     id: 'unemployed',
+                    //     title: 'พันธมิตรย่อย',
+                    //     type: 'basic',
+                    //     // icon: 'heroicons_outline:clipboard-check',
+                    //     link: 'vendor-company/list',
+                    // },
                 ],
             },
 

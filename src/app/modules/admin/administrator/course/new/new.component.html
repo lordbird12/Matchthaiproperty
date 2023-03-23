@@ -20,7 +20,7 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลือกประเภทคอร์ส</mat-label>
                                 <mat-select [formControlName]="'course_type_id'">
@@ -34,9 +34,27 @@
                             </mat-form-field>
                         </div>
 
+
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เลือกแบบการสอน</mat-label>
+                                <mat-select [formControlName]="'type'" (selectionChange)="changeType($event)">
+                                    <mat-option [value]="''">
+                                        <span class="text-gray-400">กรุณาระบุแบบการสอน</span>
+                                    </mat-option>
+                                    <mat-option value="seminar">สัมนา</mat-option>
+                                    <mat-option value="online">ออนไลน์</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+
+
+
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชื่อ</mat-label>
+                                <mat-label class="font-bold">ชื่อคอร์ส</mat-label>
                                 <input matInput [formControlName]="'title'" placeholder="กรุณาระบุชื่อ">
                             </mat-form-field>
                         </div>
@@ -132,7 +150,6 @@
                         </div>
 
                         <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
-
                             <table formArrayName="course_rewards" style="cursor: pointer"
                                 class="table datatable row-border hover" style="width: 100%">
                                 <thead>
@@ -176,13 +193,77 @@
                                 </tbody>
                             </table>
                         </div>
+
+                                    <!----------------------------------------------- ? --------------------------------------------->
+
+                                    <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
+                                        <table formArrayName="course_rewards" style="cursor: pointer"
+                                            class="table datatable row-border hover" style="width: 100%">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;width:5%;">ลำดับ</th>
+                                                    <th style="text-align: left;">ผู้สอน</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let row of course_reward().controls; let i = index" [formGroupName]="i">
+                                       
+                                                    <td style="text-align: center;">
+                                                        <button (click)="removeCourse_reward(i)" class="btn btn-danger">
+                                                            <span class="flex items-center">
+                                                                <mat-icon class="icon-size-5 mr-3"
+                                                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                                            </span>
+                                                        </button>
+                                                    </td>
+
+                       
+                                                    <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-5">
+                                                        <ngx-dropzone style="width: 100%; height: 100%; justify-content: center;"
+                                                            (change)="onSelect1($event)">
+                                                            <ngx-dropzone-label>ขนาดรูป 265*177</ngx-dropzone-label>
+                                                            <ngx-dropzone-image-preview *ngFor="let pic of files" [removable]="true" [file]="pic"
+                                                                (removed)="onRemove1(pic)">
+                                                            </ngx-dropzone-image-preview>
+                                                        </ngx-dropzone>
+                                                    </div>
+
+                                                    <div class="flex flex-col w-full lg:w-6/6 sm:pl-8 mt-3">
+                                                        <mat-form-field class="w-full">
+                                                            <mat-label class="font-bold">ชื่อ</mat-label>
+                                                            <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
+                                                        <mat-form-field class="w-full">
+                                                            <mat-label class="font-bold">รายละเอียด</mat-label>
+                                                            <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="text-right">
+                                                        <button class="px-6 ml-3 mat-primary p-5" mat-flat-button
+                                                            (click)="addCourse_reward()">
+                                                            <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+
                     </div>
                 </div>
             </div>
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="course/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

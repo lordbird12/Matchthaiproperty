@@ -4,6 +4,7 @@ import { EditComponent } from './edit/edit.component';
 import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
 import { PrintComponent } from './print/print.component';
+import { AddComponent } from './add/add.component';
 
 export const pageRoute: Route[] = [
     {
@@ -26,6 +27,13 @@ export const pageRoute: Route[] = [
                 path: 'print/:id',
                 component: PrintComponent,
             },
+            {
+                path: 'add/:id',
+                component: AddComponent,
+            },
+
+
+            
         ],
     },
 ];
