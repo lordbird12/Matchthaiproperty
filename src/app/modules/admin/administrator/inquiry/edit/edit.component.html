@@ -121,8 +121,7 @@
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ประเภทสินทรัพย์</mat-label>
-                                <textarea matInput [formControlName]="'property_sub_type_explend'" [rows]="4"
-                                    readonly></textarea>
+                                <textarea matInput [formControlName]="'property_sub_type_explend'" [rows]="4" readonly></textarea>
                                 <!-- [rows]="this.formData.value.property_location_nearby.length+1" -->
                             </mat-form-field>
                         </div>
@@ -131,11 +130,10 @@
 
 
                         <ng-container *ngFor="let item of this.inquiry_facilitys">  
-                            <div class="flex flex-col w-full lg:w-1/6 sm:pl-8 ">
+                            <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                                 <mat-form-field class="w-full">
                                     <mat-label class="font-bold">{{item.key}}</mat-label>
-                                    <textarea matInput [rows]="4" value="{{property_sub_facilityFN(item)}}"
-                                        readonly></textarea>
+                                    <textarea matInput [rows]="4" value="{{property_sub_facilityFN(item)}}"readonly></textarea>
                                 </mat-form-field>
                             </div>
                         </ng-container>

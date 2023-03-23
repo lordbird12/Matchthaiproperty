@@ -52,6 +52,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     itemData: any = [];
     rewardData: any = [];
     files: File[] = [];
+    files1: any[] = [];
     video: File;
 
     image: File;
@@ -114,6 +115,10 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             price_sale: '',
             course_rewards: this._formBuilder.array([]),
             course_reward: [],
+            course_lecturers: this._formBuilder.array([]),
+            course_lecturer: [],
+
+
         });
     }
 
@@ -131,17 +136,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(file.data)
         this._Service.getCourseType().subscribe((resp: any) => {
             this.courseType = resp.data;
-
-            // Mark for check
             this._changeDetectorRef.markForCheck();
         })
-        // this._Service.getReward().subscribe((resp: any) => {
-        //     this.rewardData = resp.data;
-
-        //     // Mark for check
-        //     this._changeDetectorRef.markForCheck();
-        // })
-
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
@@ -160,15 +156,23 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 price: this.itemData.price,
                 cost: this.itemData.cost,
                 price_sale: this.itemData.price_sale,
-                // course_rewards: this.itemData.course_rewards,
-                // course_rewards: this._formBuilder.array([]),
-
 
             });
             for (const cr of this.itemData.course_course_rewards) {
                 this.course_reward().push(this.getCourse_reward(cr.id, cr.course_reward_id));
+            }         
+            console.log(this.itemData.course_lecturers)
+            for (const cl of this.itemData.course_lecturers) {
+                console.log(cl)
+                this.course_lecturer() 
+                .push(
+                    this._formBuilder.group({
+                        image: cl.image,
+                        name: cl.name,
+                        detail: cl.detail,
+                    })
+                );
             }
-
         });
     }
 
@@ -215,6 +219,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.course_reward().push(this.newCourse_reward());
     }
 
+
+
+
+    course_lecturer(): FormArray {
+        return this.formData.get('course_lecturers') as FormArray;
+    }
+    newCourse_lecturer(): FormGroup {
+        return this._formBuilder.group({
+            image: '',
+            name: '',
+            detail: '',
+        });
+    }
+    removeCourse_lecturer(a: number): void {
+        this.course_lecturer().removeAt(a);
+    }
+    addCourse_lecturer(): void {
+        this.course_lecturer().push(this.newCourse_lecturer());
+        // this.files1.push([])
+        console.log(this.files1)
+    }
+
+
+
+
+
+
     discard(): void { }
 
     /**
@@ -234,9 +265,15 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         const course_reward = [];
         this.formData.value.course_rewards.forEach(element => {
             console.log(element)
-            
             course_reward.push(element.course_reward_id);
         });
+
+        // const course_lecturer = [];
+        // this.formData.value.course_lecturer.forEach(element => {
+        //     console.log(element)
+        //     course_lecturer.push(element);
+        // });
+
         this.formData.patchValue({course_reward})
         this.flashMessage = null;
         //   console.log(this.formData.value)
@@ -358,4 +395,25 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             image: '',
         });
     }
+
+
+
+    onSelect1(event,index) {
+        this.files1[index] = [];
+        this.files1[index].push(...event.addedFiles);
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.course_lecturer().get([index]).patchValue({
+            image: this.files1[index][0],
+        });
+    }
+
+    onRemove1(event) {
+        this.files1.splice(this.files1.indexOf(event), 1);
+        this.formData.patchValue({
+            image: '',
+        });
+    }
+    
 }

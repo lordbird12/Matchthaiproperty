@@ -186,6 +186,71 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
+                            <table formArrayName="course_lecturers" style="cursor: pointer"
+                                class="table datatable row-border hover" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;width:5%;">ลำดับ</th>
+                                        <th style="text-align: left;">ผู้สอน</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of course_lecturer().controls; let a = index"
+                                        [formGroupName]="a">
+                                        <td style="text-align: center;">
+                                            <button (click)="removeCourse_lecturer(a)" class="btn btn-danger">
+                                                <span class="flex items-center">
+                                                    <mat-icon class="icon-size-5 mr-3"
+                                                        [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                                </span>
+                                            </button>
+                                        </td>
+
+
+
+                                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-5">
+                                            <ngx-dropzone [multiple]="false" style="width: 100%; height: 100%; justify-content: center;"
+                                                (change)="onSelect1($event,a)">
+                                                <ngx-dropzone-label>ขนาดรูป 265*177</ngx-dropzone-label>
+                                                <ngx-dropzone-image-preview *ngFor="let pic of files1[a]"
+                                                    [removable]="true" [file]="pic" (removed)="onRemove1(pic)">
+                                                </ngx-dropzone-image-preview>
+                                            </ngx-dropzone>
+                                        </div>
+                                        
+                                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8 mt-3">
+                                            <mat-form-field class="w-full">
+                                                <mat-label class="font-bold">ชื่อ</mat-label>
+                                                <input matInput [formControlName]="'name'" placeholder="กรุณาระบุชื่อ">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
+                                            <mat-form-field class="w-full">
+                                                <mat-label class="font-bold">รายละเอียด</mat-label>
+                                                <input matInput [formControlName]="'detail'"
+                                                    placeholder="กรุณาระบุรายละเอียด">
+                                            </mat-form-field>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-right">
+                                            <button class="px-6 ml-3 mat-primary p-5" mat-flat-button
+                                                (click)="addCourse_lecturer()">
+                                                <mat-icon svgIcon="heroicons_outline:user-add"></mat-icon>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+
+
                     </div>
                 </div>
             </div>

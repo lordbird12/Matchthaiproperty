@@ -40,6 +40,7 @@
                             <th>ชั้น</th>
                             <th>ราคา</th>
                             <th>สถานะ</th>
+                            <th>ดูรายละเอียด</th>
                             <th>จัดการ</th>
                         </tr>
                     </thead>
@@ -85,6 +86,14 @@
                             </td> 
                             <!-- <td>{{ item.create_by }}</td>
                             <td>{{ item.created_at }}</td> -->
+
+
+                            <td>
+                                <button mat-button (click)="view(item.id)">
+                                    <mat-icon svgIcon="mat_outline:remove_red_eye"></mat-icon>
+                                </button>
+                            </td>
+
                             <td style="width: 15%;">
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon>edit</mat-icon>

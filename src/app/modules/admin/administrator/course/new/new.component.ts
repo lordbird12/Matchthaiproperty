@@ -63,8 +63,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
+    files1: any[] = [];
     video: File;
     image: File;
+    type: string;
+
+
 
     courseType: any = [];
     rewardData: any = [];
@@ -81,25 +85,27 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
     ) {
-        this.formData = this._formBuilder.group({
-            course_type_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: '',      //'images/course_lesson/1666553407.mp4',
-            image: '',
-            lecturer: '',
-            lecturer_profile: '',
-            qty_lesson: '10',
-            price: '',
-            cost: '',
-            price_sale: '',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            course_rewards: this._formBuilder.array([]),
-            course_reward: '',
-        });
+        // this.formData = this._formBuilder.group({
+        //     course_type_id: ['', Validators.required],
+        //     title: ['', Validators.required],
+        //     detail: '',
+        //     video: '',      //'images/course_lesson/1666553407.mp4',
+        //     image: '',
+        //     lecturer: '',
+        //     lecturer_profile: '',
+        //     qty_lesson: '10',
+        //     price: '',
+        //     cost: '',
+        //     price_sale: '',
+        //     hour: '',
+        //     min: '',
+        //     sec: '',
+        //     status: '',
+        //     course_rewards: this._formBuilder.array([]),
+        //     course_lecturers: this._formBuilder.array([]),
+        //     course_reward: '',
+        //     course_lecturer: '',
+        // });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -118,7 +124,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             video: '',    //'images/course_lesson/1666553407.mp4',
             lecturer: '',
             lecturer_profile: '',
-            qty_lesson: '10',
+            qty_lesson: '',
             price: '',
             type: '',
             cost: '',
@@ -128,6 +134,8 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             sec: '',
             course_rewards: this._formBuilder.array([]),
             course_reward: '',
+            course_lecturer: this._formBuilder.array([]),
+            // course_lecturer: '', 
         });
 
         this._Service.getCourseType().subscribe((resp: any) => {
@@ -149,20 +157,42 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     course_reward(): FormArray {
         return this.formData.get('course_rewards') as FormArray;
     }
-
     newCourse_reward(): FormGroup {
         return this._formBuilder.group({
             id: ''
         });
     }
-
     removeCourse_reward(i: number): void {
         this.course_reward().removeAt(i);
     }
-
     addCourse_reward(): void {
         this.course_reward().push(this.newCourse_reward());
     }
+
+
+    course_lecturer(): FormArray {
+        return this.formData.get('course_lecturer') as FormArray;
+    }
+    newCourse_lecturer(): FormGroup {
+        return this._formBuilder.group({
+            image: '',
+            name: '',
+            detail: '',
+        });
+    }
+    removeCourse_lecturer(a: number): void {
+        this.course_lecturer().removeAt(a);
+    }
+    addCourse_lecturer(): void {
+        this.course_lecturer().push(this.newCourse_lecturer());
+        this.files1.push([])
+        console.log(this.files1)
+    }
+
+
+
+
+
 
     /**
      * After view init
@@ -182,6 +212,10 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         const course_reward = [];
         this.formData.value.course_rewards.forEach(element => {
             course_reward.push(element.id);
+        });
+        const course_lecturer = [];
+        this.formData.value.course_lecturer.forEach(element => {
+            course_lecturer.push(element.id);
         });
         this.flashMessage = null;
         this.flashErrorMessage = null;
@@ -206,12 +240,12 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             dismissible: true,
         });
-
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe(async (result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
+                // console.log(this.formData.value)
+                // return
                 this.formData.patchValue({
                     course_reward: course_reward
                 })
@@ -226,6 +260,15 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 image.append("path", "images/course/")
                 const file1 = await lastValueFrom(this._Service.uploadVideo(image))
                 this.formData.patchValue({ image: file1 })
+
+                for await (const tutor of this.course_lecturer().controls) {
+                console.log(tutor.value)
+                const imageArray = new FormData()
+                imageArray.append("file", tutor.value.image)
+                imageArray.append("path", "images/course/")
+                const file1 = await lastValueFrom(this._Service.uploadVideo(imageArray))
+                tutor.patchValue({ image: file1 })
+                }
 
 
                 this._Service.new(this.formData.value).subscribe({
@@ -287,6 +330,26 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
+
+    onSelect1(event,index) {
+        this.files1[index] = [];
+        this.files1[index].push(...event.addedFiles);
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
+        this.course_lecturer().get([index]).patchValue({
+            image: this.files1[index][0],
+        });
+    }
+
+    onRemove1(event) {
+        this.files1.splice(this.files1.indexOf(event), 1);
+        this.formData.patchValue({
+            image: '',
+        });
+    }
+
+
     changeType(event) {
         console.log(event)
         if (event.value == 'seminar'){
@@ -295,12 +358,11 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 hour: 0,
                 min: 0,
             });
-        this.formData.get("sec").disable()
-        this.formData.get("hour").disable()
-        this.formData.get("min").disable()
+            this.type= 'seminar'
         }
-        else if (event.value == 'online')
-        this.formData.enable()
+         else if (event.value == 'online'){
+            this.type='online'
+         }
     }
 
 
