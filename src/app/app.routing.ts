@@ -100,6 +100,30 @@ export const appRoutes: Route[] = [
                     { path: '', loadChildren: () => import('app/modules/admin/administrator/member/page.module').then(m => m.Module) },
                 ]
             },
+            {
+                path: 'member-buy',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-buy/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'member-sell',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-sell/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'member-develop',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-develop/page.module').then(m => m.Module) },
+                ]
+            },
+            {
+                path: 'member-agent',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/member-agent/page.module').then(m => m.Module) },
+                ]
+            },
 
 
             {
@@ -295,7 +319,12 @@ export const appRoutes: Route[] = [
                     { path: '', loadChildren: () => import('app/modules/admin/administrator/vendor/page.module').then(m => m.Module) },
                 ]
             },
-
+            {
+                path: 'sponsor',
+                canActivate: [], children: [
+                    { path: '', loadChildren: () => import('app/modules/admin/administrator/sponsor/page.module').then(m => m.Module) },
+                ]
+            },
             {
                 path: 'vendor-company',
                 canActivate: [], children: [

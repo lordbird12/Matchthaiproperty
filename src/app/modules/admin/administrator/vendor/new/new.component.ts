@@ -91,10 +91,10 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             vendor_id: [''],
             email: [''],
             phone: [''],
-            detail: [''],
+            detail: '',
             url: '',
             image: '',
-            type: '',
+            type: 'contact',
         });
 
         this._Service.getVendor({ type: 'agency' }).subscribe((resp: any) => {

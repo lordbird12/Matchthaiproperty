@@ -31,8 +31,10 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th>ชื่อผู้ติดต่อ</th>
+                            <th>รูปผู้ติดต่อ</th>                         
                             <th>เบอร์โทร</th> 
                             <th  style="width: 20%;">ชื่อทรัพย์สิน</th>
+                            <th>รูปทรัพย์</th>  
                             <th>ห้องนอน</th>
                             <th>ห้องน้ำ</th>                
                             <th>ชั้น</th>
@@ -44,9 +46,20 @@
                     <tbody *ngIf="dataRow?.length != 0">
                         <tr *ngFor="let item of dataRow; let i = index">
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
-                            <td>{{ item.asset.member.fname }}</td>
+                            <td>{{ item.asset.member.fname }}</td>  
+                            <td>
+                                <button mat-button (click)="showPicture(item.asset.member.profile_image)">
+                                    <mat-icon>image</mat-icon>
+                                </button>
+                            </td>
                             <td>{{ item.asset.member.tel }}</td>
                             <td>{{ item.asset.name }}</td>
+
+                            <td>
+                                <button mat-button (click)="showPicture(item.asset.image)">
+                                    <mat-icon>image</mat-icon>
+                                </button>
+                            </td>
                             <td>{{ item.asset.bed_room }}</td> 
                             <td>{{ item.asset.bath_room }}</td>  
                             <td>{{ item.asset.floor }}</td>  

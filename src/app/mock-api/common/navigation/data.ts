@@ -23,10 +23,45 @@ export const defaultNavigation: FuseNavigationItem[] = [
             {
                 id: 'member',
                 title: 'สมาชิก',
-                type: 'basic',
+                type: 'collapsable',
                 // icon: 'heroicons_outline:clipboard-check',
-                link: '/member/list',
+                // link: '/member/list',
+                children: [
+                    {
+                        id: 'unemployed',
+                        title: 'ผู้ซื้อ/ผู้เช่า',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/member-buy/list',
+                    },
+                    {
+                        id: 'unemployed',
+                        title: 'ผู้ขาย/ผู้ให้เช่า',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/member-sell/list',
+                    },
+                    {
+                        id: 'unemployed',
+                        title: 'เอเจ้น',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/member-agent/list',
+                    },
+                    {
+                        id: 'unemployed',
+                        title: 'Developer/Invester',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/member-develop/list',
+                    },
+
+
+                ],
             },
+
+
+
             {
                 id: 'permission',
                 title: 'สิทธิ์การใช้งาน',
@@ -34,21 +69,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 // icon: 'heroicons_outline:clipboard-check',
                 link: '/permission/list',
             },
-
-
             {
-                id: 'vendor',
+                id: 'vendor1',
                 title: 'พันธมิตร',
                 type: 'collapsable',
                 children: [
                     {
-                        id: 'vendor-type',
-                        title: 'พันธมิตร',
+                        id: 'vendor',
+                        title: 'vendor',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
-                        link: '/vendor/list',
+                        link: 'vendor/list',
                     },
-        
+                    {
+                        id: 'sponsor',
+                        title: 'sponsor',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: 'sponsor/list',
+                    },
                     {
                         id: 'unemployed',
                         title: 'พันธมิตรย่อย',
@@ -56,9 +95,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'vendor-company/list',
                     },
-        
-
-
                 ],
             },
 
@@ -388,7 +424,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 ],
             },
 
-       
+
         ],
     },
 
