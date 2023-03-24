@@ -34,6 +34,16 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+  
+           
+
+                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">แบบการสอน</mat-label>
+                                <input matInput [formControlName]="'type'" placeholder="กรุณาระบุแบบการสอน" readonly>
+                            </mat-form-field>
+                        </div>
+
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
@@ -121,24 +131,32 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ชั่วโมง</mat-label>
-                                <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
+                        <ng-container *ngIf="type=='online'">
+                            <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                                <mat-form-field class="w-full">
+                                    <mat-label class="font-bold">ชั่วโมง</mat-label>
+                                    <input matInput [formControlName]="'hour'" placeholder="กรุณาระบุชื่อ">
+                                </mat-form-field>
+                            </div>
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">นาที</mat-label>
-                                <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
-                            </mat-form-field>
-                        </div>
+                            <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                                <mat-form-field class="w-full">
+                                    <mat-label class="font-bold">นาที</mat-label>
+                                    <input matInput [formControlName]="'min'" placeholder="กรุณาระบุชื่อ">
+                                </mat-form-field>
+                            </div>
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
+                                <mat-form-field class="w-full">
+                                    <mat-label class="font-bold">วินาที</mat-label>
+                                    <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">วินาที</mat-label>
-                                <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
+                                <mat-label class="font-bold">จำนวนบทเรียน</mat-label>
+                                <input matInput [formControlName]="'qty_lesson'" placeholder="กรุณาระบุจำนวนบทเรียน">
                             </mat-form-field>
                         </div>
 
@@ -188,7 +206,7 @@
                         </div>
 
                         <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
-                            <table formArrayName="course_lecturers" style="cursor: pointer"
+                            <table formArrayName="course_lecturer" style="cursor: pointer"
                                 class="table datatable row-border hover" style="width: 100%">
                                 <thead>
                                     <tr>
@@ -209,8 +227,11 @@
                                         </td>
 
 
-
+                                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                                            <img class="w-100" [src]="row.value.image">
+                                        </div>
                                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-5">
+                                       
                                             <ngx-dropzone [multiple]="false" style="width: 100%; height: 100%; justify-content: center;"
                                                 (change)="onSelect1($event,a)">
                                                 <ngx-dropzone-label>ขนาดรูป 265*177</ngx-dropzone-label>
@@ -219,6 +240,8 @@
                                                 </ngx-dropzone-image-preview>
                                             </ngx-dropzone>
                                         </div>
+                                        
+
                                         
                                         <div class="flex flex-col w-full lg:w-6/6 sm:pl-8 mt-3">
                                             <mat-form-field class="w-full">

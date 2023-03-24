@@ -37,6 +37,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
 import { AssetType, BranchPagination } from '../page.types';
 import { Service } from '../page.service';
+import { UploadService } from 'app/shared/upload/upload.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
 @Component({
@@ -54,6 +55,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     files: File[] = [];
     files1: any[] = [];
     video: File;
+    type: string;
 
     image: File;
     statusData = [
@@ -95,7 +97,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _matDialog: MatDialog,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _uploadService: UploadService,
     ) {
         this.formData = this._formBuilder.group({
             course_type_id: '',
@@ -107,18 +110,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             min: '',
             sec: '',
             status: '',
+            type:'',
             image: [''],
             lecturer: '',
             lecturer_profile: '',
             price: '',
             cost: '',
             price_sale: '',
+            qty_lesson:'',
             course_rewards: this._formBuilder.array([]),
             course_reward: [],
-            course_lecturers: this._formBuilder.array([]),
-            course_lecturer: [],
-
-
+            course_lecturer: this._formBuilder.array([]),
+            // course_lecturer: [],
         });
     }
 
@@ -156,26 +159,44 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 price: this.itemData.price,
                 cost: this.itemData.cost,
                 price_sale: this.itemData.price_sale,
-
+                qty_lesson: this.itemData.qty_lesson,
+                type:this.itemData.type,
             });
+          this.type= this.itemData.type
+
+
+
             for (const cr of this.itemData.course_course_rewards) {
                 this.course_reward().push(this.getCourse_reward(cr.id, cr.course_reward_id));
-            }         
+            }
             console.log(this.itemData.course_lecturers)
             for (const cl of this.itemData.course_lecturers) {
+
+            }
+
+            for (let index = 0; index < this.itemData.course_lecturers.length; index++) {
+                const cl = this.itemData.course_lecturers[index];
+
+                // this._uploadService.get(cl.image).subscribe(
+                //     res => {
+                //         const file = new File([res], 'old_image');
+                //         this.files1[index].push(file);
+                //     }
+                // )
                 console.log(cl)
-                this.course_lecturer() 
+                this.course_lecturer()
                 .push(
                     this._formBuilder.group({
+                        imageHold:'',
                         image: cl.image,
                         name: cl.name,
                         detail: cl.detail,
                     })
                 );
+
             }
         });
     }
-
     approve(): FormArray {
         return this.formData.get('approve') as FormArray;
     }
@@ -202,7 +223,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     newCourse_reward(): FormGroup {
         return this._formBuilder.group({
-            id: '',course_reward_id:""
+            id: '', course_reward_id: ""
         });
     }
     getCourse_reward(id: any, course_reward_id: any): FormGroup {
@@ -223,10 +244,11 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     course_lecturer(): FormArray {
-        return this.formData.get('course_lecturers') as FormArray;
+        return this.formData.get('course_lecturer') as FormArray;
     }
     newCourse_lecturer(): FormGroup {
         return this._formBuilder.group({
+            imageHold: '',
             image: '',
             name: '',
             detail: '',
@@ -261,20 +283,17 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     update(): void {
-      
+
         const course_reward = [];
         this.formData.value.course_rewards.forEach(element => {
             console.log(element)
             course_reward.push(element.course_reward_id);
         });
-
-        // const course_lecturer = [];
-        // this.formData.value.course_lecturer.forEach(element => {
-        //     console.log(element)
-        //     course_lecturer.push(element);
-        // });
-
-        this.formData.patchValue({course_reward})
+        const course_lecturer = [];
+        this.formData.value.course_lecturer.forEach(element => {
+            course_lecturer.push(element.id);
+        });
+        this.formData.patchValue({ course_reward })
         this.flashMessage = null;
         //   console.log(this.formData.value)
         //  return
@@ -305,23 +324,33 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe(async (result) => {
 
             if (result === 'confirmed') {
-                if (this.video != null) 
-                {
+                if (this.video != null) {
                     const video = new FormData()
                     video.append("file", this.video)
                     video.append("path", "images/course/")
                     const file = await lastValueFrom(this._Service.uploadVideo(video))
                     this.formData.patchValue({ video: file })
                 }
-                if (this.files.length>0) 
-                {
-                const image = new FormData()
-                image.append("file", this.files[0])
-                image.append("path", "images/course/")
-                const file1 = await lastValueFrom(this._Service.uploadVideo(image))
-                this.formData.patchValue({ image: file1 })
-                 }
+                if (this.files.length > 0) {
+                    const image = new FormData()
+                    image.append("file", this.files[0])
+                    image.append("path", "images/course/")
+                    const file1 = await lastValueFrom(this._Service.uploadVideo(image))
+                    this.formData.patchValue({ image: file1 })
+                }
 
+                for await (const tutor of this.course_lecturer().controls) {
+                    console.log(tutor.value.imageHold)
+                    if (!!tutor.value.imageHold) {
+                    const imageArray = new FormData()
+                    imageArray.append("file", tutor.value.imageHold)
+                    imageArray.append("path", "images/course/")
+                    const file2 = await lastValueFrom(this._Service.uploadVideo(imageArray))
+                    tutor.patchValue({ image: file2 })
+                    }
+                }
+                // console.log(this.formData.value)
+                // return
                 this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
@@ -398,14 +427,14 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 
-    onSelect1(event,index) {
+    onSelect1(event, index) {
         this.files1[index] = [];
         this.files1[index].push(...event.addedFiles);
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
         }, 150);
         this.course_lecturer().get([index]).patchValue({
-            image: this.files1[index][0],
+            imageHold: this.files1[index][0],
         });
     }
 
@@ -415,5 +444,18 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             image: '',
         });
     }
-    
+    changeType(event) {
+        console.log(event)
+        if (event.value == 'seminar'){
+            this.formData.patchValue({
+                sec: 0, 
+                hour: 0,
+                min: 0,
+            });
+            this.type= 'seminar'
+        }
+         else if (event.value == 'online'){
+            this.type='online'
+         }
+    }
 }
