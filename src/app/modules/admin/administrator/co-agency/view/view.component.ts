@@ -50,7 +50,7 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) private _sort: MatSort;
     public UserAppove: any = [];
     itemData: any = [];
-
+    images: String[]=[];
     statusData = [
         { value: 'open', name: 'Open' },
         { value: 'post', name: 'Share' },
@@ -114,6 +114,14 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
             asset_price: '',
             asset_price_per_month: '',
             asset_price_share: '',
+            asset_property_type_name:'',
+            asset_property_sub_type_name:'',
+            asset_property_announcer_name:'',
+            asset_asset_location_nearbys_property_location_nearby_name:'',
+            asset_property_ownership_name:'',
+            asset_property_color_land_name:'',
+            asset_inquiry_type_name:'',
+
         });
     }
 
@@ -125,6 +133,7 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     async ngOnInit(): Promise<void> {
+        
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
         
         this._Service.getById(this.Id).subscribe((resp: any) => {
@@ -148,8 +157,29 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
                 asset_price: this.itemData.asset.price,
                 asset_price_per_month: this.itemData.asset.price_per_month,
                 asset_price_share: this.itemData.asset.price_share,
+                asset_property_type_name: this.itemData.asset.property_type?.name,
+                asset_property_sub_type_name: this.itemData.asset.property_sub_type?.name,
+                asset_property_announcer_name: this.itemData.asset.property_announcer?.name,
+                // asset_asset_location_nearbys_property_location_nearby_name: this.itemData.asset.asset_location_nearbys.property_location_nearby?.name,
+                asset_property_ownership_name: this.itemData.asset.property_ownership?.name,
+                asset_property_color_land_name: this.itemData.asset.property_color_land?.name,
+                asset_inquiry_type_name: this.itemData.asset.inquiry_type?.name,
+                
+
+
 
             });
+            this.images=this.itemData.asset.asset_images
+
+
+            let asset_tags = ""
+            for (const data of this.itemData.asset.asset_tags) {
+                // property_location_nearby += data.name + "    "
+                asset_tags += (data.name?? " ")+ "   "
+            }
+
+
+
         });
     }
 

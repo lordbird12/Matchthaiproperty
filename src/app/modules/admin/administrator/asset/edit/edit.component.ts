@@ -177,21 +177,16 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 // property_location_nearby += data.name + "    "
                 asset_tags += (data.name?? " ")+ "   "
             }
-
             // let asset_facility_display = ""
             // for (const data of this.itemData.asset_facility_display) {
             //     // property_location_nearby += data.name + "    "
             //     asset_facility_display += (data.name?? " ")+ "   "
             // }
-
-
             let property_sub_type_rent = ""
             for (const data of this.itemData.asset_property_rents) {
                 // property_location_nearby += data.name + "    "
                 property_sub_type_rent += (data.property_sub_type_rent?.name  )+ "   "
             }
-
-
             asset_tags
             this.formData.patchValue({
                 name: this.itemData.name,
