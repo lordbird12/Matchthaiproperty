@@ -357,6 +357,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 sec: 0, 
                 hour: 0,
                 min: 0,
+                qty_lesson: 0,
             });
             this.type= 'seminar'
         }

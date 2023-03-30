@@ -93,7 +93,7 @@
 
 
 
-                        <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-4">
+                        <!-- <div class="flex flex-col w-full lg:w-4/4 sm:pl-8 mt-4">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ผู้สอน</mat-label>
                                 <input matInput [formControlName]="'lecturer'" placeholder="กรุณาระบุชื่อ">
@@ -106,7 +106,7 @@
                                 <textarea matInput rows="4" [formControlName]="'lecturer_profile'"
                                     placeholder="กรุณาระบุรายละเอียด"></textarea>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
@@ -151,14 +151,15 @@
                                     <input matInput [formControlName]="'sec'" placeholder="กรุณาระบุชื่อ">
                                 </mat-form-field>
                             </div>
-                        </ng-container>
-
+                            
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">จำนวนบทเรียน</mat-label>
                                 <input matInput [formControlName]="'qty_lesson'" placeholder="กรุณาระบุจำนวนบทเรียน">
                             </mat-form-field>
                         </div>
+                        </ng-container>
+
 
                         <div class="flex flex-col w-full lg:w-1/1 sm:pl-8">
                             <table formArrayName="course_rewards" style="cursor: pointer"

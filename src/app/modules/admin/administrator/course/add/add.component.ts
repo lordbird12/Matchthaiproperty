@@ -114,6 +114,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.id = this._activatedRoute.snapshot.paramMap.get('id');
         this.loadTable();
+        
         this.formData = this._formBuilder.group({
             course_id: this.id,
             title: '',

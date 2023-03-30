@@ -112,6 +112,7 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
     loadTable(): void {
         const that = this;
         this.dtOptions = {
+            order: [[0, 'desc']],
             pagingType: 'full_numbers',
             pageLength: 10,
             serverSide: true,

@@ -275,7 +275,7 @@ export class AddGalleryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    DeleteCourse(id: any): void {
+    DeleteGallery(id: any): void {
         this.flashMessage = null;
 
         // Open the confirmation dialog
