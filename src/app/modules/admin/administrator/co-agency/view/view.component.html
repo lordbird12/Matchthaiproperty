@@ -141,7 +141,8 @@
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ประเภทอสังหา</mat-label>
-                                <textarea matInput [formControlName]="'asset_property_type_name'" [rows]="4" readonly></textarea>
+                                <textarea matInput [formControlName]="'asset_property_type_name'" [rows]="4"
+                                    readonly></textarea>
                             </mat-form-field>
                         </div>
 
@@ -161,7 +162,7 @@
                             </mat-form-field>
                         </div>
 
-                   
+  
                         <!-- <ng-container *ngFor="let item of this.asset_facilitys">
                             <div class="flex flex-col w-full lg:w-1/6 sm:pl-8 ">
                                 <mat-form-field class="w-full">
@@ -176,28 +177,25 @@
 
 
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
-                        <!-- <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">สถานที่ใกล้เคียง</mat-label>
-                                <textarea matInput [formControlName]="'asset_asset_location_nearbys_property_location_nearby_name'" [rows]="4"
-                                    readonly></textarea>
-                            
-                            </mat-form-field>
-                        </div> -->
+
 
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">คุณสมบัติผู้เช่า</mat-label>
-                                <textarea matInput [formControlName]="'asset_property_ownership_name'" [rows]="4"
+                                <mat-label class="font-bold">สถานที่ใกล้เคียง</mat-label>
+                                <textarea matInput [formControlName]="'property_location_nearby'" [rows]="4"
                                     readonly></textarea>
+
                             </mat-form-field>
                         </div>
+          
+
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ประเภทความต้องการ</mat-label>
-                                <textarea matInput [formControlName]="'asset_inquiry_type_name'" [rows]="4" readonly></textarea>
+                                <mat-label class="font-bold">สิ่งอำนวยความสะดวก</mat-label>
+                                <textarea matInput [formControlName]="'property_sub_facility'" [rows]="4" readonly></textarea>
                             </mat-form-field>
                         </div>
+
 
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
 
@@ -207,18 +205,31 @@
                                 <textarea matInput [formControlName]="'asset_property_color_land_name'" [rows]="4"
                                     readonly></textarea>
                             </mat-form-field>
-                        </div>
+                        </div> -->
 
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">แท็กอสังหา</mat-label>
                                 <textarea matInput [formControlName]="'asset_tags'" [rows]="4" readonly></textarea>
                             </mat-form-field>
-                        </div> -->
-
-               
+                        </div> 
 
 
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">คุณสมบัติผู้เช่า</mat-label>
+                                <textarea matInput [formControlName]="'asset_property_ownership_name'" [rows]="4"
+                                    readonly></textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ประเภทความต้องการ</mat-label>
+                                <textarea matInput [formControlName]="'asset_inquiry_type_name'" [rows]="4"
+                                    readonly></textarea>
+                            </mat-form-field>
+                        </div>
 
 
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
@@ -243,7 +254,7 @@
                         <mat-icon svgIcon="mat_outline:keyboard_return"></mat-icon>
                         ยกเลิก
                     </a>
-           
+
                 </div>
             </div>
         </form>

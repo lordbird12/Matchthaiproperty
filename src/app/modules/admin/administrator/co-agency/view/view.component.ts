@@ -117,11 +117,13 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
             asset_property_type_name:'',
             asset_property_sub_type_name:'',
             asset_property_announcer_name:'',
-            asset_asset_location_nearbys_property_location_nearby_name:'',
             asset_property_ownership_name:'',
             asset_property_color_land_name:'',
             asset_inquiry_type_name:'',
-
+            asset:'',
+            property_location_nearby:'',
+            property_sub_facility:'',
+            asset_tags:'',
         });
     }
 
@@ -136,8 +138,28 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
         
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
         
+
+
+
+
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
+/////เอามาไว้ด้านบนเนื่องจาก ต้องอยู่ใต้ itemData////
+            let property_location_nearby = ""
+            for (const data of this.itemData.asset.asset_location_nearbys) {
+                    property_location_nearby += (data.property_location_nearby?.name) + "   "   
+            }
+            let property_sub_facility = ""
+            for (const data of this.itemData.asset.asset_facilitys) {
+                    property_sub_facility += (data.property_sub_facility?.name) + "   "
+            }
+            let asset_tags = ""
+            for (const data of this.itemData.asset.asset_tags) {
+                // property_location_nearby += data.name + "    "
+                asset_tags += (data.name?? " ")+ "   "
+            }
+
+
             this.formData.patchValue({
                 id: this.itemData.id,
                 asset_name: this.itemData.asset.name,
@@ -160,28 +182,19 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
                 asset_property_type_name: this.itemData.asset.property_type?.name,
                 asset_property_sub_type_name: this.itemData.asset.property_sub_type?.name,
                 asset_property_announcer_name: this.itemData.asset.property_announcer?.name,
-                // asset_asset_location_nearbys_property_location_nearby_name: this.itemData.asset.asset_location_nearbys.property_location_nearby?.name,
                 asset_property_ownership_name: this.itemData.asset.property_ownership?.name,
                 asset_property_color_land_name: this.itemData.asset.property_color_land?.name,
                 asset_inquiry_type_name: this.itemData.asset.inquiry_type?.name,
-                
-
-
-
+                property_location_nearby:property_location_nearby,
+                property_sub_facility:property_sub_facility,
+                asset_tags:asset_tags,
             });
             this.images=this.itemData.asset.asset_images
-
-
-            let asset_tags = ""
-            for (const data of this.itemData.asset.asset_tags) {
-                // property_location_nearby += data.name + "    "
-                asset_tags += (data.name?? " ")+ "   "
-            }
-
-
-
         });
     }
+
+
+
 
     approve(): FormArray {
         return this.formData.get('approve') as FormArray;
