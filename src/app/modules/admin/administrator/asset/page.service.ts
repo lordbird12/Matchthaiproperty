@@ -1040,7 +1040,7 @@ export class Service {
   }
 
   getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
-    return this._httpClient.post(environment.API_URL + '/api/asset_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/asset_back_office_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         return of(response.data);
       })
@@ -1056,6 +1056,18 @@ export class Service {
     return this._httpClient.get<any>(environment.API_URL + 'api/get_user')
   }
 
+
+
+
+  getMemberId(): Observable<any[]> {
+    return this._httpClient
+        .get<any[]>(environment.API_URL + '/api/get_property_type')
+        .pipe(
+            tap((meterial) => {
+                this._materials.next(meterial);
+            })
+        );
+  }
 
 
   uploadImg(img: FormData): Observable<any> {

@@ -16,6 +16,20 @@
     <!-- Main -->
     <div class="flex-auto p-3 sm:p-10">
         <form class="flex flex-col mt-3 p-8 pb-4 bg-card shadow overflow-hidden ng-valid" [formGroup]="formData">
+
+
+            <div class="flex flex-col sm:flex-row p-8">
+            <div class="w-full lg:w-4/4">
+                <div class="flex flex-auto flex-wrap">
+                    <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                        <mat-form-field class="w-full">
+                            <mat-label class="font-bold">คำนำหน้า</mat-label>
+                            <input matInput [formControlName]="'prefix'" placeholder="กรุณาระบุคำนำหน้า">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
@@ -28,6 +42,10 @@
                     </div>
                 </div>
             </div>
+
+
+
+
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">

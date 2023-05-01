@@ -62,6 +62,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         'create_by',
         'created_at',
         'actions',
+        'prefix',
     ];
     dataSource: MatTableDataSource<DataBranch>;
 
@@ -159,6 +160,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'create_by' },
                 { data: 'created_at' },
                 { data: 'actice', orderable: false },
+                { data: 'prefix' },
             ]
         };
     }

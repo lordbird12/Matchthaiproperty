@@ -79,7 +79,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
         this.formData = this._formBuilder.group({
             name: ['', Validators.required],
-
+            prefix: '',
 
         });
     }
@@ -94,15 +94,15 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
             name: ['', Validators.required],
-
+            prefix:'',
         });
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
+        // this._Service.getCourseType().subscribe((resp: any) => {
+        //     this.courseType = resp.data;
 
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
     }
 
     /**

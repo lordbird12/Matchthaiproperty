@@ -51,7 +51,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dtOptions: DataTables.Settings = {};
     public dataRow: any[];
     public dataGrid: any[];
-
+    public MemberList: any = [];
+    formData: FormGroup
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -112,6 +113,23 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.loadTable();
+        this.formData = this._formBuilder.group({
+            property_type_id: [null, Validators.required],
+   
+        });
+       
+        this._Service.getMemberId().subscribe((resp: any) => {
+            this.MemberList = resp.data;
+            this._changeDetectorRef.markForCheck();
+        });
+
+
+
+
+
+
+
+
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -185,6 +203,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         return total;
     }
 
+    Search() {
+        this.rerender();
+      
+    }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
     totalTrans() {
         let total = 0;
         for (let data of this.dataGrid) {

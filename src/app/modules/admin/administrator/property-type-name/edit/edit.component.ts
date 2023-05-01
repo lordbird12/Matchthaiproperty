@@ -96,6 +96,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
         this.formData = this._formBuilder.group({
             name: ['', Validators.required],
+            prefix: '',
             status: '',
 
         });
@@ -122,6 +123,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.itemData = resp.data;
             this.formData.patchValue({
                 name: this.itemData.name,
+                prefix: this.itemData.prefix,
                 status: this.itemData.status,
 
             });
