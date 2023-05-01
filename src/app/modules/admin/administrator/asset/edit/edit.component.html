@@ -22,17 +22,31 @@
                     <div class="flex flex-auto flex-wrap">
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ชื่อสมาชิก</mat-label>
+                                <input matInput [formControlName]="'fname'" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">รหัสอสังหา</mat-label>
+                                <input matInput [formControlName]="'code'" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                            <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ชื่ออสังหา</mat-label>
                                 <input matInput [formControlName]="'name'" readonly>
                             </mat-form-field>
                         </div>
+                        
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สถานที่ตั้ง</mat-label>
                                 <input matInput [formControlName]="'map_address'" readonly>
                             </mat-form-field>
                         </div>
-
                         <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">จำนวนชั้น</mat-label>
@@ -147,7 +161,6 @@
 
 
 
-                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สถานที่ใกล้เคียง</mat-label>

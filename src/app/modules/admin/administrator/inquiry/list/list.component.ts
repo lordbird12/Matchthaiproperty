@@ -166,7 +166,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'inquiry_type' },
                 { data: 'property_sub_type' },
                 { data: 'updated_at' },
-
+                { data: 'code' },
+       
                 // { data: 'actice', orderable: false }, 
             ]
         };

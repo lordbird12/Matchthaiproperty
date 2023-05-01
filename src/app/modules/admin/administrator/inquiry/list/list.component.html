@@ -37,9 +37,11 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th style="width:10%;">ชื่ออสังหา</th>
+                            <th>รหัสอสังหา</th>
+                            <th>ชื่อสมาชิก</th>
                             <th>ความต้องการ</th>
                             <th>ลักษะสถานที่</th>
-                            <th>ชื่อ-สกุล</th>
+                   
                             <th>ลักษณะอสังหา</th>
                             <th>ความต้องการ</th>
                             <!-- <th>ลักษณะสีที่ดิน</th> -->
@@ -53,9 +55,11 @@
                         <tr *ngFor="let item of dataRow; let i = index">
                             <td style="width: 5%;">{{ pages.begin + (i + 1) }}</td>
                             <td>{{ item.name }}</td>
+                            <td>{{ item.code }}</td>
+                            <td>{{ item.member?.fname }}  {{ item.member?.lname }}</td>
                             <td>{{ item.objective }}</td>
                             <td>{{ item.type }}</td>
-                            <td>{{ item.member.fname }}  {{ item.member.lname }}</td>
+                            
                             <td>{{ item.property_type?.name }} {{ item.property_sub_type?.name }}</td>
                             <td>{{ item.inquiry_type?.name }}</td>
                             <!-- <td>{{ item.property_color_land.name }}</td>     -->

@@ -133,6 +133,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             property_sub_type_rent:'',
             property_location_nearby:'',
             inquiry_tags:'',
+            code:'',
         });
 
 
@@ -199,6 +200,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 property_sub_type_rent:property_sub_type_rent,
                 property_location_nearby:property_location_nearby,
                 inquiry_tags:inquiry_tags,
+       
+                code: this.itemData.member?.code,
             });
         });
     }
