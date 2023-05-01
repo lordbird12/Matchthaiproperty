@@ -126,6 +126,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             ig_url: '',
             about_us: '',
             shot_desception_web: '',
+            announcer_agent_agree:'',
             
         });
     }
@@ -152,7 +153,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 text_check_condition_inquiry: this.itemData.text_check_condition_inquiry,
                 text_check_share_condition_inquiry: this.itemData.text_check_share_condition_inquiry,
                 text_check_condition_app: this.itemData.text_check_condition_app,
-
+                announcer_agent_agree: this.itemData.announcer_agent_agree,
 
                 url_youtube_channel: this.itemData.url_youtube_channel,
                 lat: this.itemData.lat,

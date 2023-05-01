@@ -23,15 +23,21 @@
 
 
 
-                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เงื่อนไขอสังหา</mat-label>
                                 <textarea matInput [formControlName]="'condition_asset'" placeholder="กรุณาระบุเงื่อนไขอสังหา"
-                                    rows="4"></textarea>
+                                    rows="6"></textarea>
                             </mat-form-field>
                         </div>
-
-                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ยืนยันการยินยอม</mat-label>
+                                <textarea matInput [formControlName]="'announcer_agent_agree'" placeholder="กรุณาระบุเงื่อนไขอสังหา"
+                                    rows="6"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สถานะการยินยอมเงื่อนไขอสังหา</mat-label>
                                 <input matInput [formControlName]="'text_check_condition_asset'" placeholder="สถานะการยินยอมเงื่อนไขอสังหา">
