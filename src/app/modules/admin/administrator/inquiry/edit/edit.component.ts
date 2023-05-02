@@ -134,6 +134,17 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             property_location_nearby:'',
             inquiry_tags:'',
             code:'',
+
+            codeasset:'',
+            lname:'',
+            email:'',
+            facebook:'',
+            line:'',
+            sex:'',
+            tel:'',
+
+
+
         });
 
 
@@ -202,6 +213,20 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 inquiry_tags:inquiry_tags,
        
                 code: this.itemData.member?.code,
+                codeasset: this.itemData.code,
+
+
+
+                lname: this.itemData.member?.lname,
+                codemember: this.itemData.member?.code,
+                email: this.itemData.member?.email,
+                facebook: this.itemData.member?.facebook,
+                line: this.itemData.member?.line,
+                sex: this.itemData.member?.sex,
+                tel: this.itemData.member?.tel,
+
+
+
             });
         });
     }

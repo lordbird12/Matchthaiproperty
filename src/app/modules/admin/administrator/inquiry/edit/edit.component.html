@@ -25,19 +25,79 @@
                                 <input matInput [formControlName]="'name'" readonly>
                             </mat-form-field>
                         </div> -->
+
+
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รหัสสมาชิก</mat-label>
                                 <input matInput [formControlName]="'code'" readonly>
                             </mat-form-field>
-                        </div>                  
-                        <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ชื่อสมาชิก</mat-label>
                                 <input matInput [formControlName]="'member_fname'" readonly>
                             </mat-form-field>
                         </div>
-            
+
+                        <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">นามสกุล</mat-label>
+                                <input matInput [formControlName]="'lname'" readonly>
+                            </mat-form-field>
+                        </div>
+       
+                        <div class="flex flex-col w-full lg:w-1/5 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">อีเมล</mat-label>
+                                <input matInput [formControlName]="'email'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/5 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Facebook</mat-label>
+                                <input matInput [formControlName]="'facebook'" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-1/5 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">Line</mat-label>
+                                <input matInput [formControlName]="'line'" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col w-full lg:w-1/5 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เพศ</mat-label>
+                                <input matInput [formControlName]="'sex'" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-1/5 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เบอร์โทรศัพท์</mat-label>
+                                <input matInput [formControlName]="'tel'" readonly>
+                            </mat-form-field>
+                        </div>
+
+
+
+
+                        <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
+
+
+
+
+
+
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">รหัสอสังหา</mat-label>
+                                <input matInput [formControlName]="'codeasset'" readonly>
+                            </mat-form-field>
+                        </div>
+
+
            
                         <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
                             <mat-form-field class="w-full">
@@ -66,14 +126,14 @@
                         </div>
                         <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">พื้นที่จอดรถ</mat-label>
-                                <input matInput [formControlName]="'parking'" readonly>ตรม.
+                                <mat-label class="font-bold">จำนวนที่จอดรถ</mat-label>
+                                <input matInput [formControlName]="'parking'" readonly>คัน
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-1/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">พื้นที่ห้องครัว</mat-label>
-                                <input matInput [formControlName]="'living_room'" readonly>ตรม.
+                                <mat-label class="font-bold">จำนวนห้องครัว</mat-label>
+                                <input matInput [formControlName]="'living_room'" readonly>ห้อง
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-2/6  sm:pl-8">
@@ -82,22 +142,22 @@
                                 <input matInput [formControlName]="'usable_area_max'" readonly>ตรม.
                             </mat-form-field>
                         </div>
-
-                        <div class="flex flex-col w-full lg:w-2/6  sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ลักษณะสีที่ดิน</mat-label>
-                                <input matInput [formControlName]="'property_color_land_name'" readonly>
-                            </mat-form-field>
-                        </div>
                         <div class="flex flex-col w-full lg:w-2/6  sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">วันที่สร้าง</mat-label>
                                 <input matInput [formControlName]="'updated_at'" readonly>
                             </mat-form-field>
                         </div> 
+                        <div class="flex flex-col w-full lg:w-2/6  sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ลักษณะสีที่ดิน</mat-label>
+                                <input matInput [formControlName]="'property_color_land_name'" readonly>
+                            </mat-form-field>
+                        </div>
+  
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ความต้องการ</mat-label>
+                                <mat-label class="font-bold">วัตถุประสงค์</mat-label>
                                 <textarea matInput rows="4" [formControlName]="'objective'" readonly></textarea>
                             </mat-form-field>
                         </div>

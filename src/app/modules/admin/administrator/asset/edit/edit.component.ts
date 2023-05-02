@@ -137,6 +137,21 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             fname:'',
             code:'',
 
+            codemember:'',
+            lname:'',
+            email:'',
+            facebook:'',
+            line:'',
+            sex:'',
+            tel:'',
+
+
+
+
+
+
+
+
         });
 
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
@@ -218,8 +233,20 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 asset_tags:asset_tags,
                 property_sub_type_rent:property_sub_type_rent,
                 property_sub_type: this.itemData.property_sub_type?.name,
-                fname: this.itemData.member?.fname,
                 code: this.itemData.code,
+                fname: this.itemData.member?.fname,
+                lname: this.itemData.member?.lname,
+                codemember: this.itemData.member?.code,
+                email: this.itemData.member?.email,
+                facebook: this.itemData.member?.facebook,
+                line: this.itemData.member?.line,
+                sex: this.itemData.member?.sex,
+                tel: this.itemData.member?.tel,
+
+
+
+
+
 
 
             });
