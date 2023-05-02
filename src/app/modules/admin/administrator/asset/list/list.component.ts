@@ -114,8 +114,10 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.loadTable();
         this.formData = this._formBuilder.group({
-            property_type_id: [null, Validators.required],
-   
+            member_id:'',
+            approve: '',
+            date: '',
+
         });
        
         this._Service.getMemberId().subscribe((resp: any) => {
@@ -146,7 +148,10 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = '';
+                dataTablesParameters.date = this.formData.value.date;
+                dataTablesParameters.member_id =  this.formData.value.member_id;
+                dataTablesParameters.approve =  this.formData.value.approve;
+
                 that._Service
                     .getPage(dataTablesParameters)
                     .subscribe((resp) => {
@@ -212,6 +217,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             dtInstance.ajax.reload();
         });
     }
+
+
+
     totalTrans() {
         let total = 0;
         for (let data of this.dataGrid) {
@@ -273,6 +281,24 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     edit(Id: string): void {
         this._router.navigate(['asset/edit/' + Id]);
     }
+
+
+   
+    confirm(Id: string) {
+        const dialogRef = this._matDialog.open(NewComponent, {
+            width: '500px',
+            height: 'auto',
+            data: Id
+        });
+        dialogRef.afterClosed().subscribe(item => {
+            this.rerender();
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+
+
+
 
     viewDetail(Id: string): void {
         this._router.navigate(['course-lesson/detail/' + Id]);

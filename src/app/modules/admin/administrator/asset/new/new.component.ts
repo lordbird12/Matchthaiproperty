@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -29,7 +30,8 @@ import {
 } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDialog } from '@angular/material/dialog';
+
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
@@ -62,12 +64,17 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     pagination: BranchPagination;
     public UserAppove: any = [];
     files: File[] = [];
+    public Approve: any = [];
 
-    courseType: any = [];
     /**
      * Constructor
      */
     constructor(
+
+        public dialogRef: MatDialogRef<NewComponent>,
+        @Inject(MAT_DIALOG_DATA)
+        public data: any,
+
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
@@ -78,15 +85,9 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService
     ) {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+
+            approve:"",
+            approve_remark:"",
         });
     }
 
@@ -99,29 +100,23 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
-            course_id: ['', Validators.required],
-            title: ['', Validators.required],
-            detail: '',
-            video: 'images/course_lesson/1666553407.mp4',
-            hour: '',
-            min: '',
-            sec: '',
-            status: '',
-            image: [''],
+            approve: "",
+            approve_remark: "",
+
         });
+        console.log(this.data)
+        // this._Service.getConfirm().subscribe((resp: any) => {
+        //     this.Approve = resp.data;
 
-        this._Service.getCourseType().subscribe((resp: any) => {
-            this.courseType = resp.data;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        })
+        //     // Mark for check
+        //     this._changeDetectorRef.markForCheck();
+        // })
     }
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
 
     /**
      * On destroy
@@ -169,7 +164,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                     next: (resp: any) => {
                         this._router
                             .navigateByUrl('course-lesson/list')
-                            .then(() => {});
+                            .then(() => { });
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({

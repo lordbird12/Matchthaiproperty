@@ -144,6 +144,8 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
+
+            
             this.formData.patchValue({
                 id: this.itemData.id,
                 member_group_id: this.itemData.member_group_id,
@@ -232,6 +234,16 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
+
+            this.formData.patchValue({
+                profile_image: this.files1[0],
+            });
+
+         this.formData.patchValue({
+             citizen_image: this.files[0],
+         });
+
+
             // If the confirm button pressed...
             if (result === 'confirmed') {
                 let profile_image = this.formData.value.profile_image
@@ -313,9 +325,9 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
         }, 150);
-        this.formData.patchValue({
-            citizen_image: this.files[0],
-        });
+        // this.formData.patchValue({
+        //     citizen_image: this.files[0],
+        // });
     }
     onRemove(event) {
         this.files.splice(this.files.indexOf(event), 1);
@@ -331,9 +343,10 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
         }, 150);
-        this.formData.patchValue({
-            profile_image: this.files1[0],
-        });
+        // this.formData.patchValue({
+        //     profile_image: this.files1[0],
+        // });
+
     }
 
     onRemove1(event) {

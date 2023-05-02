@@ -996,8 +996,8 @@ export class Service {
   }
 
   // get Users //
-  getCourseType(): Observable<any[]> {
-    return this._httpClient.get<any[]>(environment.API_URL + 'api/get_course_type').pipe(
+  getConfirm(): Observable<any[]> {
+    return this._httpClient.get<any[]>(environment.API_URL + '/api/approve_asset').pipe(
       tap((meterial) => {
         this._materials.next(meterial);
       })
@@ -1061,7 +1061,7 @@ export class Service {
 
   getMemberId(): Observable<any[]> {
     return this._httpClient
-        .get<any[]>(environment.API_URL + '/api/get_property_type')
+        .get<any[]>(environment.API_URL + '/api/get_member')
         .pipe(
             tap((meterial) => {
                 this._materials.next(meterial);
