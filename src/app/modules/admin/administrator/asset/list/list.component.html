@@ -26,6 +26,9 @@
             <mat-form-field class="w-1/4 pr-1">
                 
                 <mat-select [formControlName]="'member_id'">
+                    <mat-option [value]="''">
+                        <span class="text-gray-400">เลือกสมาชิก</span>
+                    </mat-option>
                     <mat-option *ngFor="let item of MemberList" [value]="item.id">
                         {{item.fname}}   {{item.lname}}
                     </mat-option>
