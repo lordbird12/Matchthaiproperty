@@ -1031,6 +1031,16 @@ export class Service {
   }
 
 
+  updateConfirm(data: any,id:any): Observable<any> {
+    return this._httpClient.put(environment.API_URL + '/api/approve_asset/'+id, data, this.httpOptionsFormdata).pipe(
+      switchMap((response: any) => {
+        // Return a new observable with the response
+        return of(response);
+      })
+    );
+  }
+
+
   getTransactionPage(dataTablesParameters: any): Observable<DataTablesResponse> {
     return this._httpClient.post(environment.API_URL + 'api/bank_trans_page', dataTablesParameters, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
