@@ -479,12 +479,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
-            {
-                id: 'settings',
-                title: 'ตั้งค่าโปรไฟล์',
-                type: 'basic',
-                link: '/pages/settings',
-            },
+            // {
+            //     id: 'settings',
+            //     title: 'ตั้งค่าโปรไฟล์',
+            //     type: 'basic',
+            //     link: '/pages/settings',
+            // },
             {
                 id: 'signout',
                 title: 'ออกจากระบบ',
