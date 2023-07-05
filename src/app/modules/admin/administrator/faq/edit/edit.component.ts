@@ -46,6 +46,14 @@ import { Service } from '../page.service';
 export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
+    quillModules: any = {
+        toolbar: [
+          ['bold', 'italic', 'underline'],
+          [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
+          ['clean'],
+          
+        ]
+      };
 
     statusData: any = [
         { value: 1, name: 'เปิดใช้งาน' },

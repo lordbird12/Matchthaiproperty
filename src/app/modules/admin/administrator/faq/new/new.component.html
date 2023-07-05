@@ -29,12 +29,11 @@
                                 <input matInput [formControlName]="'name'">
                             </mat-form-field>
                         </div>
-                        <div class="flex">
-                            <mat-form-field class="w-full">
-                                <mat-label>คำตอบ
-                                </mat-label>
-                                <textarea matInput [formControlName]="'detail'" rows="5"></textarea>
-                            </mat-form-field>
+                        <div class="flex-col">
+                            <mat-label>คำตอบ
+                            </mat-label>
+                            <quill-editor class="my-2 w-full" [formControlName]="'detail'" #editor [modules]="quillModules">
+                            </quill-editor>
                         </div>
                     </div>
                 </div>

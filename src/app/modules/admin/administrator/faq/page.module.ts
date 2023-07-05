@@ -40,6 +40,7 @@ import { ListComponent } from './list/list.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { DataTablesModule } from 'angular-datatables';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { DataTablesModule } from 'angular-datatables';
     MatRadioModule,
     MatExpansionModule,
     NgxMatTimepickerModule.setLocale('en-GB'),
-    DataTablesModule
+    DataTablesModule,
+    QuillModule.forRoot(),
   ]
 })
 export class Module {

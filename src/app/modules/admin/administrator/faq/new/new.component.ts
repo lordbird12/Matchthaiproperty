@@ -26,6 +26,14 @@ import { Service } from '../page.service';
 export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
+    quillModules: any = {
+        toolbar: [
+          ['bold', 'italic', 'underline'],
+          [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
+          ['clean'],
+          
+        ]
+      };
 
     formData: FormGroup
     flashErrorMessage: string;
