@@ -76,14 +76,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 children: [
                     {
                         id: 'vendor',
-                        title: 'sponsor',
+                        title: 'vendor',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'vendor/list',
                     },
                     {
                         id: 'sponsor',
-                        title: 'vendor',
+                        title: 'sponsor',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'sponsor/list',
@@ -330,7 +330,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     },
                     {
                         // id: 'news.list',
-                        title: 'จัดการแท็กข่าว',
+                        title: 'แท็กยอดนิยม',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/news-tag/list',
