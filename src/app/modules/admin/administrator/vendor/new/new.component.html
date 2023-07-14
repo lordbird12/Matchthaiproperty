@@ -44,6 +44,7 @@
                             <ngx-dropzone style="width: 100%; height: 250px; justify-content: center;" (change)="onSelect($event)">
                                 <ngx-dropzone-label>ขนาดรูป 200*200</ngx-dropzone-label>
                                 <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true" [file]="f" (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.width }} ({{ f.type }})</ngx-dropzone-label>
                                 </ngx-dropzone-image-preview>
                             </ngx-dropzone>
                         </div>

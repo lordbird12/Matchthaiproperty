@@ -94,6 +94,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             id: '1',
             condition_asset: '',
             condition_inquiry: '',
+            condition_announcer_agent: '',
             share_condition_asset: '',
             share_condition_inquiry: '',
             condition_app: '',
@@ -127,6 +128,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             about_us: '',
             shot_desception_web: '',
             announcer_agent_agree:'',
+            comment_news:'',
+            review_web:'',
             
         });
     }
@@ -147,6 +150,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 share_condition_asset: this.itemData.share_condition_asset,
                 share_condition_inquiry: this.itemData.share_condition_inquiry,
                 condition_app: this.itemData.condition_app,
+                condition_announcer_agent: this.itemData.condition_announcer_agent,
 
                 text_check_condition_asset: this.itemData.text_check_condition_asset,
                 text_check_share_condition_asset: this.itemData.text_check_share_condition_asset,
@@ -175,6 +179,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 ig_url: this.itemData.ig_url,
                 about_us: this.itemData.about_us,
                 shot_desception_web: this.itemData.shot_desception_web,
+                comment_news: this.itemData.comment_news,
+                review_web: this.itemData.review_web,
 
             });
             this._changeDetectorRef.markForCheck();

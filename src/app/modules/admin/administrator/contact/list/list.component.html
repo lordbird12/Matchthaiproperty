@@ -23,21 +23,21 @@
 
 
 
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เงื่อนไขอสังหา</mat-label>
                                 <textarea matInput [formControlName]="'condition_asset'" placeholder="กรุณาระบุเงื่อนไขอสังหา"
                                     rows="6"></textarea>
                             </mat-form-field>
                         </div>
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                        <!-- <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">ยืนยันการยินยอม</mat-label>
+                                <mat-label class="font-bold">ยินยอมข้อตกลง</mat-label>
                                 <textarea matInput [formControlName]="'announcer_agent_agree'" placeholder="กรุณาระบุเงื่อนไขอสังหา"
                                     rows="6"></textarea>
                             </mat-form-field>
-                        </div>
-                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
+                        </div> -->
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สถานะการยินยอมเงื่อนไขอสังหา</mat-label>
                                 <input matInput [formControlName]="'text_check_condition_asset'" placeholder="สถานะการยินยอมเงื่อนไขอสังหา">
@@ -100,6 +100,19 @@
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">สถานะการยินยอมสมัครเข้าใช้งานระบบ</mat-label>
                                 <input matInput [formControlName]="'text_check_condition_app'" placeholder="กรุณาระบุอีเมล">
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">เงื่อนไขการรับ agent</mat-label>
+                                <textarea matInput [formControlName]="'condition_announcer_agent'" placeholder="กรุณาระบุเงื่อนไขระบบ"
+                                    rows="4"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
+                            <mat-form-field class="w-full">
+                                <mat-label class="font-bold">ยินยอมข้อตกลง</mat-label>
+                                    <input matInput [formControlName]="'announcer_agent_agree'" placeholder="กรุณาระบุอีเมล">
                             </mat-form-field>
                         </div>
 
@@ -230,6 +243,30 @@
                                 <input matInput [formControlName]="'url_youtube_channel'" placeholder="กรุณาระบุURL ยูทูป">
                             </mat-form-field>
                         </div>  
+                        <div class="flex flex-col w-full lg:w-2/6 sm:pl-8 self-center">
+                            <div class="flex">
+                           <mat-label>ปิดการมองเห็นข่าว</mat-label>
+                               
+                                <mat-slide-toggle
+                                class="ml-2"
+                                [color]="'primary'"
+                                [formControlName]="'comment_news'"
+                                #securityToggle>
+                            </mat-slide-toggle>
+                        </div>
+                            <div class="flex">
+                           <mat-label>ปิดการแสดงความคิดเห็น</mat-label>
+                               
+                                <mat-slide-toggle
+                                class="ml-2"
+                                [color]="'primary'"
+                               [formControlName]="'review_web'"
+                                #securityToggle>
+                            </mat-slide-toggle>
+                        </div>
+                           
+                            
+                        </div>  
               
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
 
@@ -242,7 +279,7 @@
                         </div>
                         <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
                             <mat-form-field class="w-full">
-                                <mat-label class="font-bold">สถานะ</mat-label>
+                                <mat-label class="font-bold">รายละเอียดโดยย่อ</mat-label>
                                 <textarea matInput [formControlName]="'shot_desception_web'" placeholder="กรุณาระบุที่อยู่"
                                     rows="4"></textarea>
                             </mat-form-field>
