@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { debounceTime, lastValueFrom, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,7 +35,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('lineCanvas') lineCanvas: ElementRef | undefined;
     lineChart: any;
     @ViewChild('barCanvas') barCanvas: ElementRef | undefined;
+    @ViewChild('barCanvas1') barCanvas1: ElementRef | undefined;
     barChart: any;
+    barChart1: any;
 
 
     @ViewChild(DataTableDirective)
@@ -92,8 +94,32 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     /**
      * On init
      */
-    ngOnInit(): void {
+    total: any[] = [];
+    title: any[] = [];
+    name: any[] = [];
+    total1: any[] = [];
+    async ngOnInit(): Promise<void> {
         this.loadTable();
+     const res = await lastValueFrom(this._Service.getReportOrder(2023))
+           
+            for (let index = 0; index < res.length; index++) {
+                const element = res[index];
+                this.total.push(element.total)
+                this.title.push(element.course.title)
+            }
+            // this._changeDetectorRef.markForCheck()
+     
+        
+        const res1 = await lastValueFrom(this._Service.getReportType(2023))
+        for (let index = 0; index < res1.length; index++) {
+            const element1 = res1[index];
+            this.name.push(element1.name)
+            this.total1.push(element1.total)
+            
+        }
+        this.barChart.update();
+        this.barChart1.update();
+     
         // this._Service.getBranch().subscribe((resp: any) => {
         //     this.dataRow = resp.data;
         //     this.dataSource = new MatTableDataSource(this.dataRow)
@@ -110,18 +136,18 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.barChart = new Chart(this.barCanvas?.nativeElement, {
             type: 'bar',
             data: {
-                labels: ['บัญชี 1', 'บัญชี 2', 'บัญชี 3', 'บัญชี 4', 'บัญชี 5', 'บัญชี 6'],
+                labels: this.title,
                 datasets: [
                     {
                         label: '# of Votes',
-                        data: [200, 50, 30, 15, 20, 34],
+                        data: this.total,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
                             'rgba(255, 206, 86, 0.2)',
                             'rgba(75, 192, 192, 0.2)',
                             'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
+                            
                         ],
                         borderColor: [
                             'rgba(255,99,132,1)',
@@ -129,7 +155,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                             'rgba(255, 206, 86, 1)',
                             'rgba(75, 192, 192, 1)',
                             'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
+                            
                         ],
                         borderWidth: 1,
                     },
@@ -143,6 +169,41 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 },
             },
         });
+        this.barChart1 = new Chart(this.barCanvas1?.nativeElement, {
+            type: 'bar',
+            data: {
+                labels: this.name,
+                datasets: [
+                    {
+                        label: '# of Votes',
+                        data: this.total1,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            
+                            
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                          
+                            
+                        ],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+        // this._changeDetectorRef.markForCheck();   
     }
     lineChartMethod() {
         this.lineChart = new Chart(this.lineCanvas?.nativeElement, {

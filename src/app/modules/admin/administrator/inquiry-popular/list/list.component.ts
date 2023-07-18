@@ -47,17 +47,9 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     dtOptions: DataTables.Settings = {};
     dataRow: any = [];
+    dataRow1: any = [];
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-    quillModules: any = {
-        toolbar: [
-          ['bold', 'italic', 'underline'],
-          [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
-          ['clean'],
-          ['link','image']
-          
-        ]
-      };
     displayedColumns: string[] = [
         'id',
         'name',
@@ -78,9 +70,12 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     tagsEditMode: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     env_path = environment.API_URL;
+    page:any;
 
-    itemData: any = [];
-    formData: FormGroup;
+    me: any | null;
+    get roleType(): string {
+        return 'marketing';
+    }
 
     supplierId: string | null;
     pagination: PositionPagination;
@@ -98,51 +93,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService
-    ) {
-        this.formData = this._formBuilder.group({
-            id: '1',
-            condition_asset: '',
-            condition_inquiry: '',
-            condition_announcer_agent: '',
-            share_condition_asset: '',
-            share_condition_inquiry: '',
-            condition_app: '',
-
-            text_check_condition_asset: '',
-            text_check_share_condition_asset: '',
-            text_check_condition_inquiry: '',
-            text_check_share_condition_inquiry: '',
-            text_check_condition_app: '',
-
-
-
-            url_youtube_channel: '',
-            lat: '',
-            long: '',
-            address: '',
-            tel1: '',
-            tel2: '',
-            email1: '',
-            email2: '',
-            facebook: '',
-            line: '',
-            ig: '',
-            twitter: '',
-            youtube: '',
-            tiktok: '',
-            line_oa_url: '',
-            facebook_url: '',
-            twitter_url: '',
-            ig_url: '',
-            about_us: '',
-            shot_desception_web: '',
-            announcer_agent_agree:'',
-            comment_news:'',
-            review_web:'',
-            comment_course:'',
-            
-        });
-    }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -152,50 +103,59 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._Service.getById(1).subscribe((resp: any) => {
-            this.itemData = resp.data;
-            this.formData.patchValue({
-                condition_asset: this.itemData.condition_asset,
-                condition_inquiry: this.itemData.condition_inquiry,
-                share_condition_asset: this.itemData.share_condition_asset,
-                share_condition_inquiry: this.itemData.share_condition_inquiry,
-                condition_app: this.itemData.condition_app,
-                condition_announcer_agent: this.itemData.condition_announcer_agent,
-
-                text_check_condition_asset: this.itemData.text_check_condition_asset,
-                text_check_share_condition_asset: this.itemData.text_check_share_condition_asset,
-                text_check_condition_inquiry: this.itemData.text_check_condition_inquiry,
-                text_check_share_condition_inquiry: this.itemData.text_check_share_condition_inquiry,
-                text_check_condition_app: this.itemData.text_check_condition_app,
-                announcer_agent_agree: this.itemData.announcer_agent_agree,
-
-                url_youtube_channel: this.itemData.url_youtube_channel,
-                lat: this.itemData.lat,
-                long: this.itemData.long,
-                address: this.itemData.address,
-                tel1: this.itemData.tel1,
-                tel2: this.itemData.tel2,
-                email1: this.itemData.email1,
-                email2: this.itemData.email2,
-                facebook: this.itemData.facebook,
-                line: this.itemData.line,
-                ig: this.itemData.ig,
-                twitter: this.itemData.twitter,
-                youtube: this.itemData.youtube,
-                tiktok: this.itemData.tiktok,
-                line_oa_url: this.itemData.line_oa_url,
-                facebook_url: this.itemData.facebook_url,
-                twitter_url: this.itemData.twitter_url,
-                ig_url: this.itemData.ig_url,
-                about_us: this.itemData.about_us,
-                shot_desception_web: this.itemData.shot_desception_web,
-                comment_news: this.itemData.comment_news,
-                review_web: this.itemData.review_web,
-
-            });
-            this._changeDetectorRef.markForCheck();
-        });
+      
+        this.InquiryPage();
+        // console.log(this.dataRow,"onInit Datarow")
+       
     }
+
+    pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
+    // loadTable(): void {
+    //     const that = this;
+    //     this.dtOptions = {
+    //         order: [[0, 'desc']],
+    //         pagingType: 'full_numbers',
+    //         pageLength: 10,
+    //         serverSide: true,
+    //         processing: true,
+    //         responsive: true,
+    //         language: {
+    //             url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+    //         },
+    //         ajax: (dataTablesParameters: any, callback) => {
+    //             that._Service
+    //                 .getPage(dataTablesParameters)
+    //                 .subscribe((resp) => {
+    //                     this.dataRow = resp.data;
+    //                     console.log(this.dataRow,"DataRowww")
+    //                     this.pages.current_page = resp.current_page;
+    //                     this.pages.last_page = resp.last_page;
+    //                     this.pages.per_page = resp.per_page;
+    //                     if (resp.current_page > 1) {
+    //                         this.pages.begin =
+    //                             resp.per_page * resp.current_page - 1;
+    //                     } else {
+    //                         this.pages.begin = 0;
+    //                     }
+
+    //                     callback({
+    //                         recordsTotal: resp.total,
+    //                         recordsFiltered: resp.total,
+    //                         data: [],
+    //                     });
+    //                     this._changeDetectorRef.markForCheck();
+    //                 });
+    //         },
+    //         columns: [
+    //             { data: 'no' },
+    //             { data: 'question' },
+    //             { data: 'answer' },
+    //             { data: 'create_by' },
+    //             { data: 'created_at' },
+    //             { data: 'action' },
+    //         ],
+    //     };
+    // }
 
     /**
      * After view init
@@ -248,20 +208,20 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     edit(id: string): void {
-        this._router.navigate(['round/edit/' + id]);
+        this._router.navigate(['faq/edit/' + id]);
     }
 
     textStatus(status: string): string {
         return startCase(status);
     }
 
-    update(): void {
+    delete(id: any): void {
         this.flashMessage = null;
 
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'แก้ไขรายการ',
-            message: 'คุณต้องการแก้ไขรายการใช่หรือไม่ ',
+            title: 'ลบรายการที่เลือก',
+            message: 'คุณต้องการลบรายการที่เลือกใช่หรือไม่ ',
             icon: {
                 show: false,
                 name: 'heroicons_outline:exclamation',
@@ -285,35 +245,9 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         confirmation.afterClosed().subscribe((result) => {
             // If the confirm button pressed...
             if (result === 'confirmed') {
-                // Disable the form
-                this._Service.update(this.formData.value).subscribe({
+                this._Service.delete(id).subscribe({
                     next: (resp: any) => {
-                        this._Service.getById(1).subscribe((resp: any) => {
-                            this.itemData = resp.data;
-                            this.formData.patchValue({
-                                condition_asset: this.itemData.condition_asset,
-                                condition_inquiry: this.itemData.condition_inquiry,
-                                share_condition_asset: this.itemData.share_condition_asset,
-                                share_condition_inquiry: this.itemData.share_condition_inquiry,
-                                condition_app: this.itemData.condition_app,
-                                url_youtube_channel: this.itemData.url_youtube_channel,
-                                lat: this.itemData.lat,
-                                long: this.itemData.long,
-                                address: this.itemData.address,
-                                tel1: this.itemData.tel1,
-                                tel2: this.itemData.tel2,
-                                email1: this.itemData.email1,
-                                email2: this.itemData.email2,
-                                facebook: this.itemData.facebook,
-                                line: this.itemData.line,
-                                ig: this.itemData.ig,
-                                twitter: this.itemData.twitter,
-                                youtube: this.itemData.youtube,
-                                tiktok: this.itemData.tiktok,
-                                line_oa_url: this.itemData.line_oa_url,
-                            });
-                            this._changeDetectorRef.markForCheck();
-                        });
+                        location.reload();
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({
@@ -337,10 +271,19 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                             },
                             dismissible: true,
                         });
-                        // console.log(err.error.message)
+                        console.log(err.error.message);
                     },
                 });
             }
         });
+    }
+    InquiryPage(){
+        this._Service.Page().subscribe(res =>{
+            this.dataRow = res.asset_tag;
+            this.dataRow1 = res.inquiry_tag;
+            console.log(res,"Res")
+            console.log(this.dataRow,"dataRow")
+            this._changeDetectorRef.markForCheck();
+        })
     }
 }

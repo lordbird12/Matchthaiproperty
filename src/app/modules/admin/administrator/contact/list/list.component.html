@@ -264,25 +264,32 @@
                                 #securityToggle>
                             </mat-slide-toggle>
                         </div>
+                            <div class="flex">
+                           <mat-label>ปิดการ comment</mat-label>
+                               
+                                <mat-slide-toggle
+                                class="ml-2"
+                                [color]="'primary'"
+                               [formControlName]="'comment_course'"
+                                #securityToggle>
+                            </mat-slide-toggle>
+                        </div>
                            
                             
                         </div>  
               
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
 
-                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">เกี่ยวกับเรา</mat-label>
-                                <textarea matInput [formControlName]="'about_us'" placeholder="กรุณาระบุที่อยู่"
-                                    rows="4"></textarea>
-                            </mat-form-field>
+                        <div class=" flex-col w-full lg:w-6/6 sm:pl-8">
+                            <mat-label class="font-bold">เกี่ยวกับเรา</mat-label>
+                                <quill-editor class="my-2 w-full" [formControlName]="'about_us'" #editor [modules]="quillModules">
+                                </quill-editor>
                         </div>
-                        <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
-                            <mat-form-field class="w-full">
-                                <mat-label class="font-bold">รายละเอียดโดยย่อ</mat-label>
-                                <textarea matInput [formControlName]="'shot_desception_web'" placeholder="กรุณาระบุที่อยู่"
-                                    rows="4"></textarea>
-                            </mat-form-field>
+                        <div class=" flex-col w-full lg:w-6/6 sm:pl-8">
+                            <mat-label class="font-bold">รายละเอียดโดยย่อ</mat-label>
+                           
+                            <quill-editor class="my-2 w-full" [formControlName]="'shot_desception_web'" #editor [modules]="quillModules">
+                            </quill-editor>
                         </div>
 
 

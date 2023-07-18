@@ -1,9 +1,31 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+    debounceTime,
+    map,
+    merge,
+    Observable,
+    Subject,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,14 +38,12 @@ import { Service } from '../page.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
 @Component({
-    selector: 'new',
-    templateUrl: './new.component.html',
-    styleUrls: ['./new.component.scss'],
-
-    animations: fuseAnimations
+    selector: 'edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
+    animations: fuseAnimations,
 })
-
-export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
     quillModules: any = {
@@ -31,12 +51,24 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
           ['bold', 'italic', 'underline'],
           [{ align: [] }, { list: 'ordered' }, { list: 'bullet' }],
           ['clean'],
-          ['link','image']
           
         ]
       };
 
-    formData: FormGroup
+    statusData: any = [
+        { value: 1, name: 'เปิดใช้งาน' },
+        { value: 0, name: 'ปิดใช้งาน' },
+    ];
+
+    finishData: any = [
+        { value: true, name: 'เปิดใช้งาน' },
+        { value: false, name: 'ปิดใช้งาน' },
+    ];
+
+    id: string;
+    itemData: any = [];
+
+    formData: FormGroup;
     flashErrorMessage: string;
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -63,11 +95,14 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         private _matDialog: MatDialog,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService,
+        private _authService: AuthService
     ) {
-
-
-
+        this.formData = this._formBuilder.group({
+            id: ['', Validators.required],
+            name: ['', Validators.required],
+            detail: ['', Validators.required],
+            status: ['', Validators.required],
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -78,37 +113,34 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.formData = this._formBuilder.group({
-            name: ['', Validators.required],
-            detail: ['', Validators.required],
-        })
-
+        this.id = this._activatedRoute.snapshot.paramMap.get('id');
+        this._Service.getById(this.id).subscribe((resp: any) => {
+            this.itemData = resp.data;
+            this.formData.patchValue({
+                id: this.itemData.id,
+                name: this.itemData.name,
+                detail: this.itemData.detail,
+                status: this.itemData.status,
+            });
+        });
     }
 
 
-    discard(): void {
-
-    }
-
+    discard(): void {}
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void {
-
-    }
+    ngAfterViewInit(): void {}
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
-
     }
 
-
-    create(): void {
+    update(): void {
         this.flashMessage = null;
         this.flashErrorMessage = null;
         // Return if the form is invalid
@@ -117,69 +149,66 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         // }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            "title": "สร้างรายการใหม่",
-            "message": "คุณต้องการสร้างรายการใหม่ใช่หรือไม่ ",
-            "icon": {
-                "show": false,
-                "name": "heroicons_outline:exclamation",
-                "color": "warning"
+            title: 'แก้ไขรายการ',
+            message: 'คุณต้องการแก้ไขรายการใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
             },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ยืนยัน",
-                    "color": "primary"
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
                 },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
             },
-            "dismissible": true
+            dismissible: true,
         });
 
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
-
             // If the confirm button pressed...
             if (result === 'confirmed') {
-
-                this._Service.create(this.formData.value).subscribe({
+                // Disable the form
+                this._Service.update(this.formData.value, this.id).subscribe({
                     next: (resp: any) => {
-                        this._router.navigateByUrl('faq/list').then(() => { })
+                        this._router
+                            .navigateByUrl('faq/list')
+                            .then(() => {});
                     },
                     error: (err: any) => {
-
                         this._fuseConfirmationService.open({
-                            "title": "กรุณาระบุข้อมูล",
-                            "message": err.error.message,
-                            "icon": {
-                                "show": true,
-                                "name": "heroicons_outline:exclamation",
-                                "color": "warning"
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
                             },
-                            "actions": {
-                                "confirm": {
-                                    "show": false,
-                                    "label": "ยืนยัน",
-                                    "color": "primary"
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
                                 },
-                                "cancel": {
-                                    "show": false,
-                                    "label": "ยกเลิก",
-
-                                }
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
                             },
-                            "dismissible": true
+                            dismissible: true,
                         });
-                        console.log(err.error.message)
-                    }
-                })
+                        console.log(err.error.message);
+                    },
+                });
             }
         });
-
     }
-
 
     showFlashMessage(type: 'success' | 'error'): void {
         // Show the message
@@ -190,12 +219,10 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
 
         // Hide it after 3 seconds
         setTimeout(() => {
-
             this.flashMessage = null;
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
-
 }

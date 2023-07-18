@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'home',
-  templateUrl: './home.component.html',
+  selector: 'page',
+  templateUrl: './page.component.html',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent {
+export class PageComponent {
   /**
    * Constructor
    */

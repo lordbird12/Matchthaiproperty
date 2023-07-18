@@ -32,7 +32,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { FuseAlertModule } from '@fuse/components/alert';
 
 
 import { PageComponent } from './page.component';
@@ -83,7 +82,6 @@ import { QuillModule } from 'ngx-quill';
     MatExpansionModule,
     NgxMatTimepickerModule.setLocale('en-GB'),
     DataTablesModule,
-    FuseAlertModule,
     QuillModule.forRoot(),
   ]
 })

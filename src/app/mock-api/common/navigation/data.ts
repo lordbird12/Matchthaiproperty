@@ -148,6 +148,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/inquiry-type/list',
                     },
+                    {
+                        id: '/inquiry-popular/list',
+                        title: 'แท็กยอดนิยม',
+                        type: 'basic',
+                        // icon: 'heroicons_outline:clipboard-check',
+                        link: '/inquiry-popular/list',
+                    },
 
 
 

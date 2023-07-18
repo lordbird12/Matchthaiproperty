@@ -1032,5 +1032,19 @@ export class HomeService {
     );
   }
 
+  getReportOrder(years:any){
+    return this._httpClient.post(environment.API_URL+'/api/report_order_course',{year:years}).pipe(
+      map((res:any)=>{
+        return res.data
+      })
+    )
+  }
+  getReportType(years:any){
+    return this._httpClient.post(environment.API_URL+'/api/report_order_course_type',{year:years}).pipe(
+      map((res:any)=>{
+        return res.data
+      })
+    )
+  }
 
 }
