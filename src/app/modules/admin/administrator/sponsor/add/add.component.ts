@@ -310,7 +310,7 @@ export class AddComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
-                this._Service.delete(id).subscribe({
+                this._Service.deleteSubvendor(id).subscribe({
                     next: (resp: any) => {
                         location.reload();
                     },

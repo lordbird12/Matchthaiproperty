@@ -139,7 +139,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             announcer_agent_agree:'',
             comment_news:'',
             review_web:'',
-            comment_course:'',
+            comment_course:'0',
             
         });
     }
@@ -191,6 +191,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 shot_desception_web: this.itemData.shot_desception_web,
                 comment_news: this.itemData.comment_news,
                 review_web: this.itemData.review_web,
+                comment_course: this.itemData.comment_course,
 
             });
             this._changeDetectorRef.markForCheck();

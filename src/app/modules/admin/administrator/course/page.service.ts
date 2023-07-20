@@ -1092,7 +1092,7 @@ export class Service {
   }
 
   uploadImage(data: any): Observable<DataTablesResponse> {
-    return this._httpClient.post(environment.API_URL + '/api/upload_images', data, this.httpOptionsFormdata).pipe(
+    return this._httpClient.post(environment.API_URL + '/api/upload_fix_size_images', data, this.httpOptionsFormdata).pipe(
       switchMap((response: any) => {
         return of(response.data);
       })

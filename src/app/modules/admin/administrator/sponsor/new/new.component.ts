@@ -183,7 +183,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this._Service.new(formData).subscribe({
                     next: (resp: any) => {
                         this._router
-                            .navigateByUrl('vendor/list')
+                            .navigateByUrl('sponsor/list')
                             .then(() => {});
                     },
                     error: (err: any) => {

@@ -132,6 +132,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             hour: '',
             min: '',
             sec: '',
+            exp_day: '',
             course_rewards: this._formBuilder.array([]),
             course_reward: '',
             course_lecturer: this._formBuilder.array([]),
@@ -256,17 +257,21 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.formData.patchValue({ video: file })
 
                 const image = new FormData()
-                image.append("file", this.files[0])
+                image.append("image", this.files[0])
                 image.append("path", "images/course/")
-                const file1 = await lastValueFrom(this._Service.uploadVideo(image))
+                image.append("width", "265")
+                image.append("height", "177")
+                const file1 = await lastValueFrom(this._Service.uploadImage(image))
                 this.formData.patchValue({ image: file1 })
 
                 for await (const tutor of this.course_lecturer().controls) {
                 console.log(tutor.value)
                 const imageArray = new FormData()
-                imageArray.append("file", tutor.value.image)
+                imageArray.append("image", tutor.value.image)
                 imageArray.append("path", "images/course/")
-                const file1 = await lastValueFrom(this._Service.uploadVideo(imageArray))
+                imageArray.append("width", "265")
+                imageArray.append("height", "177")
+                const file1 = await lastValueFrom(this._Service.uploadImage(imageArray))
                 tutor.patchValue({ image: file1 })
                 }
 

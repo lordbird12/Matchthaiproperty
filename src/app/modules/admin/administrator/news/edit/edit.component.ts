@@ -224,8 +224,10 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (this.files.length>0) 
                 {
                 const image = new FormData()
-                image.append("file", this.files[0])
+                image.append("image", this.files[0])
                 image.append("path", "images/course/")
+                image.append("width","220")
+                image.append("height","220")
                 const file1 = await lastValueFrom(this._Service.uploadFiles(image))
                 this.formData.patchValue({ image: file1 })
                  }

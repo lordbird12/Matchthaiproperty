@@ -174,8 +174,10 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             if (result === 'confirmed') {
           
                 const image = new FormData()
-                image.append("file",this.files[0])
+                image.append("image",this.files[0])
                 image.append("path","/images/news/")
+                image.append("width","220")
+                image.append("height","220")
                 const file = await lastValueFrom(this._Service.uploadFiles(image))
                 this.formData.patchValue({image:file})
 

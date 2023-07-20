@@ -208,10 +208,13 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                     const formData = new FormData()
                     formData.append("image", this.files[0])
                     formData.append("path", "images/banner_footer/")
+                    formData.append("width", "355")
+                    formData.append("height", "355")
                     const img = await lastValueFrom (this._Service.uploadImg(formData)) 
                     this.formData.patchValue({
                         banner_footer_image: img
                     })
+                    console.log(this.formData.value.banner_footer_image,"bannerIMG")
                 }
                 this._Service.update(this.formData.value, this.Id).subscribe({
                     next: (resp: any) => {

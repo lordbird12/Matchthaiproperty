@@ -1410,6 +1410,13 @@ deleteCourse(itemId: number): Observable<{}> {
 
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
+            environment.API_URL + '/api/vendor/' + id,
+            { headers: this.httpOptionsFormdata.headers }
+        );
+    }
+
+    deleteSubvendor(id: any): Observable<any> {
+        return this._httpClient.delete<any>(
             environment.API_URL + '/api/vendor_company/' + id,
             { headers: this.httpOptionsFormdata.headers }
         );
