@@ -20,7 +20,7 @@
             <div class="flex flex-col sm:flex-row p-8">
                 <div class="w-full lg:w-4/4">
                     <div class="flex flex-auto flex-wrap">
-<!-- 
+                        <!-- 
 
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
@@ -53,7 +53,7 @@
                             </mat-form-field>
                         </div>
 
-       
+
                         <!-- <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลขหลังบัตรประชาชน</mat-label>
@@ -75,7 +75,8 @@
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลขบัตรประชาชน</mat-label>
-                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"type="number">
+                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"
+                                    type="number">
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
@@ -103,7 +104,8 @@
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">รหัสผ่าน</mat-label>
-                                <input matInput [formControlName]="'password'" placeholder="กรุณาระบุพาสเวิร์ด">
+                                <input type="password" matInput [formControlName]="'password'"
+                                    placeholder="กรุณาระบุพาสเวิร์ด">
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
@@ -188,7 +190,7 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="member/list">
+                    <a class="ml-4" mat-flat-button href="member-agent/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

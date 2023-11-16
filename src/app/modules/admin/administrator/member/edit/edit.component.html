@@ -1,7 +1,8 @@
 <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
@@ -32,7 +33,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div> -->
-                        
+
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ประเภทผู้ซื้อ</mat-label>
@@ -47,7 +48,7 @@
                             </mat-form-field>
                         </div>
 
-          
+
                         <!-- <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลขหลังบัตรประชาชน</mat-label>
@@ -69,7 +70,8 @@
                         <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เลขบัตรประชาชน</mat-label>
-                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"type="number">
+                                <input matInput [formControlName]="'citizen_id'" placeholder="กรุณาระบุเลขบัตรประชาชน"
+                                    type="number">
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
@@ -89,7 +91,7 @@
 
 
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
-                            <mat-label  class="font-bold">รูปโปรไฟล์</mat-label>
+                            <mat-label class="font-bold">รูปโปรไฟล์</mat-label>
                             <img class="w-100" [src]="this.itemData.profile_image">
                         </div>
 
@@ -103,13 +105,14 @@
                             </ngx-dropzone>
                         </div>
 
-        
+
 
                         <div class="flex items-center justify-end w-full border-t px-8 py-4 mt-5"></div>
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">ยูสเซอร์เนม</mat-label>
-                                <input matInput [formControlName]="'username'" placeholder="กรุณาระบุยูสเซอร์เนม" readonly>
+                                <input matInput [formControlName]="'username'" placeholder="กรุณาระบุยูสเซอร์เนม"
+                                    readonly>
                             </mat-form-field>
                         </div>
                         <!-- <div class="flex flex-col w-full lg:w-3/6 sm:pl-8">
@@ -167,7 +170,8 @@
                         <div class="flex flex-col w-full lg:w-2/6 sm:pl-8">
                             <mat-form-field class="w-full">
                                 <mat-label class="font-bold">เบอร์โทร</mat-label>
-                                <input matInput [formControlName]="'tel'" placeholder="กรุณาระบุเบอร์โทร" type="text"readonly>
+                                <input matInput [formControlName]="'tel'" placeholder="กรุณาระบุเบอร์โทร" type="text"
+                                    readonly>
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-6/6 sm:pl-8">
@@ -178,7 +182,7 @@
                             </mat-form-field>
                         </div>
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
-                            <mat-label  class="font-bold">รูปบัตรประชาชน</mat-label>
+                            <mat-label class="font-bold">รูปบัตรประชาชน</mat-label>
                             <img class="w-100" [src]="this.formData.value.citizen_image">
                         </div>
 
@@ -196,7 +200,7 @@
 
 
 
-<!-- 
+                        <!-- 
                         <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
                             <div class="flex ">
                                 <div class="flex justify-center items-center w-full">
