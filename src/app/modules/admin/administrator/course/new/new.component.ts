@@ -68,8 +68,6 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     image: File;
     type: string;
 
-
-
     courseType: any = [];
     rewardData: any = [];
     /**
@@ -121,7 +119,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             title: ['', Validators.required],
             detail: '',
             image: '',
-            video: '',    //'images/course_lesson/1666553407.mp4',
+            video: '', //'images/course_lesson/1666553407.mp4',
             lecturer: '',
             lecturer_profile: '',
             qty_lesson: '',
@@ -136,7 +134,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
             course_rewards: this._formBuilder.array([]),
             course_reward: '',
             course_lecturer: this._formBuilder.array([]),
-            // course_lecturer: '', 
+            // course_lecturer: '',
         });
 
         this._Service.getCourseType().subscribe((resp: any) => {
@@ -144,23 +142,22 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
-        })
+        });
 
         this._Service.getReward().subscribe((resp: any) => {
             this.rewardData = resp.data;
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
-        })
+        });
     }
-
 
     course_reward(): FormArray {
         return this.formData.get('course_rewards') as FormArray;
     }
     newCourse_reward(): FormGroup {
         return this._formBuilder.group({
-            id: ''
+            id: '',
         });
     }
     removeCourse_reward(i: number): void {
@@ -169,7 +166,6 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     addCourse_reward(): void {
         this.course_reward().push(this.newCourse_reward());
     }
-
 
     course_lecturer(): FormArray {
         return this.formData.get('course_lecturer') as FormArray;
@@ -186,19 +182,14 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     addCourse_lecturer(): void {
         this.course_lecturer().push(this.newCourse_lecturer());
-        this.files1.push([])
-        console.log(this.files1)
+        this.files1.push([]);
+        console.log(this.files1);
     }
-
-
-
-
-
 
     /**
      * After view init
      */
-    ngAfterViewInit(): void { }
+    ngAfterViewInit(): void {}
 
     /**
      * On destroy
@@ -211,11 +202,11 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(this.files)
         // return
         const course_reward = [];
-        this.formData.value.course_rewards.forEach(element => {
+        this.formData.value.course_rewards.forEach((element) => {
             course_reward.push(element.id);
         });
         const course_lecturer = [];
-        this.formData.value.course_lecturer.forEach(element => {
+        this.formData.value.course_lecturer.forEach((element) => {
             course_lecturer.push(element.id);
         });
         this.flashMessage = null;
@@ -248,39 +239,50 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
                 // console.log(this.formData.value)
                 // return
                 this.formData.patchValue({
-                    course_reward: course_reward
-                })
-                const video = new FormData()
-                video.append("file", this.video)
-                video.append("path", "images/course/")
-                const file = await lastValueFrom(this._Service.uploadVideo(video))
-                this.formData.patchValue({ video: file })
+                    course_reward: course_reward,
+                });
 
-                const image = new FormData()
-                image.append("image", this.files[0])
-                image.append("path", "images/course/")
-                image.append("width", "265")
-                image.append("height", "177")
-                const file1 = await lastValueFrom(this._Service.uploadImage(image))
-                this.formData.patchValue({ image: file1 })
-
-                for await (const tutor of this.course_lecturer().controls) {
-                console.log(tutor.value)
-                const imageArray = new FormData()
-                imageArray.append("image", tutor.value.image)
-                imageArray.append("path", "images/course/")
-                imageArray.append("width", "265")
-                imageArray.append("height", "177")
-                const file1 = await lastValueFrom(this._Service.uploadImage(imageArray))
-                tutor.patchValue({ image: file1 })
+                const video = new FormData();
+                if (this.video !== null) {
+                    // If video is not null, proceed with the upload process
+                    const video = new FormData();
+                    video.append('file', this.video);
+                    video.append('path', 'images/course/');
+                    const file = await lastValueFrom(
+                        this._Service.uploadVideo(video)
+                    );
+                    this.formData.patchValue({ video: file });
                 }
 
+                const image = new FormData();
+                if (this.image !== null) {
+                    image.append('image', this.files[0]);
+                    image.append('path', 'images/course/');
+                    image.append('width', '265');
+                    image.append('height', '177');
+                    const file1 = await lastValueFrom(
+                        this._Service.uploadImage(image)
+                    );
+                    this.formData.patchValue({ image: file1 });
+                }
+                for await (const tutor of this.course_lecturer().controls) {
+                    console.log(tutor.value);
+                    const imageArray = new FormData();
+                    imageArray.append('image', tutor.value.image);
+                    imageArray.append('path', 'images/course/');
+                    imageArray.append('width', '265');
+                    imageArray.append('height', '177');
+                    const file1 = await lastValueFrom(
+                        this._Service.uploadImage(imageArray)
+                    );
+                    tutor.patchValue({ image: file1 });
+                }
 
                 this._Service.new(this.formData.value).subscribe({
                     next: (resp: any) => {
                         this._router
                             .navigateByUrl('course/list')
-                            .then(() => { });
+                            .then(() => {});
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({
@@ -315,7 +317,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     videoChange(event) {
-        this.video = event.target.files[0]
+        this.video = event.target.files[0];
     }
 
     onSelect(event) {
@@ -335,8 +337,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-
-    onSelect1(event,index) {
+    onSelect1(event, index) {
         this.files1[index] = [];
         this.files1[index].push(...event.addedFiles);
         setTimeout(() => {
@@ -354,23 +355,18 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-
     changeType(event) {
-        console.log(event)
-        if (event.value == 'seminar'){
+        console.log(event);
+        if (event.value == 'seminar') {
             this.formData.patchValue({
-                sec: 0, 
+                sec: 0,
                 hour: 0,
                 min: 0,
                 qty_lesson: 0,
             });
-            this.type= 'seminar'
+            this.type = 'seminar';
+        } else if (event.value == 'online') {
+            this.type = 'online';
         }
-         else if (event.value == 'online'){
-            this.type='online'
-         }
     }
-
-
-
 }

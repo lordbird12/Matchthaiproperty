@@ -73,7 +73,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     vendor_list: any = [];
 
-
     supplierId: string | null;
     pagination: BranchPagination;
 
@@ -93,6 +92,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.formData = this._formBuilder.group({
             id: ['', Validators.required],
             name: ['', Validators.required],
+            name_en: ['', Validators.required],
             email: [''],
             phone: [''],
             detail: [''],
@@ -119,12 +119,13 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
-        
+
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
                 id: this.itemData.id,
                 name: this.itemData.name,
+                name_en: this.itemData.name_en,
                 detail: this.itemData.detail,
                 image: '',
                 type: this.itemData.type,
@@ -212,7 +213,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 Object.entries(formValue).forEach(([key, value]: any[]) => {
                     formData.append(key, value);
                 });
-
 
                 this._Service.update(formData).subscribe({
                     next: (resp: any) => {

@@ -88,6 +88,7 @@ export class NewComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.formData = this._formBuilder.group({
             name: ['', Validators.required],
+            name_en: ['', Validators.required],
             vendor_id: [''],
             email: [''],
             phone: [''],

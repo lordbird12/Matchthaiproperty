@@ -55,12 +55,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/member-develop/list',
                     },
-
-
                 ],
             },
-
-
 
             {
                 id: 'permission',
@@ -76,14 +72,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 children: [
                     {
                         id: 'vendor',
-                        title: 'vendor',
+                        title: 'Exclusive Partner',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'vendor/list',
                     },
                     {
                         id: 'sponsor',
-                        title: 'sponsor',
+                        title: 'Partner',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
                         link: 'sponsor/list',
@@ -97,10 +93,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     // },
                 ],
             },
-
-
-
-
 
             {
                 id: 'unemployed',
@@ -155,9 +147,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/inquiry-popular/list',
                     },
-
-
-
 
                     {
                         id: 'property-type',
@@ -230,7 +219,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/property-facilities/list',
                     },
-
                 ],
             },
             {
@@ -254,7 +242,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 link: '/post-contact/list',
             },
-
 
             {
                 title: 'คำถามพบบ่อย',
@@ -313,7 +300,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/transection/list',
                     },
-
                 ],
             },
             {
@@ -342,8 +328,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         // icon: 'heroicons_outline:clipboard-check',
                         link: '/news-tag/list',
                     },
-
-
                 ],
             },
             {
@@ -357,7 +341,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         link: '/banner/list',
                     },
                     {
-
                         title: 'โปรโมชั่นโฆษณา',
                         type: 'basic',
                         // icon: 'heroicons_outline:clipboard-check',
@@ -386,7 +369,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     },
                 ],
             },
-
         ],
     },
     {
@@ -430,8 +412,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     // },
                 ],
             },
-
-
         ],
     },
 
@@ -471,14 +451,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
-
-
-
-
-
-
-
-
 
     {
         id: 'account',

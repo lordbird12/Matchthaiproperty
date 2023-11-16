@@ -32,11 +32,11 @@
                         <div class="w-full lg:w-1/4">
                             <div class="flex flex-auto flex-wrap">
                                 <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
-                                    <ngx-dropzone style="width: 100%; height: 250px; justify-content: center;"                         
-                                     (change)="onSelect($event)">
+                                    <ngx-dropzone style="width: 100%; height: 250px; justify-content: center;"
+                                        (change)="onSelect($event)">
                                         <ngx-dropzone-label>ขนาดรูป 265*177</ngx-dropzone-label>
-                                        <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true" [file]="f"
-                                            (removed)="onRemove(f)">
+                                        <ngx-dropzone-image-preview *ngFor="let f of files" [removable]="true"
+                                            [file]="f" (removed)="onRemove(f)">
                                         </ngx-dropzone-image-preview>
                                     </ngx-dropzone>
                                 </div>
@@ -48,7 +48,7 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="course/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>

@@ -73,7 +73,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     vendor_list: any = [];
 
-
     supplierId: string | null;
     pagination: BranchPagination;
 
@@ -119,7 +118,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
-        
+
         this._Service.getById(this.Id).subscribe((resp: any) => {
             this.itemData = resp.data;
             this.formData.patchValue({
@@ -212,7 +211,6 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
                 Object.entries(formValue).forEach(([key, value]: any[]) => {
                     formData.append(key, value);
                 });
-
 
                 this._Service.update(formData).subscribe({
                     next: (resp: any) => {

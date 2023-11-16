@@ -47,7 +47,7 @@
                             </mat-form-field>
                         </div> -->
 
-          
+
 
                         <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
                             <mat-form-field class="w-full">
@@ -93,7 +93,7 @@
             <!-- button -->
             <div class="flex items-center justify-end w-full border-t px-8 py-4">
                 <div class="flex items-center justify-end">
-                    <a class="ml-4" mat-flat-button href="course-lesson/list">
+                    <a class="ml-4" mat-flat-button href="course/list">
                         <mat-icon svgIcon="heroicons_solid:x"></mat-icon>
                         ยกเลิก
                     </a>
@@ -135,15 +135,21 @@
                                 <td>{{ item.title }}</td>
                                 <td>{{ item.detail }}</td>
                                 <td>
-                                    <a  mat-raised-button href="{{item.video}}" target="_blank">
+                                    <a mat-raised-button href="{{item.video}}" target="_blank">
                                         <mat-icon svgIcon="mat_outline:videocam"></mat-icon>
                                     </a>
                                 </td>
                                 <td>{{ item.hour }} ชั่วโมง {{ item.min }} นาที</td>
                                 <td>
-                                    <span class="bg-green-100 text-green-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900" *ngIf="item.status === 1"> อนุมัติแล้ว</span>
-                                    <span class="bg-red-100 text-red-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900" *ngIf="item.status === 0"> ไม่อนุมัติ</span>
-                                    <span class="bg-yellow-100 text-yellow-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900" *ngIf="item.status === ''"> รอการอนุมัติ</span>
+                                    <span
+                                        class="bg-green-100 text-green-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+                                        *ngIf="item.status === 1"> อนุมัติแล้ว</span>
+                                    <span
+                                        class="bg-red-100 text-red-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900"
+                                        *ngIf="item.status === 0"> ไม่อนุมัติ</span>
+                                    <span
+                                        class="bg-yellow-100 text-yellow-800 text-m font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900"
+                                        *ngIf="item.status === ''"> รอการอนุมัติ</span>
                                 </td>
                                 <td style="width: 5%;">{{ item.create_by }}</td>
                                 <td>{{ item.created_at }}</td>
