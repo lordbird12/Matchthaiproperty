@@ -178,8 +178,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'create_by' },
                 { data: 'created_at' },
                 { data: 'price_per_month' },
-                { data: 'actice', orderable: false },
-                { data: 'actice', orderable: false },
             ],
         };
     }

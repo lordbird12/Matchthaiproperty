@@ -93,11 +93,11 @@
                             <th>รหัสอสังหา</th>
                             <th>ชื่อสมาชิก</th>
                             <th>ภาพ</th>
-                            <th>รายละเอียด</th>
+                            <!-- <th>รายละเอียด</th> -->
                             <th>ประเภท</th>
                             <th>สถานที่ตั้ง</th>
                             <th>สถานะ</th>
-                            <th>รายละเอียดอสังหา</th>
+                            <!-- <th>รายละเอียดอสังหา</th> -->
                             <th>ราคาขาย</th>
                             <th>ราคาเช่าต่อเดือน</th>
                             <th>จัดการ</th>
@@ -114,7 +114,7 @@
                                     <mat-icon>image</mat-icon>
                                 </button>
                             </td>
-                            <td>{{ item.description }}</td>
+                            <!-- <td>{{ item.description }}</td> -->
                             <td>{{ item.type }}</td>
                             <td>{{ item.map_address }}</td>
                             <!-- <td>
@@ -168,15 +168,15 @@
 
 
 
-                            <td>{{ item.floor }}ชั้น {{ item.bed_room }}ห้องนอน {{ item.bath_room }}ห้องน้ำ {{
+                            <!-- <td>{{ item.floor }}ชั้น {{ item.bed_room }}ห้องนอน {{ item.bath_room }}ห้องน้ำ {{
                                 item.kitchen_room }}{{ item.area_unit }}ห้องครัว
                                 {{ item.parking }}{{ item.area_unit }}ลานจอดรถ {{ item.living_room }}{{ item.area_unit
                                 }}ห้องนั่งเล่น
-                            </td>
+                            </td> -->
                             <td>{{ item.price }}</td>
                             <td>{{ item.price_per_month }}</td>
                             <!-- <td>{{ item.created_at }}</td> -->
-                            <td class="flex">
+                            <td>
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon svgIcon="mat_outline:remove_red_eye"></mat-icon>
                                 </button>
