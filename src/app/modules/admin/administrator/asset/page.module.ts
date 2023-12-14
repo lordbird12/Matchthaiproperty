@@ -44,6 +44,7 @@ import { PageComponent } from './page.component';
 import { NewComponent } from './new/new.component';
 import { EditComponent } from './edit/edit.component';
 import { PrintComponent } from './print/print.component';
+import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 
 
 
@@ -54,6 +55,7 @@ import { PrintComponent } from './print/print.component';
         NewComponent,
         EditComponent,
         PrintComponent,
+        EditDialogComponent,
     ],
     imports: [
         RouterModule.forChild(pageRoute),

@@ -1,7 +1,8 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
 
     <!-- Header -->
-    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
         <!-- Loader -->
         <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
@@ -22,41 +23,43 @@
     <form [formGroup]="formData">
         <div class="flex p-5">
 
-            <label for="name" class="text-gray-800 text-lg font-bold leading-tight tracking-normal w-1/12 mt-4">เลือกสมาชิก</label>
+            <label for="name"
+                class="text-gray-800 text-lg font-bold leading-tight tracking-normal w-1/12 mt-4">เลือกสมาชิก</label>
             <mat-form-field class="w-1/4 pr-1">
-                
+
                 <mat-select [formControlName]="'member_id'">
                     <mat-option [value]="''">
                         <span class="text-gray-400">เลือกสมาชิก</span>
                     </mat-option>
                     <mat-option *ngFor="let item of MemberList" [value]="item.id">
-                        {{item.fname}}   {{item.lname}}
+                        {{item.fname}} {{item.lname}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-label></mat-label>
 
-            <label for="name" class="text-gray-800 text-lg font-bold leading-tight tracking-normal w-1/12 mt-4 ml-4">เลือกสถานะ</label>
-                <mat-form-field class="w-1/6 pr-1">
-               
-                    <mat-select [formControlName]="'approve'">
-                        <mat-option [value]="''">
-                            <span class="text-gray-400">เลือกสถานะ</span>
-                        </mat-option>
-                        <mat-option value="open">OPEN</mat-option>
-                        <mat-option value="approve">APPROVE</mat-option>
-                        <mat-option value="reject">REJECT</mat-option>
-                    </mat-select>
-                </mat-form-field>
-           
+            <label for="name"
+                class="text-gray-800 text-lg font-bold leading-tight tracking-normal w-1/12 mt-4 ml-4">เลือกสถานะ</label>
+            <mat-form-field class="w-1/6 pr-1">
+
+                <mat-select [formControlName]="'approve'">
+                    <mat-option [value]="''">
+                        <span class="text-gray-400">เลือกสถานะ</span>
+                    </mat-option>
+                    <mat-option value="open">OPEN</mat-option>
+                    <mat-option value="approve">APPROVE</mat-option>
+                    <mat-option value="reject">REJECT</mat-option>
+                </mat-select>
+            </mat-form-field>
+
 
             <div class="flex ml-6 ">
-            <mat-form-field appearance="fill">
-                <input  [formControlName]="'date'" matInput [matDatepicker]="picker">
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <input [formControlName]="'date'" matInput [matDatepicker]="picker">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
             </div>
 
             <button class="mx-2 ml-4" mat-flat-button (click)="Search()">
@@ -65,13 +68,13 @@
             </button>
 
 
-            
+
         </div>
 
 
 
 
-        
+
     </form>
 
 
@@ -92,7 +95,7 @@
                             <th>ภาพ</th>
                             <th>รายละเอียด</th>
                             <th>ประเภท</th>
-                            <th>สถานที่ตั้ง</th> 
+                            <th>สถานที่ตั้ง</th>
                             <th>สถานะ</th>
                             <th>รายละเอียดอสังหา</th>
                             <th>ราคาขาย</th>
@@ -105,7 +108,7 @@
                             <td>{{ pages.begin + (i + 1) }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.code }}</td>
-                            <td>{{ item.member?.fname }} {{ item.member?.lname }}</td>                        
+                            <td>{{ item.member?.fname }} {{ item.member?.lname }}</td>
                             <td>
                                 <button mat-button (click)="showPicture(item.asset_images[0].image)">
                                     <mat-icon>image</mat-icon>
@@ -113,7 +116,7 @@
                             </td>
                             <td>{{ item.description }}</td>
                             <td>{{ item.type }}</td>
-                            <td>{{ item.map_address }}</td>                        
+                            <td>{{ item.map_address }}</td>
                             <!-- <td>
                                 <div *ngIf="item.status === 1">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
@@ -133,44 +136,52 @@
 
                             <td>
                                 <button mat-button (click)="confirm(item)">
-                                    
-                                    <span *ngIf="item.approve==='approve'" class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
+
+                                    <span *ngIf="item.approve==='approve'"
+                                        class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50">
                                         <span class="leading-relaxed whitespace-nowrap">
                                             {{ item.approve }}
                                         </span>
                                     </span>
 
 
-                                    <span *ngIf="item.approve==='open'" class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-blue-200 text-green-800 dark:bg-blue-600 dark:text-blue-50">
+                                    <span *ngIf="item.approve==='open'"
+                                        class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-blue-200 text-green-800 dark:bg-blue-600 dark:text-blue-50">
                                         <span class="leading-relaxed whitespace-nowrap">
                                             {{ item.approve }}
                                         </span>
                                     </span>
 
 
-                                    <span *ngIf="item.approve==='reject'" class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
+                                    <span *ngIf="item.approve==='reject'"
+                                        class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50">
                                         <span class="leading-relaxed whitespace-nowrap">
                                             {{ item.approve }}
                                         </span>
                                     </span>
 
                                 </button>
-                            </td> 
-
-
-
-
-
-
-                            <td>{{ item.floor }}ชั้น {{ item.bed_room }}ห้องนอน {{ item.bath_room }}ห้องน้ำ {{ item.kitchen_room }}{{ item.area_unit }}ห้องครัว
-                                {{ item.parking }}{{ item.area_unit }}ลานจอดรถ {{ item.living_room }}{{ item.area_unit }}ห้องนั่งเล่น    
                             </td>
-                            <td>{{ item.price }}</td>     
-                            <td>{{ item.price_per_month }}</td>                          
+
+
+
+
+
+
+                            <td>{{ item.floor }}ชั้น {{ item.bed_room }}ห้องนอน {{ item.bath_room }}ห้องน้ำ {{
+                                item.kitchen_room }}{{ item.area_unit }}ห้องครัว
+                                {{ item.parking }}{{ item.area_unit }}ลานจอดรถ {{ item.living_room }}{{ item.area_unit
+                                }}ห้องนั่งเล่น
+                            </td>
+                            <td>{{ item.price }}</td>
+                            <td>{{ item.price_per_month }}</td>
                             <!-- <td>{{ item.created_at }}</td> -->
-                            <td>
+                            <td class="flex">
                                 <button mat-button (click)="edit(item.id)">
                                     <mat-icon svgIcon="mat_outline:remove_red_eye"></mat-icon>
+                                </button>
+                                <button mat-button (click)="Edit(item.id)">
+                                    <mat-icon svgIcon="mat_outline:check_circle"></mat-icon>
                                 </button>
                             </td>
                         </tr>

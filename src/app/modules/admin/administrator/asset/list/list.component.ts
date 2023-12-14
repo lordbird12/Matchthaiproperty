@@ -39,6 +39,7 @@ import { NewComponent } from '../new/new.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataTableDirective } from 'angular-datatables';
 import { PictureComponent } from '../picture/picture.component';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
@@ -52,7 +53,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     public dataRow: any[];
     public dataGrid: any[];
     public MemberList: any = [];
-    formData: FormGroup
+    formData: FormGroup;
     // dataRow: any = []
     @ViewChild(MatPaginator) _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
@@ -114,24 +115,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.loadTable();
         this.formData = this._formBuilder.group({
-            member_id:'',
+            member_id: '',
             approve: '',
             date: '',
-
         });
-       
+
         this._Service.getMemberId().subscribe((resp: any) => {
             this.MemberList = resp.data;
             this._changeDetectorRef.markForCheck();
         });
-
-
-
-
-
-
-
-
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -149,8 +141,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.date = this.formData.value.date;
-                dataTablesParameters.member_id =  this.formData.value.member_id;
-                dataTablesParameters.approve =  this.formData.value.approve;
+                dataTablesParameters.member_id = this.formData.value.member_id;
+                dataTablesParameters.approve = this.formData.value.approve;
 
                 that._Service
                     .getPage(dataTablesParameters)
@@ -178,20 +170,32 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
                 { data: 'id' },
                 { data: 'actice', orderable: false },
                 { data: 'name' },
-                { data: 'type' },  
+                { data: 'type' },
                 { data: 'asset_images' },
                 { data: 'status' },
-                { data: 'map_address' },  
-                { data: 'description' },  
+                { data: 'map_address' },
+                { data: 'description' },
                 { data: 'create_by' },
-                { data: 'created_at' },  
+                { data: 'created_at' },
                 { data: 'price_per_month' },
                 { data: 'actice', orderable: false },
                 { data: 'actice', orderable: false },
-            ]
+            ],
         };
     }
-
+    Edit(itemId: string) {
+        const dialogRef = this._matDialog.open(EditDialogComponent, {
+            width: '700px',
+            height: '400px',
+            data: {
+                itemid: itemId,
+            },
+        });
+        dialogRef.afterClosed().subscribe((item) => {
+            this.rerender();
+            this._changeDetectorRef.markForCheck();
+        });
+    }
     totalPriceTable() {
         let total = 0;
         for (let data of this.dataRow) {
@@ -210,15 +214,12 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     Search() {
         this.rerender();
-      
     }
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
     }
-
-
 
     totalTrans() {
         let total = 0;
@@ -282,23 +283,17 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         this._router.navigate(['asset/edit/' + Id]);
     }
 
-
-   
     confirm(Id: string) {
         const dialogRef = this._matDialog.open(NewComponent, {
             width: '500px',
             height: 'auto',
-            data: Id
+            data: Id,
         });
-        dialogRef.afterClosed().subscribe(item => {
+        dialogRef.afterClosed().subscribe((item) => {
             this.rerender();
             this._changeDetectorRef.markForCheck();
         });
     }
-
-
-
-
 
     viewDetail(Id: string): void {
         this._router.navigate(['course-lesson/detail/' + Id]);
@@ -309,15 +304,15 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     showPicture(imgObject: any): void {
-        this._matDialog.open(PictureComponent, {
-            autoFocus: false,
-            data: {
-                imgSelected: imgObject
-            }
-        })
+        this._matDialog
+            .open(PictureComponent, {
+                autoFocus: false,
+                data: {
+                    imgSelected: imgObject,
+                },
+            })
             .afterClosed()
             .subscribe(() => {
-
                 // Go up twice because card routes are setup like this; "card/CARD_ID"
                 // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
             });
