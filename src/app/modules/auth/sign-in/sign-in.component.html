@@ -23,13 +23,10 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Username</mat-label>
                     <input id="email" matInput [formControlName]="'user_id'">
                     <mat-error *ngIf="signInForm.get('user_id').hasError('required')">
-                        Email address is required
-                    </mat-error>
-                    <mat-error *ngIf="signInForm.get('user_id').hasError('user_id')">
-                        Please enter a valid email address
+                        Username is required
                     </mat-error>
                 </mat-form-field>
 
